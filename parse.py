@@ -6,13 +6,13 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/12 23:21:47 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/13 00:58:38 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import sys
 
-def parse():
+def read_file():
 	if len(sys.argv) != 2:
 		exit(2)
 	try:
@@ -20,8 +20,27 @@ def parse():
 	except IOError:
 		exit(2)
 	if f.mode != "r":
-		exit(0)
+		exit(2)
 	lines = f.readlines()
-	for x in lines:
-		print(x)
 	f.close
+	return (lines)
+
+# LINE TYPES
+# 0 Error
+# 1 Conditions
+# 2 True
+# 3 Queries
+# 4 Blank Line
+
+def parse():
+	class Line:
+		def __init__(self, types, string):
+			self.types = types
+			self.string = string
+
+	lines = []
+	for x in read_file():
+		tmp = Line(3, x) #need to identify the correct type.
+		lines.append(tmp)
+
+	return (lines)
