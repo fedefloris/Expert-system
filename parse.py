@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 01:00:49 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 01:58:31 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,20 +15,6 @@ import ft
 
 char_fact = "="
 char_query = "?"
-
-def read_file():
-	if len(sys.argv) != 2:
-		exit(2)
-	try:
-		f = open(sys.argv[1], "r")
-	except IOError:
-		exit(2)
-	if f.mode != "r":
-		exit(2)
-	lines = f.readlines()
-	f.close
-	return (lines)
-
 
 # LINE TYPES
 # 0 Error
@@ -106,7 +92,9 @@ def parse():
 
 	line_num = 1
 	lines = []
-	for line in read_file():
+	if len(sys.argv) != 2:
+		exit(2)
+	for line in ft.read_file(sys.argv[1]):
 		tmp = Line(line, line_num)
 		lines.append(tmp)
 		line_num += 1

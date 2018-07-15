@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/15 22:27:18 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 00:56:53 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 01:57:53 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,3 +29,15 @@ def char_matches(c, substring):
 	if c not in substring:
 		return (0)
 	return (1)
+
+# read_file reads file and returns all lines in an array
+def read_file(file_name):
+	try:
+		f = open(file_name, "r")
+	except IOError:
+		exit(2)
+	if f.mode != "r":
+		exit(2)
+	lines = f.readlines()
+	f.close
+	return (lines)
