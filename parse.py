@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 02:21:05 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 02:46:31 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ char_query = "?"
 
 
 def parse():
-	def get_type(line):
+	def get_type(line):	
 		def is_rule(line):
 			for x in line:
 				if not (ft.is_upper(x) or ft.char_matches(x, "+|!^<=>()")):
@@ -81,6 +81,18 @@ def parse():
 		return (0)
 
 
+	def check_match(string, substring):
+		if string.count(substring):
+			string = string.split(substring)[1]
+		else:
+			return (string)
+		if string.count("=\""):
+			string = string.split("=\"")[1]
+			if string.count("\""):
+				string = string.split("\"")[0]
+			else:
+				string = ""
+		return (string)		
 	class Line:
 		def __init__(self, string, line_num):
 			self.string = string.replace("\n", "")
@@ -92,17 +104,19 @@ def parse():
 			self.num = line_num
 	
 
+# WORKING ON THIS SECTION - PARSING .sh FILE.
 	class Config:
 		def __init__(self, string):
 			self.string = string
 			string = string.replace("\n", "")
 			string = string.split("#")[0]
 			if string.count("set "):
-				string = string.split("set ")[1]
+				string = string.split("set")[1]
 			else:
 				string = ""
 			string = string.replace("\t", "")
-			string = string.replace("", "")
+			string = string.replace(" ", "")
+			string = check_match(string, "!") # require all
 			print(string)
 
 
