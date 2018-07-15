@@ -6,12 +6,15 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/15 23:34:48 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 00:40:27 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import sys
 import ft
+
+char_fact = "="
+char_query = "?"
 
 def read_file():
 	if len(sys.argv) != 2:
@@ -38,11 +41,35 @@ def read_file():
 def parse():
 	def get_type(line):
 		def is_rule(line):
-			success = 1
 			for x in line:
-				if not (ft.is_upper(x) or x == "+" or x == "=" or x == ">"):
-					success = 0
-			return (success)
+				if not (ft.is_upper(x) or ft.char_matches(x, "+|!^<=>")):
+					return (0)
+			if line.count("=>") + line.count("<=>") != 1:
+				return (0)
+			return (1)
+
+
+		def is_fact(line):
+			for x in line:
+				if not (ft.is_upper(x) or x == char_fact):
+					return (0)
+			if line[0] != char_fact:
+				return (0)
+			if line.count(char_fact) != 1:
+				return (0)
+			return (1)
+
+
+		def is_query(line):
+			for x in line:
+				if not (ft.is_upper(x) or x == char_query):
+					return (0)
+			if line[0] != char_query:
+				return (0)
+			if line.count(char_query) != 1:
+				return (0)
+			return (1)
+
 
 		def is_blank_line(line):
 			if len(line) == 0:
@@ -51,6 +78,10 @@ def parse():
 
 		if is_blank_line(line):
 			return (1)
+		if is_query(line):
+			return (4)
+		if is_fact(line):
+			return (3)
 		if is_rule(line):
 			return (2)
 		return (0)
