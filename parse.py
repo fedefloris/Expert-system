@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 00:40:27 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 01:00:49 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,9 +42,17 @@ def parse():
 	def get_type(line):
 		def is_rule(line):
 			for x in line:
-				if not (ft.is_upper(x) or ft.char_matches(x, "+|!^<=>")):
+				if not (ft.is_upper(x) or ft.char_matches(x, "+|!^<=>()")):
 					return (0)
-			if line.count("=>") + line.count("<=>") != 1:
+			count = 0
+			for x in line:
+				if ft.is_upper(x):
+					count += 1
+				elif ft.char_matches(x, "+|^="):
+					count -= 1
+				if count > 1 or count < 0:
+					return (0)
+			if line.count("=>") + line.count("<=>") != 1 or line.count("=") != 1:
 				return (0)
 			return (1)
 
