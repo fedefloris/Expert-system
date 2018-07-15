@@ -6,15 +6,16 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 01:32:49 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 01:47:21 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 02:20:39 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# each string must be unique.
-# cannot use a speach mark ["]
+# Each string must be unique.
+# Can only use speech-marks to open and close a string.
+# Can not use spaces, tabs or new line characters in strings.
 
 # objects
-set facts="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+set facts = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 # conditions
 set left_bracket = "("

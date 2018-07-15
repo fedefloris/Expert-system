@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 01:58:31 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 02:21:05 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ def parse():
 			return (2)
 		return (0)
 
+
 	class Line:
 		def __init__(self, string, line_num):
 			self.string = string.replace("\n", "")
@@ -89,13 +90,33 @@ def parse():
 			self.data = self.data.split("#")[0]
 			self.type = get_type(self.data)
 			self.num = line_num
+	
+
+	class Config:
+		def __init__(self, string):
+			self.string = string
+			string = string.replace("\n", "")
+			string = string.split("#")[0]
+			if string.count("set "):
+				string = string.split("set ")[1]
+			else:
+				string = ""
+			string = string.replace("\t", "")
+			string = string.replace("", "")
+			print(string)
+
 
 	line_num = 1
 	lines = []
+	config = []
 	if len(sys.argv) != 2:
 		exit(2)
 	for line in ft.read_file(sys.argv[1]):
 		tmp = Line(line, line_num)
 		lines.append(tmp)
 		line_num += 1
+	for line in ft.read_file("expert_system.sh"):
+		tmp = Config(line)
+		config.append(tmp)
+		
 	return (lines)
