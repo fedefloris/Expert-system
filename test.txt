@@ -1,7 +1,7 @@
-This is line 1.
-This line is line 2
-This lis the 3rd line
-Line 4.
+A +        B    =>    C  #   A and B are True, so C is True
+D + E => F  # Only D is True, so F is False
+G + H => I  # Only H is True, so I is False
+J + K => L # J and K are False, so J is False
 
-5th line is blank, this is the 6th line
-This is the 7th and final line
+=ABDH
+?CFIL
