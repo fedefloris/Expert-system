@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 12:16:28 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 12:40:31 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ def parse():
 			return (1)
 
 
+		# Returns one if line is blank.
 		def is_blank_line(line):
 			if len(line) == 0:
 				return (1)
@@ -173,8 +174,4 @@ def parse():
 		lines.append(Line(line, line_num))
 		line_num += 1
 	
-	# Creates array to return parsed lines and config
-	return_array = []
-	return_array.append(lines)
-	return_array.append(config)
-	return (lines)
+	return {"lines":lines, "config":config}
