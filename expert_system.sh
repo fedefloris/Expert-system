@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 01:32:49 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 11:16:55 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 11:21:42 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,23 +16,26 @@
 
 # Uncomment a rule to set.
 
-# objects
-set facts = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+### objects
+#set facts = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-# conditions
-set left_bracket = "("
-set right_bracket = ")"
-set op_neg = "!"
-set op_and = "+"
-set op_or = "|"
-set op_xor = "^"
-set implies = "=>"
-set bicondition = "<=>"
 
-# identifiers
-set initial_fact = "="
-set query = "?"
+### conditions
+#set left_bracket = "("
+#set right_bracket = ")"
+#set op_neg = "!"
+#set op_and = "+"
+#set op_or = "|"
+#set op_xor = "^"
+#set implies = "=>"
+#set bicondition = "<=>"
 
-# substitutions
-set implies_sub = ">"
-set bicondition_sub = "<"
+
+### identifiers
+#set initial_fact = "="
+#set query = "?"
+
+
+### substitutions
+#set implies_sub = ">"
+#set bicondition_sub = "<"
