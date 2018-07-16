@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 02:46:31 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 11:18:40 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,17 +82,18 @@ def parse():
 
 
 	def check_match(string, substring):
-		if string.count(substring):
+		substring += "=\""
+		if string.count(substring) and string.split(substring)[0] == "":
 			string = string.split(substring)[1]
 		else:
 			return (string)
-		if string.count("=\""):
-			string = string.split("=\"")[1]
-			if string.count("\""):
-				string = string.split("\"")[0]
-			else:
-				string = ""
-		return (string)		
+		if string.count("\"") == 1 and string.split("\"")[1] == "":
+			string = string.split("\"")[0]
+		else:
+			string = ""
+		return (string)
+	
+	
 	class Line:
 		def __init__(self, string, line_num):
 			self.string = string.replace("\n", "")
@@ -104,33 +105,56 @@ def parse():
 			self.num = line_num
 	
 
-# WORKING ON THIS SECTION - PARSING .sh FILE.
 	class Config:
-		def __init__(self, string):
-			self.string = string
-			string = string.replace("\n", "")
-			string = string.split("#")[0]
-			if string.count("set "):
-				string = string.split("set")[1]
-			else:
-				string = ""
-			string = string.replace("\t", "")
-			string = string.replace(" ", "")
-			string = check_match(string, "!") # require all
-			print(string)
+		def __init__(self, lines):
+			# Set default values for config.
+			self.facts = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			self.left_bracket = "("
+			self.right_bracket = ")"
+			self.op_neg = "!"
+			self.op_and = "+"
+			self.op_or = "|"
+			self.op_xor = "^"
+			self.implies = "=>"
+			self.bicondition = "<=>"
+			self.initial_fact = "="
+			self.query = "?"
+			self.implies_sub = ">"
+			self.bicondition_sub = "<"
+
+			# Array of attribute names
+			array = ["facts", "left_bracket", "right_bracket", "op_neg"]
+			array.extend(["op_and", "op_or", "op_xor", "implies"])
+			array.extend(["bicondition", "initial_fact", "query"])
+			array.extend(["implies_sub", "bicondition_sub"])
+
+			# Loop through parsed config, to overwrite default config.
+			for string in lines:
+				self.string = string
+				string = string.replace("\n", "")
+				string = string.split("#")[0]
+				if string.count("set "):
+					string = string.split("set")[1]
+				else:
+					string = ""
+				string = string.replace("\t", "")
+				string = string.replace(" ", "")
+				attr = "LOL"
+				for x in array:
+					tmp = check_match(string, x)
+					if string != tmp and tmp != "":
+						string = tmp
+						setattr(self, x, string)
+						attr = getattr(self, x)
 
 
 	line_num = 1
 	lines = []
-	config = []
 	if len(sys.argv) != 2:
 		exit(2)
 	for line in ft.read_file(sys.argv[1]):
 		tmp = Line(line, line_num)
 		lines.append(tmp)
 		line_num += 1
-	for line in ft.read_file("expert_system.sh"):
-		tmp = Config(line)
-		config.append(tmp)
-		
+	config = Config(ft.read_file("expert_system.sh"))	
 	return (lines)
