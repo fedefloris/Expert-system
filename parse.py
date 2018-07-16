@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 11:18:40 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 12:16:28 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,17 +94,6 @@ def parse():
 		return (string)
 	
 	
-	class Line:
-		def __init__(self, string, line_num):
-			self.string = string.replace("\n", "")
-			self.data = string.replace("\n", "")
-			self.data = self.data.replace("\t", "")
-			self.data = self.data.replace(" ", "")
-			self.data = self.data.split("#")[0]
-			self.type = get_type(self.data)
-			self.num = line_num
-	
-
 	class Config:
 		def __init__(self, lines):
 			# Set default values for config.
@@ -122,7 +111,7 @@ def parse():
 			self.implies_sub = ">"
 			self.bicondition_sub = "<"
 
-			# Array of attribute names
+			# Array of attribute names for below Loop.
 			array = ["facts", "left_bracket", "right_bracket", "op_neg"]
 			array.extend(["op_and", "op_or", "op_xor", "implies"])
 			array.extend(["bicondition", "initial_fact", "query"])
@@ -130,31 +119,62 @@ def parse():
 
 			# Loop through parsed config, to overwrite default config.
 			for string in lines:
+				# Remove comment and new line
 				self.string = string
 				string = string.replace("\n", "")
 				string = string.split("#")[0]
+
+				# Check for 'set' keyword
 				if string.count("set "):
 					string = string.split("set")[1]
 				else:
 					string = ""
+
+				# Remove white space
 				string = string.replace("\t", "")
 				string = string.replace(" ", "")
-				attr = "LOL"
+
+				# Loops through array of attribute names
 				for x in array:
+					# Checks if modification attribute is valid.
 					tmp = check_match(string, x)
+
+					# Checks if string contains only "value", sets attribute
 					if string != tmp and tmp != "":
-						string = tmp
-						setattr(self, x, string)
-						attr = getattr(self, x)
+						setattr(self, x, tmp)
 
 
-	line_num = 1
-	lines = []
+	class Line:
+		def __init__(self, string, line_num):
+			self.string = string.replace("\n", "")
+			self.data = string.replace("\n", "")
+			self.data = self.data.replace("\t", "")
+			self.data = self.data.replace(" ", "")
+			self.data = self.data.split("#")[0]
+			self.type = get_type(self.data)
+			self.num = line_num
+	
+
+	# CREATES CONFIG OBJECT
+	config = Config(ft.read_file("expert_system.sh"))	
+
+	# CREATES LINES ARRAY
+	# Ensures there is only one command line argument.
 	if len(sys.argv) != 2:
 		exit(2)
+
+	# Initialise for the below 
+	line_num = 1
+	lines = []
+	
+	# Loops each next line read from the input file
 	for line in ft.read_file(sys.argv[1]):
-		tmp = Line(line, line_num)
-		lines.append(tmp)
+		# Treats each line and appends to lines (array of Line objects)
+		lines.append(Line(line, line_num))
 		line_num += 1
-	config = Config(ft.read_file("expert_system.sh"))	
+	
+	# Creates array to return parsed lines and config
+	return_array = []
+	return_array.append(lines)
+	return_array.append(config)
 	return (lines)
