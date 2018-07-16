@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 12:40:31 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 19:55:01 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -157,7 +157,7 @@ def parse():
 	
 
 	# CREATES CONFIG OBJECT
-	config = Config(ft.read_file("expert_system.sh"))	
+	config = Config(ft.read_lines("expert_system.sh"))	
 
 	# CREATES LINES ARRAY
 	# Ensures there is only one command line argument.
@@ -169,7 +169,7 @@ def parse():
 	lines = []
 	
 	# Loops each next line read from the input file
-	for line in ft.read_file(sys.argv[1]):
+	for line in ft.read_lines(sys.argv[1]):
 		# Treats each line and appends to lines (array of Line objects)
 		lines.append(Line(line, line_num))
 		line_num += 1

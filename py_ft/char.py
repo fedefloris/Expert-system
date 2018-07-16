@@ -1,35 +1,30 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    ft.py                                              :+:      :+:    :+:    #
+#    char.py                                            :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/07/15 22:27:18 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 19:54:23 by dhojt            ###   ########.fr        #
+#    Created: 2018/07/16 19:48:33 by dhojt             #+#    #+#              #
+#    Updated: 2018/07/16 19:48:42 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-import sys
-sys.path.append('./py_ft/')
-import char
-import read
-
-# is_upper tests if single character is upper case
 def is_upper(c):
-	return (char.is_upper(c))
+	if c >= "A" and c <= "Z":
+		return (1)
+	return (0)
 
 
 # is_lower tests if single character is lower case
 def is_lower(c):
-	return (char.is_lower(c))
+	if c >= "a" and c <= "z":
+		return (1)
+	return (0)
 
 
 # char_matches tests if single character is in substring 
 def char_matches(c, substring):
-	return (char.char_matches(c, substring))
-
-
-# read_file reads file and returns all lines in an array
-def read_lines(file_name):
-	return (read.read_lines(file_name))
+	if c not in substring:
+		return (0)
+	return (1)
