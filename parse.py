@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 22:58:55 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 23:24:51 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,8 @@ def parse():
 					return (0)
 
 			# Substitutes implies for substitutes
-			line = line.replace(config.implies, config.implies_sub)
 			line = line.replace(config.bicondition, config.bicondition_sub)
+			line = line.replace(config.implies, config.implies_sub)
 
 			# Checks pattern of characters is good. [A + B ++ C] is bad.
 			count = 0
@@ -108,12 +108,17 @@ def parse():
 
 
 	def check_match(string, substring):
+
 		# Appends =" to substring
 		substring += "=\""
+
+		# Ensures that the occurence of the matching atribute is left most
 		if string.count(substring) and string.split(substring)[0] == "":
 			string = string.split(substring)[1]
 		else:
 			return (string)
+
+		# Ensures that the closing " is the last characteer on the line
 		if string.count("\"") == 1 and string.split("\"")[1] == "":
 			string = string.split("\"")[0]
 		else:
@@ -148,8 +153,7 @@ def parse():
 			for string in lines:
 				# Remove comment and new line
 				self.string = string
-				string = string.replace("\n", "")
-				string = string.split("#")[0]
+				string = string.replace("\n", "").split("#")[0]
 
 				# Check for 'set' keyword
 				if string.count("set "):
@@ -158,8 +162,7 @@ def parse():
 					string = ""
 
 				# Remove white space
-				string = string.replace("\t", "")
-				string = string.replace(" ", "")
+				string = string.replace(" ", "").replace("\t", "")
 
 				# Loops through array of attribute names
 				for x in array:
@@ -191,7 +194,21 @@ def parse():
 			self.data = self.data.split("#")[0]
 			self.type = get_type(self.data)
 			self.num = line_num
+
+			# If rule, substitute implies.
+			if self.type == 2:
+				self.data = self.data.replace(config.bicondition, config.bicondition_sub)
+				self.data = self.data.replace(config.implies, config.implies_sub)
+				print(config.bicondition, config.bicondition_sub)
+			
+			# If initial fact, remove leading character
+			if self.type == 3:
+				self.data = self.data.replace(config.initial_fact, "")
 	
+			# If query, remove leading character
+			if self.type == 4:
+				self.data = self.data.replace(config.query, "")
+
 
 	# CREATES CONFIG OBJECT
 	config = Config(ft.read_lines("expert_system.sh"))	
