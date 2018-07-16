@@ -6,15 +6,12 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 19:55:01 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/16 22:58:55 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import sys
 import ft
-
-char_fact = "="
-char_query = "?"
 
 # LINE TYPES
 # 0 Error
@@ -25,42 +22,69 @@ char_query = "?"
 
 
 def parse():
-	def get_type(line):	
+
+	# Returns integer of above value depending on type.
+	def get_type(line):
+
+		# Function returns if line is a rule.
 		def is_rule(line):
+
+			# Checks if characters are valid.
 			for x in line:
-				if not (ft.is_upper(x) or ft.char_matches(x, "+|!^<=>()")):
+				if not (ft.is_upper(x) or ft.char_matches(x, config.conditions)):
 					return (0)
+
+			# Substitutes implies for substitutes
+			line = line.replace(config.implies, config.implies_sub)
+			line = line.replace(config.bicondition, config.bicondition_sub)
+
+			# Checks pattern of characters is good. [A + B ++ C] is bad.
 			count = 0
 			for x in line:
 				if ft.is_upper(x):
 					count += 1
-				elif ft.char_matches(x, "+|^="):
+				elif ft.char_matches(x, config.pattern):
 					count -= 1
 				if count > 1 or count < 0:
 					return (0)
-			if line.count("=>") + line.count("<=>") != 1 or line.count("=") != 1:
+
+			# Checks to ensure that there is a maximum of one implication.
+			if line.count(config.implies_sub) + line.count(config.bicondition_sub) != 1:
 				return (0)
 			return (1)
 
-
+		# Function returns if line is a fact.
 		def is_fact(line):
+
+			# Checks if characters are valid
 			for x in line:
-				if not (ft.is_upper(x) or x == char_fact):
+				if not (ft.is_upper(x) or x == config.initial_fact):
 					return (0)
-			if line[0] != char_fact:
+
+			# Ensures that first character is valid.
+			if line[0] != config.initial_fact:
 				return (0)
-			if line.count(char_fact) != 1:
+
+			# Ensures that first character is not repeated.
+			if line.count(config.initial_fact) != 1:
 				return (0)
 			return (1)
 
 
+		# Function returns if line is a query.
 		def is_query(line):
+
+			# Checks if characters are valid
 			for x in line:
-				if not (ft.is_upper(x) or x == char_query):
+				if not (ft.is_upper(x) or x == config.query):
 					return (0)
-			if line[0] != char_query:
+
+			# Ensures that first character is valid.
+			if line[0] != config.query:
 				return (0)
-			if line.count(char_query) != 1:
+
+			# Ensures that first character is not repeated.
+			if line.count(config.query) != 1:
 				return (0)
 			return (1)
 
@@ -79,10 +103,12 @@ def parse():
 			return (3)
 		if is_rule(line):
 			return (2)
+		# If matched non of the abvoe, then line is error.
 		return (0)
 
 
 	def check_match(string, substring):
+		# Appends =" to substring
 		substring += "=\""
 		if string.count(substring) and string.split(substring)[0] == "":
 			string = string.split(substring)[1]
@@ -143,6 +169,17 @@ def parse():
 					# Checks if string contains only "value", sets attribute
 					if string != tmp and tmp != "":
 						setattr(self, x, tmp)
+
+			# Sets value of strings passed as arguments in other functions.
+			self.ops = self.op_neg + self.op_and + self.op_or + self.op_xor
+
+			# Used in character matching in is_rule
+			self.conditions = self.left_bracket + self.right_bracket
+			self.conditions += self.ops + self.implies + self.bicondition
+
+			# Used in pattern matching in is_rule
+			self.pattern = self.op_and + self.op_or + self.op_xor
+			self.pattern += self.implies_sub + self.bicondition_sub
 
 
 	class Line:
