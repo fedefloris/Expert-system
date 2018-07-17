@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/17 10:13:08 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/17 10:48:22 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -190,7 +190,10 @@ def parse():
 			self.pattern = self.op_and + self.op_or + self.op_xor
 			self.pattern += self.implies_sub + self.bicondition_sub
 
-			# Set string to int - CHECK IF NUMERIC
+			# Set string to int if string is numeric
+			if not ft.str_is_numeric(self.max_lines):
+				print("max_lines = [%s] must be numeric" % self.max_lines)
+				exit(2)
 			self.max_lines = int(self.max_lines)
 
 
