@@ -6,19 +6,18 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 19:37:03 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 19:54:34 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/17 09:16:30 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# read_file reads file and returns all lines in an array
+# read_lines reads file and returns all lines in an array
 def read_lines(file_name):
 	try:
 		f = open(file_name, "r")
 	except IOError:
-		print("File not found: %s" % file_name)
-		exit(2)
+		return (0)
 	if f.mode != "r":
-		exit(2)
+		return (0)
 	lines = f.readlines()
 	f.close
 	return (lines)

@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 23:24:51 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/17 09:16:16 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,6 +95,7 @@ def parse():
 				return (1)
 			return (0)
 
+		# Must return in the following order: [1, 4, 3, 2, 0]
 		if is_blank_line(line):
 			return (1)
 		if is_query(line):
@@ -128,6 +129,7 @@ def parse():
 	
 	class Config:
 		def __init__(self, lines):
+
 			# Set default values for config.
 			self.facts = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 			self.left_bracket = "("
@@ -143,35 +145,38 @@ def parse():
 			self.implies_sub = ">"
 			self.bicondition_sub = "<"
 
-			# Array of attribute names for below Loop.
-			array = ["facts", "left_bracket", "right_bracket", "op_neg"]
-			array.extend(["op_and", "op_or", "op_xor", "implies"])
-			array.extend(["bicondition", "initial_fact", "query"])
-			array.extend(["implies_sub", "bicondition_sub"])
+			# Checks if read of config file was successful
+			if lines:
 
-			# Loop through parsed config, to overwrite default config.
-			for string in lines:
-				# Remove comment and new line
-				self.string = string
-				string = string.replace("\n", "").split("#")[0]
+				# Array of attribute names for below Loop.
+				array = ["facts", "left_bracket", "right_bracket", "op_neg"]
+				array.extend(["op_and", "op_or", "op_xor", "implies"])
+				array.extend(["bicondition", "initial_fact", "query"])
+				array.extend(["implies_sub", "bicondition_sub"])
 
-				# Check for 'set' keyword
-				if string.count("set "):
-					string = string.split("set")[1]
-				else:
-					string = ""
+				# Loop through parsed config, to overwrite default config.
+				for string in lines:
+					# Remove comment and new line
+					self.string = string
+					string = string.replace("\n", "").split("#")[0]
 
-				# Remove white space
-				string = string.replace(" ", "").replace("\t", "")
+					# Check for 'set' keyword
+					if string.count("set "):
+						string = string.split("set")[1]
+					else:
+						string = ""
 
-				# Loops through array of attribute names
-				for x in array:
-					# Checks if modification attribute is valid.
-					tmp = check_match(string, x)
+					# Remove white space
+					string = string.replace(" ", "").replace("\t", "")
 
-					# Checks if string contains only "value", sets attribute
-					if string != tmp and tmp != "":
-						setattr(self, x, tmp)
+					# Loops through array of attribute names
+					for x in array:
+						# Checks if modification attribute is valid.
+						tmp = check_match(string, x)
+
+						# Checks if string contains only "value", sets attribute
+						if string != tmp and tmp != "":
+							setattr(self, x, tmp)
 
 			# Sets value of strings passed as arguments in other functions.
 			self.ops = self.op_neg + self.op_and + self.op_or + self.op_xor
@@ -200,18 +205,19 @@ def parse():
 				self.data = self.data.replace(config.bicondition, config.bicondition_sub)
 				self.data = self.data.replace(config.implies, config.implies_sub)
 				print(config.bicondition, config.bicondition_sub)
-			
+
 			# If initial fact, remove leading character
 			if self.type == 3:
 				self.data = self.data.replace(config.initial_fact, "")
-	
+
 			# If query, remove leading character
 			if self.type == 4:
 				self.data = self.data.replace(config.query, "")
 
 
 	# CREATES CONFIG OBJECT
-	config = Config(ft.read_lines("expert_system.sh"))	
+	config = Config(ft.read_lines("config"))	
+
 
 	# CREATES LINES ARRAY
 	# Ensures there is only one command line argument.
@@ -221,11 +227,17 @@ def parse():
 	# Initialise for the below 
 	line_num = 1
 	lines = []
-	
+
+	# Reads and checks read was succesful.
+	line_read = ft.read_lines(sys.argv[1])
+	if not line_read:
+		print("Read error: %s" % sys.argv[1])
+		exit(2)
+
 	# Loops each next line read from the input file
-	for line in ft.read_lines(sys.argv[1]):
+	for line in line_read:
 		# Treats each line and appends to lines (array of Line objects)
 		lines.append(Line(line, line_num))
 		line_num += 1
-	
+
 	return {"lines":lines, "config":config}
