@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 01:32:49 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/17 08:35:41 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/17 10:14:46 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,3 +39,7 @@
 ### substitutions
 #set implies_sub = ">"
 #set bicondition_sub = "<"
+
+
+### settings
+#set max_lines = "3"

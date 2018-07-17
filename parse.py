@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/17 09:16:16 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/17 10:13:08 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -144,6 +144,7 @@ def parse():
 			self.query = "?"
 			self.implies_sub = ">"
 			self.bicondition_sub = "<"
+			self.max_lines = "100"
 
 			# Checks if read of config file was successful
 			if lines:
@@ -152,7 +153,7 @@ def parse():
 				array = ["facts", "left_bracket", "right_bracket", "op_neg"]
 				array.extend(["op_and", "op_or", "op_xor", "implies"])
 				array.extend(["bicondition", "initial_fact", "query"])
-				array.extend(["implies_sub", "bicondition_sub"])
+				array.extend(["implies_sub", "bicondition_sub", "max_lines"])
 
 				# Loop through parsed config, to overwrite default config.
 				for string in lines:
@@ -189,6 +190,9 @@ def parse():
 			self.pattern = self.op_and + self.op_or + self.op_xor
 			self.pattern += self.implies_sub + self.bicondition_sub
 
+			# Set string to int - CHECK IF NUMERIC
+			self.max_lines = int(self.max_lines)
+
 
 	class Line:
 		def __init__(self, string, line_num):
@@ -216,7 +220,7 @@ def parse():
 
 
 	# CREATES CONFIG OBJECT
-	config = Config(ft.read_lines("config"))	
+	config = Config(ft.read_lines("config", 100))	
 
 
 	# CREATES LINES ARRAY
@@ -229,7 +233,7 @@ def parse():
 	lines = []
 
 	# Reads and checks read was succesful.
-	line_read = ft.read_lines(sys.argv[1])
+	line_read = ft.read_lines(sys.argv[1], config.max_lines)
 	if not line_read:
 		print("Read error: %s" % sys.argv[1])
 		exit(2)
