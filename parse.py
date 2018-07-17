@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/17 21:25:36 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/17 22:09:34 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -155,4 +155,15 @@ def parse(config):
 		lines.append(Line(line, line_num))
 		line_num += 1
 
+	# Exits if any line type is ERROR
+	error = 0
+	for line in lines:
+		if not line.type:
+			if error:
+				print("")
+			print("Error on line %d\nInvalid line[%s]" % (line.num, line.string))
+			error += 1
+	if error:
+		exit(1)
+				
 	return (lines)
