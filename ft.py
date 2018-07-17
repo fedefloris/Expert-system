@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/15 22:27:18 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/16 19:54:23 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/17 10:03:02 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,5 +31,5 @@ def char_matches(c, substring):
 
 
 # read_file reads file and returns all lines in an array
-def read_lines(file_name):
-	return (read.read_lines(file_name))
+def read_lines(file_name, max_lines):
+	return (read.read_lines(file_name, max_lines))
