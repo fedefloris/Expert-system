@@ -6,17 +6,18 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/17 20:59:41 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/17 21:25:04 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/18 10:13:26 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import ft
+import string
 
 class Config:
 	def __init__(self, lines):
 
 		# Set default values for config.
-		self.facts = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		self.facts = string.ascii_uppercase
 		self.left_bracket = "("
 		self.right_bracket = ")"
 		self.op_neg = "!"
@@ -35,33 +36,33 @@ class Config:
 		if lines:
 
 			# Array of attribute names for below Loop.
-			array = ["facts", "left_bracket", "right_bracket", "op_neg"]
+			array = ["left_bracket", "right_bracket", "op_neg"]
 			array.extend(["op_and", "op_or", "op_xor", "implies"])
 			array.extend(["bicondition", "initial_fact", "query"])
 			array.extend(["implies_sub", "bicondition_sub", "max_lines"])
 
 			# Loop through parsed config, to overwrite default config.
-			for string in lines:
+			for line in lines:
 				# Remove comment and new line
-				self.string = string
-				string = string.replace("\n", "").split("#")[0]
+				self.line = line
+				line = line.replace("\n", "").split("#")[0]
 
 				# Check for 'set' keyword
-				if string.count("set "):
-					string = string.split("set")[1]
+				if line.count("set "):
+					line = line.split("set")[1]
 				else:
-					string = ""
+					line = ""
 
 				# Remove white space
-				string = string.replace(" ", "").replace("\t", "")
+				line = line.replace(" ", "").replace("\t", "")
 
 				# Loops through array of attribute names
 				for x in array:
 					# Checks if modification attribute is valid.
-					tmp = check_match(string, x)
+					tmp = check_match(line, x)
 
-					# Checks if string contains only "value", sets attribute
-					if string != tmp and tmp != "":
+					# Checks if line contains only "value", sets attribute
+					if line != tmp and tmp != "":
 						setattr(self, x, tmp)
 
 		# Sets value of strings passed as arguments in other functions.

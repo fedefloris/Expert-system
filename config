@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 01:32:49 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/17 10:14:46 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/18 09:00:00 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,7 @@
 # Can only use speech-marks to open and close a string.
 # Can not use spaces, tabs or new line characters in strings.
 
-# Uncomment a rule to set.
-
-### objects
-#set facts = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+# To configure, uncomment a rule and set a value.
 
 
 ### conditions
