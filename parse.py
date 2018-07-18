@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/17 22:09:34 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/18 10:23:56 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ def parse(config):
 
 			# Checks if characters are valid.
 			for x in line:
-				if not (ft.is_upper(x) or ft.char_matches(x, config.conditions)):
+				if not x in config.facts and not ft.char_matches(x, config.conditions):
 					return (0)
 
 			# Substitutes implies for substitutes
@@ -41,7 +41,7 @@ def parse(config):
 			# Checks pattern of characters is good. [A + B ++ C] is bad.
 			count = 0
 			for x in line:
-				if ft.is_upper(x):
+				if x in config.facts:
 					count += 1
 				elif ft.char_matches(x, config.pattern):
 					count -= 1
@@ -60,7 +60,7 @@ def parse(config):
 
 			# Checks if characters are valid
 			for x in line:
-				if not (ft.is_upper(x) or x == config.initial_fact):
+				if not (x in config.facts or x == config.initial_fact):
 					return (0)
 
 			# Ensures that first character is valid.
@@ -78,7 +78,7 @@ def parse(config):
 
 			# Checks if characters are valid
 			for x in line:
-				if not (ft.is_upper(x) or x == config.query):
+				if not (x in config.facts or x == config.query):
 					return (0)
 
 			# Ensures that first character is valid.
