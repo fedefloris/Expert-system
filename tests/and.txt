@@ -1,0 +1,7 @@
+A + B => C  # A and B are True, so C is True
+D + E => F  # Only D is True, so F is False
+G + H => I  # Only H is True, so I is False
+J + K => L # J and K are False, so J is False
+
+=ABDH
+?CFIL

@@ -1,0 +1,8 @@
+A + B => C
+D | E => C
+C ^ F => G
+E | (D + A + B) => !F
+!(G + (!C | F)) + B ^ (A + F) => Z
+
+=ABD
+?GZE

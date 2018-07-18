@@ -1,0 +1,6 @@
+!A => B     # A is True, so !A is False:    B stay False
+!C => D     # C is False, !C is True:       D is True
+E => !F     # E is True, so !F is True:     F is False
+
+=AE
+?BDF

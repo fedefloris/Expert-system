@@ -1,0 +1,7 @@
+(A + B) ^ (D | K) => P
+P ^ N => Z
+X + (A | K ^ Z) => N
+(D | N) ^ Y => T
+T + !X => G
+=ADF
+?GTX

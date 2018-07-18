@@ -1,0 +1,9 @@
+A | B => C + D      # True, True
+E + F => G + H      # False, False
+I | J => K + !L     # True, False
+M | N => !O + P     # False, True
+Q | R => !S + !T    # False, False
+X => Y + Z          # undetermined, undetermined
+Z => X + Y          # undetermined, undetermined
+=AJNR
+?CDGHKLOPSTXYZ
