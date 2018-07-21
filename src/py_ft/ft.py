@@ -10,8 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-import sys
-sys.path.append('./py_ft/')
 import char
 import strings
 import read
@@ -33,7 +31,7 @@ def is_digit(c):
 	return (char.is_digit(c))
 
 
-# char_matches tests if single character is in substring 
+# char_matches tests if single character is in substring
 def char_matches(c, substring):
 	return (char.char_matches(c, substring))
 

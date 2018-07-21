@@ -11,6 +11,8 @@
 # **************************************************************************** #
 
 import sys
+sys.path.append('./src/py_ft/')
+
 import ft
 
 # LINE TYPES
@@ -108,8 +110,8 @@ def parse(config):
 			return (2)
 		# If matched non of the abvoe, then line is error.
 		return (0)
-	
-	
+
+
 	class Line:
 		def __init__(self, string, line_num):
 			self.string = string.replace("\n", "")
@@ -139,7 +141,7 @@ def parse(config):
 	if len(sys.argv) != 2:
 		exit(2)
 
-	# Initialise for the below 
+	# Initialise for the below
 	line_num = 1
 	lines = []
 
@@ -159,11 +161,9 @@ def parse(config):
 	error = 0
 	for line in lines:
 		if not line.type:
-			if error:
-				print("")
-			print("Error on line %d\nInvalid line[%s]" % (line.num, line.string))
+			print("Error on line %d\n\tInvalid line[%s]\n" % (line.num, line.string))
 			error += 1
 	if error:
 		exit(1)
-				
+
 	return (lines)

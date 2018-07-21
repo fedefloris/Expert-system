@@ -1,4 +1,4 @@
-# **************************************************************************** #
+# *******************************	********************************************* #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    get_config.py                                      :+:      :+:    :+:    #
@@ -14,7 +14,9 @@ import ft
 import string
 
 class Config:
-	def __init__(self, lines):
+	def __init__(self, file_name):
+
+		lines = ft.read_lines(file_name, 100)
 
 		# Set default values for config.
 		self.facts = string.ascii_uppercase
@@ -36,10 +38,10 @@ class Config:
 		if lines:
 
 			# Array of attribute names for below Loop.
-			array = ["left_bracket", "right_bracket", "op_neg"]
-			array.extend(["op_and", "op_or", "op_xor", "implies"])
-			array.extend(["bicondition", "initial_fact", "query"])
-			array.extend(["implies_sub", "bicondition_sub", "max_lines"])
+			array = ["left_bracket", "right_bracket", "op_neg",
+					"op_and", "op_or", "op_xor", "implies",
+					"bicondition", "initial_fact", "query",
+					"implies_sub", "bicondition_sub", "max_lines"]
 
 			# Loop through parsed config, to overwrite default config.
 			for line in lines:
@@ -104,4 +106,4 @@ def check_match(string, substring):
 
 def get_config():
 	# Creates and returns config object.
-	return (Config(ft.read_lines("config", 100)))	
+	return (Config("config"))
