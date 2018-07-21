@@ -4,4 +4,4 @@
 A group project with [ffloris](https://github.com/fedefloris "SOUND BLOKE"), top guy.  
 
 We're aiming to complete the project in **python**, a first for both of us.  
-Follow progress with `python3 expert_system.py test.txt`
+Follow progress with `python3 expert_system.py tests/test1.txt`
