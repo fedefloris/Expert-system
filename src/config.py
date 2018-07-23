@@ -1,7 +1,7 @@
-# *******************************	********************************************* #
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    get_config.py                                      :+:      :+:    :+:    #
+#    config.py                                          :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
@@ -14,25 +14,11 @@ import ft
 import string
 
 class Config:
-	def __init__(self, file_name):
+	def __init__(self, file_name = "config"):
 
 		lines = ft.read_lines(file_name, 100)
 
-		# Set default values for config.
-		self.facts = string.ascii_uppercase
-		self.left_bracket = "("
-		self.right_bracket = ")"
-		self.op_neg = "!"
-		self.op_and = "+"
-		self.op_or = "|"
-		self.op_xor = "^"
-		self.implies = "=>"
-		self.bicondition = "<=>"
-		self.initial_fact = "="
-		self.query = "?"
-		self.implies_sub = ">"
-		self.bicondition_sub = "<"
-		self.max_lines = "100"
+		self.set_default_values()
 
 		# Checks if read of config file was successful
 		if lines:
@@ -61,7 +47,7 @@ class Config:
 				# Loops through array of attribute names
 				for x in array:
 					# Checks if modification attribute is valid.
-					tmp = check_match(line, x)
+					tmp = self.check_match(line, x)
 
 					# Checks if line contains only "value", sets attribute
 					if line != tmp and tmp != "":
@@ -84,26 +70,37 @@ class Config:
 			exit(2)
 		self.max_lines = int(self.max_lines)
 
+	def set_default_values(self):
 
-def check_match(string, substring):
+		self.facts = string.ascii_uppercase
+		self.left_bracket = "("
+		self.right_bracket = ")"
+		self.op_neg = "!"
+		self.op_and = "+"
+		self.op_or = "|"
+		self.op_xor = "^"
+		self.implies = "=>"
+		self.bicondition = "<=>"
+		self.initial_fact = "="
+		self.query = "?"
+		self.implies_sub = ">"
+		self.bicondition_sub = "<"
+		self.max_lines = "100"
 
-	# Appends =" to substring
-	substring += "=\""
+	def check_match(self, string, substring):
 
-	# Ensures that the occurence of the matching atribute is left most
-	if string.count(substring) and string.split(substring)[0] == "":
-		string = string.split(substring)[1]
-	else:
+		# Appends =" to substring
+		substring += "=\""
+
+		# Ensures that the occurence of the matching atribute is left most
+		if string.count(substring) and string.split(substring)[0] == "":
+			string = string.split(substring)[1]
+		else:
+			return (string)
+
+		# Ensures that the closing " is the last characteer on the line
+		if string.count("\"") == 1 and string.split("\"")[1] == "":
+			string = string.split("\"")[0]
+		else:
+			string = ""
 		return (string)
-
-	# Ensures that the closing " is the last characteer on the line
-	if string.count("\"") == 1 and string.split("\"")[1] == "":
-		string = string.split("\"")[0]
-	else:
-		string = ""
-	return (string)
-
-
-def get_config():
-	# Creates and returns config object.
-	return (Config("config"))

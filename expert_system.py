@@ -16,10 +16,10 @@ import sys
 sys.path.append('./src/')
 
 from parse import parse
-from get_config import get_config
+from config import Config
 
 def main():
-	config = get_config()
+	config = Config()
 	lines = parse(config)
 	for x in lines:
 		print ("Num[%d]\nType[%d]\n[%s]\n[%s]\n--------" % (x.num, x.type, x.string, x.data))

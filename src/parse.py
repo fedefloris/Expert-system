@@ -1,5 +1,5 @@
-# **************************************************************************** #
 #                                                                              #
+# **************************************************************************** #
 #                                                         :::      ::::::::    #
 #    parse.py                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
@@ -141,10 +141,6 @@ def parse(config):
 	if len(sys.argv) != 2:
 		exit(2)
 
-	# Initialise for the below
-	line_num = 1
-	lines = []
-
 	# Reads and checks read was succesful.
 	line_read = ft.read_lines(sys.argv[1], config.max_lines)
 	if not line_read:
@@ -152,16 +148,18 @@ def parse(config):
 		exit(2)
 
 	# Loops each next line read from the input file
-	for line in line_read:
+	lines = []
+	for line_num, line in enumerate(line_read):
 		# Treats each line and appends to lines (array of Line objects)
-		lines.append(Line(line, line_num))
-		line_num += 1
+		lines.append(Line(line, line_num + 1))
 
 	# Exits if any line type is ERROR
 	error = 0
 	for line in lines:
 		if not line.type:
-			print("Error on line %d\n\tInvalid line[%s]\n" % (line.num, line.string))
+			print("\033[1;31mError\033[1;37m:" \
+				" Invalid syntax on line \033[1;34m%d\033[1;32m\n" \
+				"\t\"\033[1;37m%s\033[1;32m\"\n" % (line.num, line.string))
 			error += 1
 	if error:
 		exit(1)
