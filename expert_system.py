@@ -20,8 +20,8 @@ from config import Config
 
 def main():
 	config = Config()
-	lines = parse(config)
-	for x in lines:
+	config.parse()
+	for x in config.lines:
 		print ("Num[%d]\nType[%d]\n[%s]\n[%s]\n--------" % (x.num, x.type, x.string, x.data))
 	print(config.op_and, config.op_or, config.op_xor, config.op_neg)
 

@@ -6,12 +6,13 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/17 20:59:41 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/18 10:13:26 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/24 16:34:57 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import ft
 import string
+from parse import parse
 
 class Config:
 	def __init__(self, file_name = "config"):
@@ -86,10 +87,11 @@ class Config:
 		self.implies_sub = ">"
 		self.bicondition_sub = "<"
 		self.max_lines = "100"
+		self.lines = None
 
 	def check_match(self, string, substring):
 
-		# Appends =" to substring
+		# Appends =" to substring to ensure correct formatting for set = " "
 		substring += "=\""
 
 		# Ensures that the occurence of the matching atribute is left most
@@ -104,3 +106,6 @@ class Config:
 		else:
 			string = ""
 		return (string)
+
+	def parse(self):
+		self.lines = parse(self)
