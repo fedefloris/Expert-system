@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/25 12:44:39 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/25 18:24:28 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,16 +18,29 @@ class Fact:
 		self.false = 0
 		self.ambig = 0
 
+		# Array of conditions
+		self.trueif = []
+		self.falseif = []
+
 	def force_true(self):
 		init_false = 0
 		self.true = 1
+	
+	def make_true(self):
+		self.true = 1
+
+	def make_false(self):
+		self.false = 1
+
+	def make_ambig(self):
+		self.ambig = 1
 
 	def contradict(self):
 		if self.true and self.false:
 			return 1
 		else:
 			return 0
-	
+
 	def show(self):
 		if self.contradict():
 			print("%s is a contradiction" % self.fact)
