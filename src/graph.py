@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/25 18:24:28 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/25 18:25:20 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,19 +40,36 @@ class Fact:
 			return 1
 		else:
 			return 0
-
-	def show(self):
+	
+	def display(self):
 		if self.contradict():
 			print("%s is a contradiction" % self.fact)
 		elif self.true:	
-			print("%s is true" % self.fact)
+			print("%s is true" % self.letter())
 		elif self.false:
-			print("%s is false" % self.fact)
+			print("%s is false" % self.letter())
 		elif self.ambig:
-			print("%s is ambiguous" % self.fact)
+			print("%s is ambiguous" % self.letter())
 		elif self.init_false:
-			print("%s is false" % self.fact)
+			print("%s is false" % self.letter())
+
+	def letter(self):
+		if self.true:	
+			return ("\x1b[32m%s\x1b[0m" % self.fact)
+		elif self.false:
+			return ("\x1b[31m%s\x1b[0m" % self.fact)
+		elif self.ambig:
+			return ("\x1b[33m%s\x1b[0m" % self.fact)
+		elif self.init_false:
+			return ("\x1b[31m%s\x1b[0m" % self.fact)
+		
 
 a = Fact("A")
+a.display()
+a.letter()
+a.make_ambig()
+a.display()
+a.letter()
 a.force_true()
-a.show()
+a.display()
+a.letter()
