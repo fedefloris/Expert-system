@@ -10,6 +10,9 @@
 #                                                                              #
 # **************************************************************************** #
 
+import sys
+sys.path.append('./src/py_ft/')
+
 import ft
 import string
 from parse import parse

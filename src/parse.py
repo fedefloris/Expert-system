@@ -1,6 +1,6 @@
-#                                                                              #
 # **************************************************************************** #
 #                                                         :::      ::::::::    #
+#                                                                              #
 #    parse.py                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
@@ -139,12 +139,12 @@ def parse(config):
 	# CREATES LINES ARRAY
 	# Ensures there is only one command line argument.
 	if len(sys.argv) != 2:
-		exit(2)
+		exit("\033[1;32m[Usage] \033[1;37m./expert_system.py file")
 
 	# Reads and checks read was succesful.
 	line_read = ft.read_lines(sys.argv[1], config.max_lines)
 	if not line_read:
-		print("Read error: %s" % sys.argv[1])
+		print("\033[1;31mRead error\033[1;37m: %s" % sys.argv[1])
 		exit(2)
 
 	# Loops each next line read from the input file
@@ -157,9 +157,11 @@ def parse(config):
 	error = 0
 	for line in lines:
 		if not line.type:
-			print("\033[1;31mError\033[1;37m:" \
-				" Invalid syntax on line \033[1;34m%d\033[1;32m\n" \
-				"\t\"\033[1;37m%s\033[1;32m\"\n" % (line.num, line.string))
+			if error:
+				print("")
+			print("\033[1;31mError:\033[1;37m"
+				" Invalid syntax on line \033[1;34m%d\033[1;32m\n"
+				"\t\"\033[1;37m%s\033[1;32m\"" % (line.num, line.string))
 			error += 1
 	if error:
 		exit(1)

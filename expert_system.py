@@ -15,7 +15,6 @@
 import sys
 sys.path.append('./src/')
 
-from parse import parse
 from config import Config
 
 def main():
