@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/26 11:36:05 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/26 13:26:41 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,3 +71,15 @@ class Fact:
 			return ("\x1b[33m%s\x1b[0m" % self.fact)
 		elif self.init_false:
 			return ("\x1b[31m%s\x1b[0m" % self.fact)
+		
+def graph(config):
+	array = [None] * 26
+	for line in config.lines:
+		for char in line.data:
+			if char in config.facts and not array[ord(char) - 65]:
+				array[ord(char) - 65] = Fact(char)
+			if char in config.facts and line.type == 3:
+				array[ord(char) - 65].force_true()
+	for x in array:
+		if x:
+			x.display()

@@ -16,6 +16,7 @@ import sys
 sys.path.append('./src/')
 
 from config import Config
+from graph import graph
 
 def main():
 	config = Config()
@@ -23,6 +24,7 @@ def main():
 	for x in config.lines:
 		print ("Num[%d]\nType[%d]\n[%s]\n[%s]\n--------" % (x.num, x.type, x.string, x.data))
 	print(config.op_and, config.op_or, config.op_xor, config.op_neg)
+	graph(config)
 
 if __name__== "__main__":
 	main()
