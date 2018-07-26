@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/26 13:26:41 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/26 16:47:40 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,23 @@ class Fact:
 			return ("\x1b[33m%s\x1b[0m" % self.fact)
 		elif self.init_false:
 			return ("\x1b[31m%s\x1b[0m" % self.fact)
-		
+
+
+# Dear Federico. The below is proof of concept LOL :D.
+#
+# Create array of 26 and stores facts in the array (A: array[0] to Z: array[25]
+# If it is initially true, it is set to true.
+# I then (cheat a little) and suggest that the only rules are:
+#         A => L
+#         E => L
+# I then effectively backward chain by one position, and check if E and A are true.
+# If E or A are true, I make L true.
+# Of course it will be prettier (Obviously) What do you think?
+#
+# Lots of Hugs
+#
+# Dav. <3
+
 def graph(config):
 	array = [None] * 26
 	for line in config.lines:
@@ -80,6 +96,18 @@ def graph(config):
 				array[ord(char) - 65] = Fact(char)
 			if char in config.facts and line.type == 3:
 				array[ord(char) - 65].force_true()
-	for x in array:
-		if x:
-			x.display()
+	array[ord("L") - 65].trueif.append("E")
+	array[ord("L") - 65].trueif.append("A")
+	for fact in array:
+		if fact:
+			fact.display()
+	print("\n\n\n")
+	for fact in array:
+		if fact:
+			for condition in fact.trueif:
+				if array[ord(condition) - 65].true == 1:
+					fact.make_true()
+					print(condition, "makes", fact.fact, "true")
+	for fact in array:
+		if fact:
+			fact.display()
