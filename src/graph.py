@@ -10,6 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
+import string
+
 class Fact:
 	def __init__(self, fact):
 		self.fact = fact
@@ -26,7 +28,7 @@ class Fact:
 		init_false = 0
 		self.true = 1
 		self.contradicts()
-	
+
 	def make_true(self):
 		self.true = 1
 		self.contradicts()
@@ -37,7 +39,7 @@ class Fact:
 
 	def make_ambig(self):
 		self.ambig = 1
-	
+
 	def add_true(self, condition):
 		self.trueif.append = condition
 
@@ -49,10 +51,10 @@ class Fact:
 		if self.true and self.false:
 			print("%s is a contradiction" % self.fact)
 			exit(1)
-	
+
 	# Displays 'final' string to declare sstate of facts.
 	def display(self):
-		if self.true:	
+		if self.true:
 			print("%s is true" % self.letter())
 		elif self.false:
 			print("%s is false" % self.letter())
@@ -88,26 +90,40 @@ class Fact:
 #
 # Dav. <3
 
+# Caro amico,
+# It's a great start of the inference engine :D.
+# I just replaced the list with a dictionary because the latter is marvelous.
+# It will be interesting to manage complex rules!
+#
+# For instance:
+#	E => F
+#	F + G => H
+#	H => L
+#
+#	L?
+#
+# I wish you the best evening in all the Milky Way Galaxy :D
+
 def graph(config):
-	array = [None] * 26
+	array = {x:None for x in string.ascii_uppercase}
 	for line in config.lines:
 		for char in line.data:
-			if char in config.facts and not array[ord(char) - 65]:
-				array[ord(char) - 65] = Fact(char)
+			if char in config.facts and not array[char]:
+				array[char] = Fact(char)
 			if char in config.facts and line.type == 3:
-				array[ord(char) - 65].force_true()
-	array[ord("L") - 65].trueif.append("E")
-	array[ord("L") - 65].trueif.append("A")
-	for fact in array:
+				array[char].force_true()
+	array["L"].trueif.append("E")
+	array["L"].trueif.append("A")
+	for key, fact in array.items():
 		if fact:
 			fact.display()
 	print("\n\n\n")
-	for fact in array:
+	for key, fact in array.items():
 		if fact:
 			for condition in fact.trueif:
-				if array[ord(condition) - 65].true == 1:
+				if array[condition].true == 1:
 					fact.make_true()
 					print(condition, "makes", fact.fact, "true")
-	for fact in array:
+	for key, fact in array.items():
 		if fact:
 			fact.display()
