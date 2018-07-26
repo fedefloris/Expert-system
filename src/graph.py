@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/26 10:12:36 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/26 11:36:05 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,12 @@ class Fact:
 
 	def make_ambig(self):
 		self.ambig = 1
+	
+	def add_true(self, condition):
+		self.trueif.append = condition
+
+	def add_false(self, condition):
+		self.falseif.append = condition
 
 	# Checks that a fact is not contradictory
 	def contradicts(self):
@@ -65,26 +71,3 @@ class Fact:
 			return ("\x1b[33m%s\x1b[0m" % self.fact)
 		elif self.init_false:
 			return ("\x1b[31m%s\x1b[0m" % self.fact)
-		
-
-a = Fact("A")
-a.display()
-a.letter()
-
-a = Fact("B")
-a.make_ambig()
-a.display()
-a.letter()
-
-a = Fact("C")
-a.force_true()
-a.display()
-a.letter()
-
-a = Fact("D")
-a.make_true()
-a.make_false()
-a.display()
-a.letter()
-
-print("Should not print")
