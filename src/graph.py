@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/25 18:25:20 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/26 10:12:36 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,26 +25,28 @@ class Fact:
 	def force_true(self):
 		init_false = 0
 		self.true = 1
+		self.contradicts()
 	
 	def make_true(self):
 		self.true = 1
+		self.contradicts()
 
 	def make_false(self):
 		self.false = 1
+		self.contradicts()
 
 	def make_ambig(self):
 		self.ambig = 1
 
-	def contradict(self):
+	# Checks that a fact is not contradictory
+	def contradicts(self):
 		if self.true and self.false:
-			return 1
-		else:
-			return 0
-	
-	def display(self):
-		if self.contradict():
 			print("%s is a contradiction" % self.fact)
-		elif self.true:	
+			exit(1)
+	
+	# Displays 'final' string to declare sstate of facts.
+	def display(self):
+		if self.true:	
 			print("%s is true" % self.letter())
 		elif self.false:
 			print("%s is false" % self.letter())
@@ -53,8 +55,9 @@ class Fact:
 		elif self.init_false:
 			print("%s is false" % self.letter())
 
+	# Returns fact's letter appropriately coloured.
 	def letter(self):
-		if self.true:	
+		if self.true:
 			return ("\x1b[32m%s\x1b[0m" % self.fact)
 		elif self.false:
 			return ("\x1b[31m%s\x1b[0m" % self.fact)
@@ -67,9 +70,21 @@ class Fact:
 a = Fact("A")
 a.display()
 a.letter()
+
+a = Fact("B")
 a.make_ambig()
 a.display()
 a.letter()
+
+a = Fact("C")
 a.force_true()
 a.display()
 a.letter()
+
+a = Fact("D")
+a.make_true()
+a.make_false()
+a.display()
+a.letter()
+
+print("Should not print")
