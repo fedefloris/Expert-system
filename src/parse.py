@@ -15,21 +15,84 @@ sys.path.append('./src/py_ft/')
 
 import ft
 
-# LINE TYPES
-# 0 Error
-# 1 Blank Line
-# 2 Rule
-# 3 Fact
-# 4 Query
+class Parser:
 
+	def __init__(self, config):
 
-def parse(config):
+		self.parse_file(config, sys.argv[1]);
 
-	# Function returns integer depending on type.
-	def get_type(line):
+		# Exits if any line type is ERROR
+		error = 0
+		for line in self.lines:
+			if not line.type:
+				if error:
+					print("")
+				print("\033[1;31mError:\033[1;37m"
+					" Invalid syntax on line \033[1;34m%d\033[1;32m\n"
+					"\t\"\033[1;37m%s\033[1;32m\"" % (line.num, line.string))
+				error += 1
+		if error:
+			exit(1)
+
+	def parse_file(self, config, file_name):
+		# Reads and checks read was succesful.
+		line_read = ft.read_lines(file_name, config.max_lines)
+		if not line_read:
+			print("\033[1;31mRead error\033[1;37m: %s" % file_name)
+			exit(2)
+
+		# Loops each next line read from the input file
+		self.lines = [self.Line(config, line, line_num + 1)
+			for line_num, line in enumerate(line_read)]
+
+		config.lines = self.lines
+
+	# LINE TYPES
+	# 0 Error
+	# 1 Blank Line
+	# 2 Rule
+	# 3 Fact
+	# 4 Query
+
+	class Line:
+		def __init__(self, config, string, line_num):
+			self.string = string.replace("\n", "")
+			self.data = string.replace("\n", "")
+			self.data = self.data.replace("\t", "")
+			self.data = self.data.replace(" ", "")
+			self.data = self.data.split("#")[0]
+			self.type = self.get_type(self.data, config)
+			self.num = line_num
+
+			# If rule, substitute implies.
+			if self.type == 2:
+				self.data = self.data.replace(config.bicondition, config.bicondition_sub)
+				self.data = self.data.replace(config.implies, config.implies_sub)
+
+			# If initial fact, remove leading character
+			if self.type == 3:
+				self.data = self.data.replace(config.initial_fact, "")
+
+			# If query, remove leading character
+			if self.type == 4:
+					self.data = self.data.replace(config.query, "")
+
+		# Function returns integer depending on type.
+		def get_type(self, line, config):
+			# Must return in the following order: [1, 4, 3, 2, 0]
+			if self.is_blank_line(line):
+				return (1)
+			if self.is_query(line, config):
+				return (4)
+			if self.is_fact(line, config):
+				return (3)
+			if self.is_rule(line, config):
+				return (2)
+			# If matched non of the abvoe, then line is error.
+			return (0)
 
 		# Function returns if line is a rule.
-		def is_rule(line):
+		def is_rule(self, line, config):
 
 			# Checks if characters are valid.
 			for x in line:
@@ -58,7 +121,7 @@ def parse(config):
 			return (1)
 
 		# Function returns if line is a fact.
-		def is_fact(line):
+		def is_fact(self, line, config):
 
 			# Checks if characters are valid
 			for x in line:
@@ -76,7 +139,7 @@ def parse(config):
 
 
 		# Function returns if line is a query.
-		def is_query(line):
+		def is_query(self, line, config):
 
 			# Checks if characters are valid
 			for x in line:
@@ -92,78 +155,8 @@ def parse(config):
 				return (0)
 			return (1)
 
-
 		# Returns one if line is blank.
-		def is_blank_line(line):
+		def is_blank_line(self, line):
 			if len(line) == 0:
 				return (1)
 			return (0)
-
-		# Must return in the following order: [1, 4, 3, 2, 0]
-		if is_blank_line(line):
-			return (1)
-		if is_query(line):
-			return (4)
-		if is_fact(line):
-			return (3)
-		if is_rule(line):
-			return (2)
-		# If matched non of the abvoe, then line is error.
-		return (0)
-
-
-	class Line:
-		def __init__(self, string, line_num):
-			self.string = string.replace("\n", "")
-			self.data = string.replace("\n", "")
-			self.data = self.data.replace("\t", "")
-			self.data = self.data.replace(" ", "")
-			self.data = self.data.split("#")[0]
-			self.type = get_type(self.data)
-			self.num = line_num
-
-			# If rule, substitute implies.
-			if self.type == 2:
-				self.data = self.data.replace(config.bicondition, config.bicondition_sub)
-				self.data = self.data.replace(config.implies, config.implies_sub)
-
-			# If initial fact, remove leading character
-			if self.type == 3:
-				self.data = self.data.replace(config.initial_fact, "")
-
-			# If query, remove leading character
-			if self.type == 4:
-				self.data = self.data.replace(config.query, "")
-
-
-	# CREATES LINES ARRAY
-	# Ensures there is only one command line argument.
-	if len(sys.argv) != 2:
-		exit("\033[1;32m[Usage] \033[1;37m./expert_system.py file")
-
-	# Reads and checks read was succesful.
-	line_read = ft.read_lines(sys.argv[1], config.max_lines)
-	if not line_read:
-		print("\033[1;31mRead error\033[1;37m: %s" % sys.argv[1])
-		exit(2)
-
-	# Loops each next line read from the input file
-	lines = []
-	for line_num, line in enumerate(line_read):
-		# Treats each line and appends to lines (array of Line objects)
-		lines.append(Line(line, line_num + 1))
-
-	# Exits if any line type is ERROR
-	error = 0
-	for line in lines:
-		if not line.type:
-			if error:
-				print("")
-			print("\033[1;31mError:\033[1;37m"
-				" Invalid syntax on line \033[1;34m%d\033[1;32m\n"
-				"\t\"\033[1;37m%s\033[1;32m\"" % (line.num, line.string))
-			error += 1
-	if error:
-		exit(1)
-
-	return (lines)
