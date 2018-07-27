@@ -15,6 +15,10 @@ sys.path.append("./src/")
 
 from config import Config
 
-def test_config():
-    config = Config("./test/config_examples/bad_syntax")
+def test_bad_syntax():
+    config = Config("./test/examples/config/bad_syntax")
     assert config.left_bracket == Config().left_bracket
+
+def test_bad_values():
+    config = Config("./test/examples/config/bad_values")
+    assert config.right_bracket == Config().right_bracket
