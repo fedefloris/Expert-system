@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/27 09:32:06 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/27 11:28:54 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,34 +100,46 @@ class Fact:
 #
 #	L?
 #
-# I wish you the best evening in all the Milky Way Galaxy :D
+# I wish you the best evening in all the Milky Way Galaxy :D	
 
 def graph(config):
-	array = {x:None for x in config.facts}
-	for line in config.lines:
-		for char in line.data:
-			if char in config.facts and not array[char]:
-				array[char] = Fact(char)
-			if char in config.facts and line.type == 3:
-				array[char].force_true()
-	array["L"].add_true("E")
-	array["L"].add_true("A")
-	array["G"].add_true("A")
-	array["L"].add_false("E")
-	for key, fact in array.items():
-		if fact:
-			fact.display()
-	print("\n\n\n")
-	for key, fact in array.items():
-		if fact:
-			for condition in fact.trueif:
-				if array[condition].true:
-					fact.make_true()
-					print(condition, "makes", fact.fact, "true")
-			for condition in fact.falseif:
-				if array[condition].true:
-					fact.make_false()
-					print(condition, "makes", fact.fact, "false")
-	for key, fact in array.items():
-		if fact:
-			fact.display()
+	def tmp_display(config): 							#TEMPORARY - DELETE
+		for key, fact in config.graph.items():			#TEMPORARY - DELETE
+			if fact:									#TEMPORARY - DELETE
+				fact.display()							#TEMPORARY - DELETE
+		print("\n")										#TEMPORARY - DELETE
+
+	def create_graph(config):
+		for line in config.lines:
+			for char in line.data:
+				if char in config.facts and not config.graph[char]:
+					config.graph[char] = Fact(char)
+				if char in config.facts and line.type == 3:
+					config.graph[char].force_true()
+		keys = list(config.graph.keys())
+		for key in keys:
+			if not config.graph[key]:
+				print("\x1b[35m",key)
+				del config.graph[key]
+
+
+	create_graph(config)
+
+	config.graph["L"].add_true("E")
+	config.graph["L"].add_true("A")
+	config.graph["L"].add_false("E")
+	config.graph["G"].add_true("A")
+
+	tmp_display(config)
+
+	for key, fact in config.graph.items():
+		for condition in fact.trueif:
+			if config.graph[condition].true:
+				fact.make_true()
+				print(condition, "makes", fact.fact, "true")
+		for condition in fact.falseif:
+			if config.graph[condition].true:
+				fact.make_false()
+				print(condition, "makes", fact.fact, "false")
+
+	tmp_display(config)
