@@ -16,12 +16,17 @@ import sys
 sys.path.append('./src/')
 
 from config import Config
+from parse import Parser
 from graph import graph
 
 def main():
+	# Ensures there is only one command line argument.
+	if len(sys.argv) != 2:
+		exit("\033[1;32m[Usage] \033[1;37m./expert_system.py file")
+
 	config = Config()
-	config.parse()
-	for x in config.lines:
+	parser = Parser(config)
+	for x in parser.lines:
 		print ("Num[%d]\nType[%d]\n[%s]\n[%s]\n--------" % (x.num, x.type, x.string, x.data))
 	print(config.op_and, config.op_or, config.op_xor, config.op_neg)
 	graph(config)
