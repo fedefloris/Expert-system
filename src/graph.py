@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/27 11:28:54 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/27 14:04:12 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,35 +72,26 @@ class Fact:
 		elif self.init_false:
 			return ("\x1b[31m%s\x1b[0m" % self.fact)
 
+	def evaluate(self, condition, config):
+		if config.graph[condition].true:
+			print("Evaluated", condition, "as TRUE")
+			return (1)
+		else:
+			print("Evaluated", condition, "as FALSE")
+			return (0)
 
-# Dear Federico. The below is proof of concept LOL :D.
-#
-# Create array of 26 and stores facts in the array (A: array[0] to Z: array[25]
-# If it is initially true, it is set to true.
-# I then (cheat a little) and suggest that the only rules are:
-#         A => L
-#         E => L
-# I then effectively backward chain by one position, and check if E and A are true.
-# If E or A are true, I make L true.
-# Of course it will be prettier (Obviously) What do you think?
-#
-# Lots of Hugs
-#
-# Dav. <3
+	def investigate(self, config):
+		if not self.true:
+			for condition in self.trueif:
+				if type(condition) is str and self.evaluate(condition, config):
+					print(condition, "makes", self.fact, "true")
+					self.make_true()
+				if type(condition) is Fact:
+					condition.investigate(config)
+					if condition.true:
+						print(condition.fact, "makes", self.fact, "true")
+						self.make_true()
 
-# Caro amico,
-# It's a great start of the inference engine :D.
-# I just replaced the list with a dictionary because the latter is marvelous.
-# It will be interesting to manage complex rules!
-#
-# For instance:
-#	E => F
-#	F + G => H
-#	H => L
-#
-#	L?
-#
-# I wish you the best evening in all the Milky Way Galaxy :D	
 
 def graph(config):
 	def tmp_display(config): 							#TEMPORARY - DELETE
@@ -119,7 +110,6 @@ def graph(config):
 		keys = list(config.graph.keys())
 		for key in keys:
 			if not config.graph[key]:
-				print("\x1b[35m",key)
 				del config.graph[key]
 
 
@@ -130,16 +120,14 @@ def graph(config):
 	config.graph["L"].add_false("E")
 	config.graph["G"].add_true("A")
 
-	tmp_display(config)
+	bracket = Fact("(Bracket inside K)")
+	bracket.add_true("C")
+	bracket.add_true("B")
+	config.graph["K"].add_true(bracket)
+
+	tmp_display(config) #
 
 	for key, fact in config.graph.items():
-		for condition in fact.trueif:
-			if config.graph[condition].true:
-				fact.make_true()
-				print(condition, "makes", fact.fact, "true")
-		for condition in fact.falseif:
-			if config.graph[condition].true:
-				fact.make_false()
-				print(condition, "makes", fact.fact, "false")
+		fact.investigate(config)
 
-	tmp_display(config)
+	tmp_display(config) #
