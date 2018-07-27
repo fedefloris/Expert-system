@@ -112,7 +112,6 @@ def graph(config):
 			if not config.graph[key]:
 				del config.graph[key]
 
-
 	create_graph(config)
 
 	config.graph["L"].add_true("E")

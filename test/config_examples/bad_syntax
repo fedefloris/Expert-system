@@ -1,0 +1,24 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    bad_syntax                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/07/16 01:32:49 by dhojt             #+#    #+#              #
+#    Updated: 2018/07/18 09:00:00 by dhojt            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+set left_bracke="0"
+set left_bracket = "0
+set left_bracket = '0
+set left_bracket =
+setleft_bracket = "0"
+set set left_bracket = "0"
+set left_bracket = set
+set left_bracket = 0
+et left_bracket = "0"
+left_bracket = "0"
+left_bracket
+"0"
