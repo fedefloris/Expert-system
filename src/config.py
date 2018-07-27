@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/17 20:59:41 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/24 16:34:57 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/27 09:46:36 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,7 @@ class Config:
 		self.bicondition_sub = "<"
 		self.max_lines = "100"
 		self.lines = None
+		self.graph = {x:None for x in self.facts}
 
 	def check_match(self, string, substring):
 
