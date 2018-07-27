@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/27 10:05:23 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/27 11:28:54 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,6 +116,12 @@ def graph(config):
 					config.graph[char] = Fact(char)
 				if char in config.facts and line.type == 3:
 					config.graph[char].force_true()
+		keys = list(config.graph.keys())
+		for key in keys:
+			if not config.graph[key]:
+				print("\x1b[35m",key)
+				del config.graph[key]
+
 
 	create_graph(config)
 
@@ -127,14 +133,13 @@ def graph(config):
 	tmp_display(config)
 
 	for key, fact in config.graph.items():
-		if fact:
-			for condition in fact.trueif:
-				if config.graph[condition].true:
-					fact.make_true()
-					print(condition, "makes", fact.fact, "true")
-			for condition in fact.falseif:
-				if config.graph[condition].true:
-					fact.make_false()
-					print(condition, "makes", fact.fact, "false")
+		for condition in fact.trueif:
+			if config.graph[condition].true:
+				fact.make_true()
+				print(condition, "makes", fact.fact, "true")
+		for condition in fact.falseif:
+			if config.graph[condition].true:
+				fact.make_false()
+				print(condition, "makes", fact.fact, "false")
 
 	tmp_display(config)
