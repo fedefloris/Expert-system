@@ -6,11 +6,9 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/26 16:47:40 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/27 09:32:06 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-import string
 
 class Fact:
 	def __init__(self, fact):
@@ -41,10 +39,10 @@ class Fact:
 		self.ambig = 1
 
 	def add_true(self, condition):
-		self.trueif.append = condition
+		self.trueif.append(condition)
 
 	def add_false(self, condition):
-		self.falseif.append = condition
+		self.falseif.append(condition)
 
 	# Checks that a fact is not contradictory
 	def contradicts(self):
@@ -105,15 +103,17 @@ class Fact:
 # I wish you the best evening in all the Milky Way Galaxy :D
 
 def graph(config):
-	array = {x:None for x in string.ascii_uppercase}
+	array = {x:None for x in config.facts}
 	for line in config.lines:
 		for char in line.data:
 			if char in config.facts and not array[char]:
 				array[char] = Fact(char)
 			if char in config.facts and line.type == 3:
 				array[char].force_true()
-	array["L"].trueif.append("E")
-	array["L"].trueif.append("A")
+	array["L"].add_true("E")
+	array["L"].add_true("A")
+	array["G"].add_true("A")
+	array["L"].add_false("E")
 	for key, fact in array.items():
 		if fact:
 			fact.display()
@@ -121,9 +121,13 @@ def graph(config):
 	for key, fact in array.items():
 		if fact:
 			for condition in fact.trueif:
-				if array[condition].true == 1:
+				if array[condition].true:
 					fact.make_true()
 					print(condition, "makes", fact.fact, "true")
+			for condition in fact.falseif:
+				if array[condition].true:
+					fact.make_false()
+					print(condition, "makes", fact.fact, "false")
 	for key, fact in array.items():
 		if fact:
 			fact.display()
