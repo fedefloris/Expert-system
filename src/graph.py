@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/27 14:04:12 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/28 10:52:25 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,25 +72,38 @@ class Fact:
 		elif self.init_false:
 			return ("\x1b[31m%s\x1b[0m" % self.fact)
 
+	# Evaluates lowest condition (string) to see if it is valid.
 	def evaluate(self, condition, config):
 		if config.graph[condition].true:
 			print("Evaluated", condition, "as TRUE")
 			return (1)
 		else:
-			print("Evaluated", condition, "as FALSE")
+			print("Evaluated", condition, "as NOT TRUE")
 			return (0)
 
+	# Checks conditions of each fact recursively..
+	##  Need to make one for falseif once this is concrete.
 	def investigate(self, config):
+
+		# Only tries to make_true if it is not already true.
 		if not self.true:
+
+			# Iterates truif conditions recursively.
 			for condition in self.trueif:
+
+				# Exit case for recursion (if lowest fact is true)
 				if type(condition) is str and self.evaluate(condition, config):
 					print(condition, "makes", self.fact, "true")
 					self.make_true()
+					break
+
+				# Recursive call
 				if type(condition) is Fact:
 					condition.investigate(config)
 					if condition.true:
 						print(condition.fact, "makes", self.fact, "true")
 						self.make_true()
+						break
 
 
 def graph(config):
@@ -115,19 +128,36 @@ def graph(config):
 
 	create_graph(config)
 
+	# Simulate conditions inside facts.
 	config.graph["L"].add_true("E")
 	config.graph["L"].add_true("A")
+	config.graph["L"].add_true("B")
 	config.graph["L"].add_false("E")
 	config.graph["G"].add_true("A")
+	config.graph["E"].add_true("C")
 
-	bracket = Fact("(Bracket inside K)")
-	bracket.add_true("C")
-	bracket.add_true("B")
+	# Simulates 'or' statement in a bracket.
+	bracket_2 = Fact("Lower bracket")
+	bracket_2.add_true("C")
+	bracket_2.add_true("B")
+
+	# Simmulates above bracket inside a higher 'or' bracket.
+	bracket = Fact("Upper bracket")
+	bracket.add_true("F")
+	bracket.add_true(bracket_2)
+
+	# Puts the above upper bracket (with bracket_2 inside) inside K.
 	config.graph["K"].add_true(bracket)
 
-	tmp_display(config) #
+	# Print before
+	tmp_display(config)
 
+	# Algo. Currently only checks once, but should check until satisfactory.
 	for key, fact in config.graph.items():
+		print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.fact)
 		fact.investigate(config)
+		fact.display()
+		print("")
 
-	tmp_display(config) #
+	# Print after
+	tmp_display(config)
