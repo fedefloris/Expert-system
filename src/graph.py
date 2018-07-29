@@ -6,13 +6,13 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/28 10:52:25 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/30 02:03:41 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 class Fact:
-	def __init__(self, fact):
-		self.fact = fact
+	def __init__(self, name):
+		self.name = name
 		self.init_false = 1
 		self.true = 0
 		self.false = 0
@@ -47,7 +47,7 @@ class Fact:
 	# Checks that a fact is not contradictory
 	def contradicts(self):
 		if self.true and self.false:
-			print("%s is a contradiction" % self.fact)
+			print("%s is a contradiction" % self.name)
 			exit(1)
 
 	# Displays 'final' string to declare sstate of facts.
@@ -64,13 +64,13 @@ class Fact:
 	# Returns fact's letter appropriately coloured.
 	def letter(self):
 		if self.true:
-			return ("\x1b[32m%s\x1b[0m" % self.fact)
+			return ("\x1b[32m%s\x1b[0m" % self.name)
 		elif self.false:
-			return ("\x1b[31m%s\x1b[0m" % self.fact)
+			return ("\x1b[31m%s\x1b[0m" % self.name)
 		elif self.ambig:
-			return ("\x1b[33m%s\x1b[0m" % self.fact)
+			return ("\x1b[33m%s\x1b[0m" % self.name)
 		elif self.init_false:
-			return ("\x1b[31m%s\x1b[0m" % self.fact)
+			return ("\x1b[31m%s\x1b[0m" % self.name)
 
 	# Evaluates lowest condition (string) to see if it is valid.
 	def evaluate(self, condition, config):
@@ -93,7 +93,7 @@ class Fact:
 
 				# Exit case for recursion (if lowest fact is true)
 				if type(condition) is str and self.evaluate(condition, config):
-					print(condition, "makes", self.fact, "true")
+					print(condition, "makes", self.name, "true")
 					self.make_true()
 					break
 
@@ -101,7 +101,7 @@ class Fact:
 				if type(condition) is Fact:
 					condition.investigate(config)
 					if condition.true:
-						print(condition.fact, "makes", self.fact, "true")
+						print(condition.name, "makes", self.name, "true")
 						self.make_true()
 						break
 
@@ -154,7 +154,7 @@ def graph(config):
 
 	# Algo. Currently only checks once, but should check until satisfactory.
 	for key, fact in config.graph.items():
-		print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.fact)
+		print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.name)
 		fact.investigate(config)
 		fact.display()
 		print("")
