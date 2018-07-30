@@ -16,7 +16,6 @@
 
 # To configure, uncomment a rule and set a value.
 
-
 ### conditions
 #set left_bracket = "("
 #set right_bracket = ")"

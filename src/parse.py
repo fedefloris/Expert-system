@@ -57,10 +57,8 @@ class Parser:
 	class Line:
 		def __init__(self, config, string, line_num):
 			self.string = string.replace("\n", "")
-			self.data = string.replace("\n", "")
-			self.data = self.data.replace("\t", "")
-			self.data = self.data.replace(" ", "")
-			self.data = self.data.split("#")[0]
+			self.data = self.string.replace("\t", "")
+			self.data = self.data.replace(" ", "").split("#")[0]
 			self.type = self.get_type(self.data, config)
 			self.num = line_num
 

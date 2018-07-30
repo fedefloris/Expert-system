@@ -1,0 +1,5 @@
+set left_bracket = "("
+set right_bracket = "("
+
+set right_bracket = ""
+set right_bracket = "A"
