@@ -6,11 +6,11 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/30 02:35:27 by dhojt            ###   ########.fr        #
+#    Updated: 2018/07/31 10:35:42 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-class Expr:
+class Condition:
 	def __init__(self, name):
 		self.name = name
 		self.true = 0
@@ -74,9 +74,26 @@ class Expr:
 						break
 
 
-class Fact(Expr):
+class Expr(Condition):
+	def __init__(self, name):
+		Condition.__init__(self, name)
+		self.negative = 0;
+		self.valid = 0
+
+
+class Or(Expr):
 	def __init__(self, name):
 		Expr.__init__(self, name)
+
+
+class Base(Expr):
+	def __init__(self, name):
+		Expr.__init__(self, name)
+
+
+class Fact(Condition):
+	def __init__(self, name):
+		Condition.__init__(self, name)
 		self.init_false = 1
 		self.ambig = 0
 
@@ -141,6 +158,7 @@ def graph(config):
 	config.graph["L"].add_false("E")
 	config.graph["G"].add_true("A")
 	config.graph["E"].add_true("C")
+	config.graph["L"].make_ambig()
 
 	# Simulates 'or' statement in a bracket.
 	bracket_2 = Fact("Lower bracket")
