@@ -17,11 +17,12 @@ import ft
 import string
 
 class Config:
-	def __init__(self, file_name = "config"):
+	def __init__(self, file_name = None):
 
 		self.set_default_values()
 
-		self.parse_config_file(file_name)
+		if file_name:
+			self.parse_config_file(file_name)
 
 		# Sets value of strings passed as arguments in other functions.
 		self.ops = self.op_neg + self.op_and + self.op_or + self.op_xor

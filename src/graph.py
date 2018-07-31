@@ -148,7 +148,6 @@ def graph(config):
 			if not config.graph[key]:
 				del config.graph[key]
 
-
 	create_graph(config)
 
 	# Simulate conditions inside facts.
