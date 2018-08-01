@@ -93,8 +93,8 @@ class Config:
 					tmp = self.match_attr(line, x)
 
 					# Checks if line contains only "value", sets attribute
-					if line != tmp and tmp != "":
-						setattr(self, x, tmp)
+					if line != tmp and self.is_valid_value(array, tmp):
+							setattr(self, x, tmp)
 
 	def match_attr(self, string, substring):
 
@@ -112,4 +112,22 @@ class Config:
 			string = string.split("\"")[0]
 		else:
 			string = ""
+
 		return (string)
+
+	def is_valid_value(self, array, value):
+
+		if value == "":
+			return (False)
+
+		# Ensures that the value is not contained inside config.facts
+		for x in self.facts:
+			if (x == value):
+				return (False)
+
+		# Ensures that the value is unique
+		for x in array:
+			if getattr(self, x) == value:
+				return (False)
+
+		return (True)
