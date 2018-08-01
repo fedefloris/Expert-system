@@ -35,10 +35,6 @@ class Config:
 		self.pattern = self.op_and + self.op_or + self.op_xor
 		self.pattern += self.implies_sub + self.bicondition_sub
 
-		# Set string to int if string is numeric
-		if not ft.str_is_numeric(self.max_lines):
-			print("max_lines = [%s] must be numeric" % self.max_lines)
-			exit(2)
 		self.max_lines = int(self.max_lines)
 
 	def set_default_values(self):
@@ -93,7 +89,7 @@ class Config:
 					tmp = self.match_attr(line, x)
 
 					# Checks if line contains only "value", sets attribute
-					if line != tmp and self.is_valid_value(array, tmp):
+					if line != tmp and self.is_valid_value(array, x, tmp):
 							setattr(self, x, tmp)
 
 	def match_attr(self, string, substring):
@@ -115,7 +111,7 @@ class Config:
 
 		return (string)
 
-	def is_valid_value(self, array, value):
+	def is_valid_value(self, array, attr, value):
 
 		if value == "":
 			return (False)
@@ -125,9 +121,23 @@ class Config:
 			if (x == value):
 				return (False)
 
+		# Checks if max_lines is numeric
+		if attr == "max_lines" and not self.is_valid_max_lines(value):
+			return (False)
+
 		# Ensures that the value is unique
 		for x in array:
 			if getattr(self, x) == value:
 				return (False)
+
+		return (True)
+
+	def is_valid_max_lines(self, value):
+
+		if not ft.str_is_numeric(value):
+			return (False)
+
+		if int(value) <= 0:
+			return (False)
 
 		return (True)
