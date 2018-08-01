@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/31 10:35:42 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/01 11:57:46 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,25 +20,11 @@ class Condition:
 		self.trueif = []
 		self.falseif = []
 
-	def make_true(self):
-		self.true = 1
-		self.contradicts()
-
-	def make_false(self):
-		self.false = 1
-		self.contradicts()
-
 	def add_true(self, condition):
 		self.trueif.append(condition)
 
 	def add_false(self, condition):
 		self.falseif.append(condition)
-
-	# Checks that a fact is not contradictory
-	def contradicts(self):
-		if self.true and self.false:
-			print("%s is a contradiction" % self.name)
-			exit(1)
 
 	# Evaluates lowest condition (string) to see if it is valid.
 	def evaluate(self, condition, config):
@@ -74,28 +60,25 @@ class Condition:
 						break
 
 
-class Expr(Condition):
-	def __init__(self, name):
-		Condition.__init__(self, name)
-		self.negative = 0;
-		self.valid = 0
-
-
-class Or(Expr):
-	def __init__(self, name):
-		Expr.__init__(self, name)
-
-
-class Base(Expr):
-	def __init__(self, name):
-		Expr.__init__(self, name)
-
-
 class Fact(Condition):
 	def __init__(self, name):
 		Condition.__init__(self, name)
 		self.init_false = 1
 		self.ambig = 0
+
+	def make_true(self):
+		self.true = 1
+		self.contradicts()
+
+	def make_false(self):
+		self.false = 1
+		self.contradicts()
+
+	# Checks that a fact is not contradictory
+	def contradicts(self):
+		if self.true and self.false:
+			print("%s is a contradiction" % self.name)
+			exit(1)
 
 	def force_true(self):
 		init_false = 0
@@ -127,6 +110,41 @@ class Fact(Condition):
 		elif self.init_false:
 			return ("\x1b[31m%s\x1b[0m" % self.name)
 
+
+class Expr(Condition):
+	def __init__(self, name):
+		Condition.__init__(self, name)
+		self.negative = 0;
+		self.valid = 0
+
+	def make_true(self):
+		self.true = 1
+
+	def make_false(self):
+		self.false = 1
+
+	def make_negative(self):
+		self.negative = 1
+
+
+class And(Expr):
+	def __init__(self, name):
+		Expr.__init__(self, name)
+
+
+class Or(Expr):
+	def __init__(self, name):
+		Expr.__init__(self, name)
+
+
+class Xor(Expr):
+	def __init__(self, name):
+		Expr.__init__(self, name)
+
+
+class Base(Expr):
+	def __init__(self, name):
+		Expr.__init__(self, name)
 
 
 def graph(config):
