@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/01 11:57:46 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/01 13:28:00 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -166,7 +166,18 @@ def graph(config):
 			if not config.graph[key]:
 				del config.graph[key]
 
+	def add_expr(config):
+		for line in config.lines:
+			if line.type == 2:
+				char = line.data.split(config.implies_sub)[1]
+				data = line.data.split(config.implies_sub)[0]
+				if not char.count(config.op_neg):
+					config.graph[char].add_true(Expr(data))
+				else:
+					config.graph[char.split(config.op_neg)[1]].add_false(Expr(data))
+	
 	create_graph(config)
+	add_expr(config)
 
 	# Simulate conditions inside facts.
 	config.graph["L"].add_true("E")
