@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/01 13:28:00 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/01 14:47:47 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ class Condition:
 					break
 
 				# Recursive call
-				if type(condition) is Fact:
+				if not type(condition) is str:
 					condition.investigate(config)
 					if condition.true:
 						print(condition.name, "makes", self.name, "true")
@@ -179,27 +179,44 @@ def graph(config):
 	create_graph(config)
 	add_expr(config)
 
-	# Simulate conditions inside facts.
-	config.graph["L"].add_true("E")
-	config.graph["L"].add_true("A")
-	config.graph["L"].add_true("B")
-	config.graph["L"].add_false("E")
-	config.graph["G"].add_true("A")
-	config.graph["E"].add_true("C")
-	config.graph["L"].make_ambig()
+	# Simulate Ands inside Expr.
+	c = And("A+B")
+	f = And("D+E")
+	i = And("G+H")
+	l = And("J+K")
 
-	# Simulates 'or' statement in a bracket.
-	bracket_2 = Fact("Lower bracket")
-	bracket_2.add_true("C")
-	bracket_2.add_true("B")
+	c_a = Base("A")
+	c_b = Base("B")
+	f_d = Base("D")
+	f_e = Base("E")
+	i_g = Base("G")
+	i_h = Base("H")
+	l_j = Base("J")
+	l_k = Base("K")
 
-	# Simmulates above bracket inside a higher 'or' bracket.
-	bracket = Fact("Upper bracket")
-	bracket.add_true("F")
-	bracket.add_true(bracket_2)
+	c_a.add_true("A")
+	c_b.add_true("B")
+	f_d.add_true("D")
+	f_e.add_true("E")
+	i_g.add_true("G")
+	i_h.add_true("H")
+	l_j.add_true("J")
+	l_k.add_true("K")
 
-	# Puts the above upper bracket (with bracket_2 inside) inside K.
-	config.graph["K"].add_true(bracket)
+	c.add_true(c_a)
+	c.add_true(c_b)
+	f.add_true(f_d)
+	f.add_true(f_e)
+	i.add_true(i_g)
+	i.add_true(i_h)
+	l.add_true(l_j)
+	l.add_true(l_k)
+
+	config.graph["C"].add_true(c)
+	config.graph["F"].add_true(f)
+	config.graph["I"].add_true(i)
+	config.graph["L"].add_true(l)
+
 
 	# Print before
 	tmp_display(config)
