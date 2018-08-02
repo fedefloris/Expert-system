@@ -13,7 +13,7 @@
 import sys
 sys.path.append("./src/")
 
-from config import Config
+from Config import Config
 
 def test_bad_syntax():
     config = Config("./test/examples/config/bad_syntax")
@@ -22,3 +22,4 @@ def test_bad_syntax():
 def test_bad_values():
     config = Config("./test/examples/config/bad_values")
     assert config.right_bracket == Config().right_bracket
+    assert config.max_lines == Config().max_lines
