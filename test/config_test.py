@@ -13,7 +13,7 @@
 import sys
 sys.path.append("./src/")
 
-from config import Config
+from Config import Config
 
 def test_bad_syntax():
     config = Config("./test/examples/config/bad_syntax")

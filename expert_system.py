@@ -14,18 +14,18 @@
 
 import sys
 sys.path.append('./src/')
+sys.path.append('./src/py_ft/')
 
-from config import Config
-from parse import Parser
-from graph import graph
+from Config import Config
+from Parser import Parser
+from Graph import graph
 
 def main():
 	# Ensures there is only one command line argument.
 	if len(sys.argv) != 2:
 		exit("\033[1;32m[Usage] \033[1;37m./expert_system.py file")
-
 	config = Config()
-	parser = Parser(config)
+	parser = Parser(config, sys.argv[1])
 	for x in parser.lines:
 		print ("Num[%d]\nType[%d]\n[%s]\n[%s]\n--------" % (x.num, x.type, x.string, x.data))
 	print(config.op_and, config.op_or, config.op_xor, config.op_neg)

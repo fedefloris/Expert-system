@@ -1,7 +1,7 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    graph.py                                           :+:      :+:    :+:    #
+#    Graph.py                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
@@ -175,7 +175,7 @@ def graph(config):
 					config.graph[char].add_true(Expr(data))
 				else:
 					config.graph[char.split(config.op_neg)[1]].add_false(Expr(data))
-	
+
 	create_graph(config)
 	add_expr(config)
 
