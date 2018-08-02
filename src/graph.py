@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/01 14:47:47 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/01 18:41:49 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,25 +39,19 @@ class Condition:
 	##  Need to make one for falseif once this is concrete.
 	def investigate(self, config):
 
-		# Only tries to make_true if it is not already true.
-		if not self.true:
+		# Iterates truif conditions recursively.
+		for condition in self.trueif:
 
-			# Iterates truif conditions recursively.
-			for condition in self.trueif:
+			# Exit case for recursion (if lowest fact is true)
+			if type(condition) is str and self.evaluate(condition, config):
+				self.make_true()
 
-				# Exit case for recursion (if lowest fact is true)
-				if type(condition) is str and self.evaluate(condition, config):
-					print(condition, "makes", self.name, "true")
-					self.make_true()
-					break
-
-				# Recursive call
-				if not type(condition) is str:
-					condition.investigate(config)
-					if condition.true:
-						print(condition.name, "makes", self.name, "true")
-						self.make_true()
-						break
+			# Recursive call
+			if not type(condition) is str:
+				condition.investigate(config)
+				if condition.valid:
+					print(condition.name, "makes", self.name, "true")
+			self.make_true()
 
 
 class Fact(Condition):
@@ -66,16 +60,8 @@ class Fact(Condition):
 		self.init_false = 1
 		self.ambig = 0
 
-	def make_true(self):
-		self.true = 1
-		self.contradicts()
-
-	def make_false(self):
-		self.false = 1
-		self.contradicts()
-
 	# Checks that a fact is not contradictory
-	def contradicts(self):
+	def check_valid(self):
 		if self.true and self.false:
 			print("%s is a contradiction" % self.name)
 			exit(1)
@@ -83,7 +69,15 @@ class Fact(Condition):
 	def force_true(self):
 		init_false = 0
 		self.true = 1
-		self.contradicts()
+		self.check_valid()
+
+	def make_true(self):
+		self.true = 1
+		self.check_valid()
+
+	def make_false(self):
+		self.false = 1
+		self.check_valid()
 
 	def make_ambig(self):
 		self.ambig = 1
@@ -117,12 +111,6 @@ class Expr(Condition):
 		self.negative = 0;
 		self.valid = 0
 
-	def make_true(self):
-		self.true = 1
-
-	def make_false(self):
-		self.false = 1
-
 	def make_negative(self):
 		self.negative = 1
 
@@ -130,6 +118,15 @@ class Expr(Condition):
 class And(Expr):
 	def __init__(self, name):
 		Expr.__init__(self, name)
+	
+	def check_valid(self):
+		valid = 1
+		for condition in self.trueif:
+			if not condition.valid:
+				valid = 0
+		if valid:
+			self.valid = 1
+			
 
 
 class Or(Expr):
@@ -145,6 +142,17 @@ class Xor(Expr):
 class Base(Expr):
 	def __init__(self, name):
 		Expr.__init__(self, name)
+
+	def make_true(self):
+		if self.trueif[0]:
+			self.true = 1
+		self.check_valid()
+
+	def check_valid(self):
+		print("Checking validity", self.name)
+		if not self.negative and self.true:
+			self.valid = 1
+			print(self.name, "is valid")
 
 
 def graph(config):
@@ -216,7 +224,6 @@ def graph(config):
 	config.graph["F"].add_true(f)
 	config.graph["I"].add_true(i)
 	config.graph["L"].add_true(l)
-
 
 	# Print before
 	tmp_display(config)
