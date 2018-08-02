@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/02 16:15:55 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/02 16:16:51 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,10 +68,6 @@ class Fact(Condition):
 		if self.true and self.false:
 			print("%s is a contradiction" % self.name)
 			exit(1)
-
-	def force_true(self):
-		self.true = 1
-		self.check_valid()
 
 	def make_true(self):
 		self.true = 1
@@ -166,7 +162,7 @@ def graph(config):
 				if char in config.facts and not config.graph[char]:
 					config.graph[char] = Fact(char)
 				if char in config.facts and line.type == 3:
-					config.graph[char].force_true()
+					config.graph[char].make_true()
 		keys = list(config.graph.keys())
 		for key in keys:
 			if not config.graph[key]:
