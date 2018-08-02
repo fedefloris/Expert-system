@@ -6,25 +6,24 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/01 18:41:49 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/02 16:15:55 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 class Condition:
 	def __init__(self, name):
 		self.name = name
-		self.true = 0
-		self.false = 0
 
-		# Array of conditions
+		self.true = 0
+		self.ambig = 0
+
 		self.trueif = []
-		self.falseif = []
 
 	def add_true(self, condition):
 		self.trueif.append(condition)
 
-	def add_false(self, condition):
-		self.falseif.append(condition)
+################################################
 
 	# Evaluates lowest condition (string) to see if it is valid.
 	def evaluate(self, condition, config):
@@ -57,8 +56,12 @@ class Condition:
 class Fact(Condition):
 	def __init__(self, name):
 		Condition.__init__(self, name)
-		self.init_false = 1
-		self.ambig = 0
+		self.false = 0
+
+		self.falseif = []
+
+	def add_false(self, condition):
+		self.falseif.append(condition)
 
 	# Checks that a fact is not contradictory
 	def check_valid(self):
@@ -67,7 +70,6 @@ class Fact(Condition):
 			exit(1)
 
 	def force_true(self):
-		init_false = 0
 		self.true = 1
 		self.check_valid()
 
@@ -86,22 +88,18 @@ class Fact(Condition):
 	def display(self):
 		if self.true:
 			print("%s is true" % self.letter())
-		elif self.false:
-			print("%s is false" % self.letter())
-		elif self.ambig:
+		elif self.ambig and not self.false:
 			print("%s is ambiguous" % self.letter())
-		elif self.init_false:
+		else:
 			print("%s is false" % self.letter())
 
 	# Returns fact's letter appropriately coloured.
 	def letter(self):
 		if self.true:
 			return ("\x1b[32m%s\x1b[0m" % self.name)
-		elif self.false:
-			return ("\x1b[31m%s\x1b[0m" % self.name)
-		elif self.ambig:
+		elif self.ambig and not self.false:
 			return ("\x1b[33m%s\x1b[0m" % self.name)
-		elif self.init_false:
+		else:
 			return ("\x1b[31m%s\x1b[0m" % self.name)
 
 
