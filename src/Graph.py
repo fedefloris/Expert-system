@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/03 10:22:07 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/03 19:04:10 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,12 +37,50 @@ class Fact(Condition):
 	def add_false(self, condition):
 		self.falseif.append(condition)
 
+	# Displays string to declare sstate of fact.
+	def display(self):
+		if self.true:
+			print("%s is true" % self.letter())
+		elif self.ambig and not self.false:
+			print("%s is ambiguous" % self.letter())
+		else:
+			print("%s is false" % self.letter())
+
+	# Returns fact's letter appropriately coloured.
+	def letter(self):
+		if self.true:
+			return ("\x1b[32m%s\x1b[0m" % self.name)
+		elif self.ambig and not self.false:
+			return ("\x1b[33m%s\x1b[0m" % self.name)
+		else:
+			return ("\x1b[31m%s\x1b[0m" % self.name)
+
 
 class Expr(Condition):
 	def __init__(self, name):
 		Condition.__init__(self, name)
 		self.negative = 0;
 		self.valid = 0
+
+
+class And(Expr):
+	def __init__(self, name):
+		Expr.__init__(self, name)
+
+
+class Or(Expr):
+	def __init__(self, name):
+		Expr.__init__(self, name)
+
+
+class Xor(Expr):
+	def __init__(self, name):
+		Expr.__init__(self, name)
+
+
+class Base(Expr):
+	def __init__(self, name):
+		Expr.__init__(self, name)
 
 
 ################################################
@@ -74,16 +112,7 @@ class Expr(Condition):
 					print(condition.name, "makes", self.name, "true")
 			self.make_true()
 
-
-class Fact(Condition):
-	def __init__(self, name):
-		Condition.__init__(self, name)
-		self.false = 0
-
-		self.falseif = []
-
-	def add_false(self, condition):
-		self.falseif.append(condition)
+####
 
 	# Checks that a fact is not contradictory
 	def check_valid(self):
@@ -99,63 +128,6 @@ class Fact(Condition):
 		self.false = 1
 		self.check_valid()
 
-	# Displays 'final' string to declare sstate of facts.
-	def display(self):
-		if self.true:
-			print("%s is true" % self.letter())
-		elif self.ambig and not self.false:
-			print("%s is ambiguous" % self.letter())
-		else:
-			print("%s is false" % self.letter())
-
-	# Returns fact's letter appropriately coloured.
-	def letter(self):
-		if self.true:
-			return ("\x1b[32m%s\x1b[0m" % self.name)
-		elif self.ambig and not self.false:
-			return ("\x1b[33m%s\x1b[0m" % self.name)
-		else:
-			return ("\x1b[31m%s\x1b[0m" % self.name)
-
-
-class And(Expr):
-	def __init__(self, name):
-		Expr.__init__(self, name)
-	
-	def check_valid(self):
-		valid = 1
-		for condition in self.trueif:
-			if not condition.valid:
-				valid = 0
-		if valid:
-			self.valid = 1
-			
-
-
-class Or(Expr):
-	def __init__(self, name):
-		Expr.__init__(self, name)
-
-
-class Xor(Expr):
-	def __init__(self, name):
-		Expr.__init__(self, name)
-
-
-class Base(Expr):
-	def __init__(self, name):
-		Expr.__init__(self, name)
-
-	def make_true(self):
-		if self.trueif[0]:
-			self.true = 1
-		self.check_valid()
-
-	def check_valid(self):
-		print("Checking validity", self.name)
-		if not self.negative and self.true:
-			self.valid = 1
-			print(self.name, "is valid")
 
 
 def graph(config):
@@ -171,7 +143,7 @@ def graph(config):
 				if char in config.facts and not config.graph[char]:
 					config.graph[char] = Fact(char)
 				if char in config.facts and line.type == 3:
-					config.graph[char].make_true()
+					config.graph[char].true = 1
 		keys = list(config.graph.keys())
 		for key in keys:
 			if not config.graph[key]:
