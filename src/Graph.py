@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/03 20:55:07 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 00:01:06 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,22 +84,17 @@ class Fact(Condition):
 			return ("\x1b[31m%s\x1b[0m" % self.name)
 
 
+
 class Expr(Condition):
 	def __init__(self, name):
 		Condition.__init__(self, name)
 		self.negative = 0;
 		self.valid = 0
 
-	#Same as and
+	# check for And is the same
 	def check(self, config):
 		true = 1
 		ambig = 0
-
-		#Delete:
-		num = 0
-		for condition in self.trueif:
-			num += 1
-		print ("CHECKING: %d in %s" % (num, self.name))
 		for condition in self.trueif:
 			condition.check(config)
 			if condition.valid:
@@ -107,6 +102,7 @@ class Expr(Condition):
 			else:
 				print(condition.name, "is invalid inside", self.name)
 				true = 0
+				break
 			if condition.ambig:
 				ambig = 1
 		if true:
@@ -119,23 +115,23 @@ class Expr(Condition):
 	def make_true(self):
 		self.true = 1
 		self.ambig = 0
-		print("Evaluated", self.name, "as TRUE")
+		print("Evaluated", self.name, "as TRUE", type(self))
 		if not self.negative:
-			print(self.name, "is Valid (at base)")
+			print(self.name, "is Valid")
 			self.valid = 1
 		else:
-			print(self.name, "is Invalid (at base)")
+			print(self.name, "is Invalid")
 			self.valid = 0
 
 	def make_false(self):
-		print("Evaluated", self.name, "as FALSE")
+		print("Evaluated", self.name, "as FALSE", type(self))
 		self.true = 0
 		self.ambig = 0
 		if self.negative:
-			print(self.name, "is Valid (at base)")
+			print(self.name, "is Valid")
 			self.valid = 1
 		else:
-			print(self.name, "is Invalid (at base)")
+			print(self.name, "is Invalid")
 			self.valid = 0
 
 	def make_ambig(self):
@@ -143,23 +139,45 @@ class Expr(Condition):
 		self.true = 0
 		self.ambig = 1
 		self.valid = 0
-		print(self.name, "is Invalid (at base)")
+		print(self.name, "is Invalid")
 
 			
 
+# Inherits self.check from Expr
 class And(Expr):
 	def __init__(self, name):
 		Expr.__init__(self, name)
+
 
 
 class Or(Expr):
 	def __init__(self, name):
 		Expr.__init__(self, name)
 
+	def check(self):
+		true = 0
+		ambig = 0
+		for condition in self.trueif:
+			condition.check(config)
+			if condition.valid:
+				self.make_true()
+				print(condition.name, "is valid inside", self.name)
+				break
+			else:
+				print(condition.name, "is invalid inside", self.name)
+			if condition.ambig:
+				ambig = 1
+		if ambig:
+			self.make_ambig()
+		else:
+			make_false()
+			
+
 
 class Xor(Expr):
 	def __init__(self, name):
 		Expr.__init__(self, name)
+
 
 
 class Base(Expr):
@@ -173,6 +191,7 @@ class Base(Expr):
 			self.make_ambig()
 		else:
 			self.make_false()
+
 
 
 def graph(config):
@@ -245,7 +264,9 @@ def graph(config):
 	config.graph["I"].trueif[0].add_true(i)
 	config.graph["L"].trueif[0].add_true(l)
 
+	# Simulates "E" as ambiguous
 	config.graph["E"].ambig = 1
+
 	# Print before
 	tmp_display(config)
 
