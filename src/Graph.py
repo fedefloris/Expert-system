@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/03 19:29:01 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/03 19:44:31 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,6 @@ class Fact(Condition):
 			print("%s is a contradiction" % self.name)
 			exit(1)
 			
-	# Checks validity of trueif and falseif expressions.
 	def check(self, config):
 		for condition in self.trueif:
 			condition.check(config)
@@ -87,6 +86,28 @@ class Expr(Condition):
 		Condition.__init__(self, name)
 		self.negative = 0;
 		self.valid = 0
+
+	def check(self, config):
+		true = 1
+		for condition in self.trueif:
+			condition.check(config)
+			if condition.valid:
+				print(condition.name, "is valid", self.name, "true")
+			else:
+				true = 0
+		if true:
+			print(self.name, "is true")
+			self.true = 1
+		else:
+			print(self.name, "is false")
+			self.true = 0
+		if not self.negative and self.true:
+			self.valid = 1
+		elif self.negative and not self.true:
+			self.valid = 1
+		else:
+			self.valid = 0
+			
 
 
 class And(Expr):
@@ -135,7 +156,7 @@ def graph(config):
 				if char in config.facts and not config.graph[char]:
 					config.graph[char] = Fact(char)
 				if char in config.facts and line.type == 3:
-					config.graph[char].true = 1
+					config.graph[char].make_true()
 		keys = list(config.graph.keys())
 		for key in keys:
 			if not config.graph[key]:
