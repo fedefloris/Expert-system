@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/03 20:26:34 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/03 20:39:41 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,6 @@ class Condition:
 
 	def add_true(self, condition):
 		self.trueif.append(condition)
-
-	def make_ambig(self):
-		self.ambig = 1
 
 
 class Fact(Condition):
@@ -90,6 +87,7 @@ class Expr(Condition):
 	#Same as and
 	def check(self, config):
 		true = 1
+		ambig = 0
 
 		#Delete:
 		num = 0
@@ -103,6 +101,8 @@ class Expr(Condition):
 			else:
 				print(condition.name, "is invalid inside", self.name)
 				true = 0
+			if condition.ambig:
+				ambig = 1
 		if true:
 			print(self.name, "Expr is true")
 			self.true = 1
@@ -115,6 +115,36 @@ class Expr(Condition):
 			self.valid = 1
 		else:
 			self.valid = 0
+	
+	def make_true(self):
+		self.true = 1
+		self.ambig = 0
+		print("Evaluated", self.name, "as TRUE")
+		if not self.negative:
+			print(self.name, "is Valid (at base)")
+			self.valid = 1
+		else:
+			print(self.name, "is Invalid (at base)")
+			self.valid = 0
+
+	def make_false(self):
+		print("Evaluated", self.name, "as FALSE")
+		self.true = 0
+		self.ambig = 0
+		if self.negative:
+			print(self.name, "is Valid (at base)")
+			self.valid = 1
+		else:
+			print(self.name, "is Invalid (at base)")
+			self.valid = 0
+
+	def make_ambig(self):
+		print("Evaluated", self.name, "as AMBIGUOUS")
+		self.true = 0
+		self.ambig = 1
+		self.valid = 0
+		print(self.name, "is Invalid (at base)")
+
 			
 
 class And(Expr):
@@ -138,31 +168,11 @@ class Base(Expr):
 
 	def check(self, config):
 		if config.graph[self.trueif[0]].true:
-			self.true = 1
-			self.ambig = 0
-			print("Evaluated", self.name, "as TRUE")
-			if not self.negative:
-				print(self.name, "is Valid (at base)")
-				self.valid = 1
-			else:
-				print(self.name, "is Invalid (at base)")
-				self.valid = 0
+			self.make_true()
 		elif config.graph[self.trueif[0]].ambig and not config.graph[self.trueif[0]].false:
-			print("Evaluated", self.name, "as AMBIGUOUS")
-			self.true = 0
-			self.ambig = 1
-			self.valid = 0
-			print(self.name, "is Invalid (at base)")
+			self.make_ambig()
 		else:
-			print("Evaluated", self.name, "as FALSE")
-			self.true = 0
-			self.ambig = 0
-			if self.negative:
-				print(self.name, "is Valid (at base)")
-				self.valid = 1
-			else:
-				print(self.name, "is Invalid (at base)")
-				self.valid = 0
+			self.make_false()
 
 
 def graph(config):
