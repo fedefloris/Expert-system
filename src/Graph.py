@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/02 16:16:51 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/03 00:30:53 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,9 @@ class Condition:
 
 	def add_true(self, condition):
 		self.trueif.append(condition)
+
+	def make_ambig(self):
+		self.ambig = 1
 
 ################################################
 
@@ -76,9 +79,6 @@ class Fact(Condition):
 	def make_false(self):
 		self.false = 1
 		self.check_valid()
-
-	def make_ambig(self):
-		self.ambig = 1
 
 	# Displays 'final' string to declare sstate of facts.
 	def display(self):
