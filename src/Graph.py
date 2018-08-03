@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/03 20:45:49 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/03 20:55:07 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,9 @@ class Fact(Condition):
 		self.false = 1
 		self.contradiction()
 
+	def make_ambig(self):
+		self.ambig = 1
+
 	def contradiction(self):
 		if self.true and self.false:
 			print("%s is a contradiction" % self.name)
@@ -53,6 +56,9 @@ class Fact(Condition):
 			if condition.valid:
 				print(condition.name, "makes", self.name, "true")
 				self.make_true()
+			if condition.ambig:
+				print(condition.name, "makes", self.name, "ambig")
+				self.make_ambig()
 		for condition in self.falseif:
 			condition.check(config)
 			if condition.valid:
@@ -239,6 +245,7 @@ def graph(config):
 	config.graph["I"].trueif[0].add_true(i)
 	config.graph["L"].trueif[0].add_true(l)
 
+	config.graph["E"].ambig = 1
 	# Print before
 	tmp_display(config)
 
