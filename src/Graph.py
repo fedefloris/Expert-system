@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/03 20:07:03 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/03 20:26:34 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,19 +87,27 @@ class Expr(Condition):
 		self.negative = 0;
 		self.valid = 0
 
+	#Same as and
 	def check(self, config):
 		true = 1
+
+		#Delete:
+		num = 0
+		for condition in self.trueif:
+			num += 1
+		print ("CHECKING: %d in %s" % (num, self.name))
 		for condition in self.trueif:
 			condition.check(config)
 			if condition.valid:
 				print(condition.name, "is valid inside", self.name)
 			else:
+				print(condition.name, "is invalid inside", self.name)
 				true = 0
 		if true:
-			print(self.name, "is true")
+			print(self.name, "Expr is true")
 			self.true = 1
 		else:
-			print(self.name, "is false")
+			print(self.name, "Expr is false")
 			self.true = 0
 		if not self.negative and self.true:
 			self.valid = 1
@@ -108,7 +116,6 @@ class Expr(Condition):
 		else:
 			self.valid = 0
 			
-
 
 class And(Expr):
 	def __init__(self, name):
@@ -138,12 +145,14 @@ class Base(Expr):
 				print(self.name, "is Valid (at base)")
 				self.valid = 1
 			else:
+				print(self.name, "is Invalid (at base)")
 				self.valid = 0
 		elif config.graph[self.trueif[0]].ambig and not config.graph[self.trueif[0]].false:
 			print("Evaluated", self.name, "as AMBIGUOUS")
 			self.true = 0
 			self.ambig = 1
 			self.valid = 0
+			print(self.name, "is Invalid (at base)")
 		else:
 			print("Evaluated", self.name, "as FALSE")
 			self.true = 0
@@ -152,6 +161,7 @@ class Base(Expr):
 				print(self.name, "is Valid (at base)")
 				self.valid = 1
 			else:
+				print(self.name, "is Invalid (at base)")
 				self.valid = 0
 
 
@@ -220,10 +230,10 @@ def graph(config):
 	l.add_true(l_j)
 	l.add_true(l_k)
 
-	config.graph["C"].add_true(c)
-	config.graph["F"].add_true(f)
-	config.graph["I"].add_true(i)
-	config.graph["L"].add_true(l)
+	config.graph["C"].trueif[0].add_true(c)
+	config.graph["F"].trueif[0].add_true(f)
+	config.graph["I"].trueif[0].add_true(i)
+	config.graph["L"].trueif[0].add_true(l)
 
 	# Print before
 	tmp_display(config)
