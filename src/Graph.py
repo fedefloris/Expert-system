@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/04 00:01:06 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 00:35:32 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,11 +99,12 @@ class Expr(Condition):
 			condition.check(config)
 			if condition.valid:
 				print(condition.name, "is valid inside", self.name)
-			else:
+			elif not condition.valid and not condition.ambig:
 				print(condition.name, "is invalid inside", self.name)
 				true = 0
 				break
 			if condition.ambig:
+				true = 0
 				ambig = 1
 		if true:
 			self.make_true()
@@ -135,7 +136,7 @@ class Expr(Condition):
 			self.valid = 0
 
 	def make_ambig(self):
-		print("Evaluated", self.name, "as AMBIGUOUS")
+		print("Evaluated", self.name, "as AMBIGUOUS", type(self))
 		self.true = 0
 		self.ambig = 1
 		self.valid = 0
@@ -154,13 +155,14 @@ class Or(Expr):
 	def __init__(self, name):
 		Expr.__init__(self, name)
 
-	def check(self):
+	def check(self, config):
 		true = 0
 		ambig = 0
 		for condition in self.trueif:
 			condition.check(config)
 			if condition.valid:
 				self.make_true()
+				true = 1
 				print(condition.name, "is valid inside", self.name)
 				break
 			else:
@@ -169,8 +171,8 @@ class Or(Expr):
 				ambig = 1
 		if ambig:
 			self.make_ambig()
-		else:
-			make_false()
+		elif not true:
+			self.make_false()
 			
 
 
@@ -230,7 +232,7 @@ def graph(config):
 	c = And("A+B")
 	f = And("D+E")
 	i = And("G+H")
-	l = And("J+K")
+	l = Or("J+K")
 
 	c_a = Base("A")
 	c_b = Base("B")
@@ -266,6 +268,9 @@ def graph(config):
 
 	# Simulates "E" as ambiguous
 	config.graph["E"].ambig = 1
+
+	# Simulates "K" as true.
+	config.graph["K"].make_true()
 
 	# Print before
 	tmp_display(config)
