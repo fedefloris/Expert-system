@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/03 19:04:10 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/03 19:24:17 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,19 @@ class Fact(Condition):
 
 	def add_false(self, condition):
 		self.falseif.append(condition)
+
+	# Checks validity of trueif and falseif expressions.
+	def check(self, config):
+		for condition in self.trueif:
+			condition.check(config)
+			if condition.valid:
+				print(condition.name, "makes", self.name, "true")
+				self.make_true()
+		for condition in self.falseif:
+			condition.check(config)
+			if condition.valid:
+				print(condition.name, "makes", self.name, "false")
+				self.make_false()
 
 	# Displays string to declare sstate of fact.
 	def display(self):
@@ -93,24 +106,6 @@ class Base(Expr):
 		else:
 			print("Evaluated", condition, "as NOT TRUE")
 			return (0)
-
-	# Checks conditions of each fact recursively..
-	##  Need to make one for falseif once this is concrete.
-	def investigate(self, config):
-
-		# Iterates truif conditions recursively.
-		for condition in self.trueif:
-
-			# Exit case for recursion (if lowest fact is true)
-			if type(condition) is str and self.evaluate(condition, config):
-				self.make_true()
-
-			# Recursive call
-			if not type(condition) is str:
-				condition.investigate(config)
-				if condition.valid:
-					print(condition.name, "makes", self.name, "true")
-			self.make_true()
 
 ####
 
@@ -206,7 +201,7 @@ def graph(config):
 	# Algo. Currently only checks once, but should check until satisfactory.
 	for key, fact in config.graph.items():
 		print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.name)
-		fact.investigate(config)
+		fact.check(config)
 		fact.display()
 		print("")
 
