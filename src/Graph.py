@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/04 00:35:32 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 00:55:25 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -180,6 +180,22 @@ class Xor(Expr):
 	def __init__(self, name):
 		Expr.__init__(self, name)
 
+	def check(self, config):
+		valid_count = 0
+		for condition in self.trueif:
+			condition.check(config)
+			if condition.valid:
+				valid_count += 1
+				if valid_count > 1:
+					break
+			elif condition.ambig:
+				self.make_ambig()
+				break
+		if valid_count == 1 and not self.ambig:
+			self.make_true()
+		if not valid_count == 1 and not self.ambig:
+			self.make_false()
+
 
 
 class Base(Expr):
@@ -232,7 +248,7 @@ def graph(config):
 	c = And("A+B")
 	f = And("D+E")
 	i = And("G+H")
-	l = Or("J+K")
+	l = Xor("J+K")
 
 	c_a = Base("A")
 	c_b = Base("B")
