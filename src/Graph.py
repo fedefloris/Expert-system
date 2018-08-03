@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/03 19:24:17 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/03 19:29:01 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,19 @@ class Fact(Condition):
 	def add_false(self, condition):
 		self.falseif.append(condition)
 
+	def make_true(self):
+		self.true = 1
+		self.contradiction()
+
+	def make_false(self):
+		self.false = 1
+		self.contradiction()
+
+	def contradiction(self):
+		if self.true and self.false:
+			print("%s is a contradiction" % self.name)
+			exit(1)
+			
 	# Checks validity of trueif and falseif expressions.
 	def check(self, config):
 		for condition in self.trueif:
@@ -108,22 +121,6 @@ class Base(Expr):
 			return (0)
 
 ####
-
-	# Checks that a fact is not contradictory
-	def check_valid(self):
-		if self.true and self.false:
-			print("%s is a contradiction" % self.name)
-			exit(1)
-
-	def make_true(self):
-		self.true = 1
-		self.check_valid()
-
-	def make_false(self):
-		self.false = 1
-		self.check_valid()
-
-
 
 def graph(config):
 	def tmp_display(config): 							#TEMPORARY - DELETE
