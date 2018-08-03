@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/04 00:55:25 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 01:01:51 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -215,8 +215,7 @@ class Base(Expr):
 def graph(config):
 	def tmp_display(config): 							#TEMPORARY - DELETE
 		for key, fact in config.graph.items():			#TEMPORARY - DELETE
-			if fact:									#TEMPORARY - DELETE
-				fact.display()							#TEMPORARY - DELETE
+			fact.display()								#TEMPORARY - DELETE
 		print("\n")										#TEMPORARY - DELETE
 
 	def create_graph(config):
@@ -294,6 +293,7 @@ def graph(config):
 	# Algo. Currently only checks once, but should check until satisfactory.
 	for key, fact in config.graph.items():
 		print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.name)
+		fact.contradiction()
 		fact.check(config)
 		fact.display()
 		print("")
