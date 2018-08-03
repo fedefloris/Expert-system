@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/03 20:39:41 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/03 20:45:49 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,17 +104,11 @@ class Expr(Condition):
 			if condition.ambig:
 				ambig = 1
 		if true:
-			print(self.name, "Expr is true")
-			self.true = 1
+			self.make_true()
+		elif ambig:
+			self.make_ambig()
 		else:
-			print(self.name, "Expr is false")
-			self.true = 0
-		if not self.negative and self.true:
-			self.valid = 1
-		elif self.negative and not self.true:
-			self.valid = 1
-		else:
-			self.valid = 0
+			self.make_false()
 	
 	def make_true(self):
 		self.true = 1
