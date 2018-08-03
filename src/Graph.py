@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/03 19:44:31 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/03 20:07:03 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,7 +92,7 @@ class Expr(Condition):
 		for condition in self.trueif:
 			condition.check(config)
 			if condition.valid:
-				print(condition.name, "is valid", self.name, "true")
+				print(condition.name, "is valid inside", self.name)
 			else:
 				true = 0
 		if true:
@@ -129,19 +129,31 @@ class Base(Expr):
 	def __init__(self, name):
 		Expr.__init__(self, name)
 
-
-################################################
-
-	# Evaluates lowest condition (string) to see if it is valid.
-	def evaluate(self, condition, config):
-		if config.graph[condition].true:
-			print("Evaluated", condition, "as TRUE")
-			return (1)
+	def check(self, config):
+		if config.graph[self.trueif[0]].true:
+			self.true = 1
+			self.ambig = 0
+			print("Evaluated", self.name, "as TRUE")
+			if not self.negative:
+				print(self.name, "is Valid (at base)")
+				self.valid = 1
+			else:
+				self.valid = 0
+		elif config.graph[self.trueif[0]].ambig and not config.graph[self.trueif[0]].false:
+			print("Evaluated", self.name, "as AMBIGUOUS")
+			self.true = 0
+			self.ambig = 1
+			self.valid = 0
 		else:
-			print("Evaluated", condition, "as NOT TRUE")
-			return (0)
+			print("Evaluated", self.name, "as FALSE")
+			self.true = 0
+			self.ambig = 0
+			if self.negative:
+				print(self.name, "is Valid (at base)")
+				self.valid = 1
+			else:
+				self.valid = 0
 
-####
 
 def graph(config):
 	def tmp_display(config): 							#TEMPORARY - DELETE
