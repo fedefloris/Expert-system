@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/03 00:30:53 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/03 10:22:07 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,25 @@ class Condition:
 
 	def make_ambig(self):
 		self.ambig = 1
+
+
+class Fact(Condition):
+	def __init__(self, name):
+		Condition.__init__(self, name)
+		self.false = 0
+
+		self.falseif = []
+
+	def add_false(self, condition):
+		self.falseif.append(condition)
+
+
+class Expr(Condition):
+	def __init__(self, name):
+		Condition.__init__(self, name)
+		self.negative = 0;
+		self.valid = 0
+
 
 ################################################
 
@@ -97,16 +116,6 @@ class Fact(Condition):
 			return ("\x1b[33m%s\x1b[0m" % self.name)
 		else:
 			return ("\x1b[31m%s\x1b[0m" % self.name)
-
-
-class Expr(Condition):
-	def __init__(self, name):
-		Condition.__init__(self, name)
-		self.negative = 0;
-		self.valid = 0
-
-	def make_negative(self):
-		self.negative = 1
 
 
 class And(Expr):
