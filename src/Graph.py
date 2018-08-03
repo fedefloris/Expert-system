@@ -6,11 +6,11 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/04 01:01:51 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 01:12:40 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
+# Parent class of all expressions
 class Condition:
 	def __init__(self, name):
 		self.name = name
@@ -24,6 +24,9 @@ class Condition:
 		self.trueif.append(condition)
 
 
+
+# Facts can be true, false, ambiguous or contradictory (true and false).
+# Ambiguous is overridden by true or false.
 class Fact(Condition):
 	def __init__(self, name):
 		Condition.__init__(self, name)
@@ -91,7 +94,7 @@ class Expr(Condition):
 		self.negative = 0;
 		self.valid = 0
 
-	# check for And is the same
+	# self.check for And inherrits from this.
 	def check(self, config):
 		true = 1
 		ambig = 0
@@ -198,6 +201,9 @@ class Xor(Expr):
 
 
 
+# Base is the lowest level of expression. It's trueif list contains one
+# element which is a character string (Fact Letter).
+# It does not search recursively.
 class Base(Expr):
 	def __init__(self, name):
 		Expr.__init__(self, name)
