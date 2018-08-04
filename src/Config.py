@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/17 20:59:41 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/27 09:46:36 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 09:36:18 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,3 +110,16 @@ class Config:
 		if int(value) <= 0:
 			return (False)
 		return (True)
+	
+	# Displays original input, but prints facts in correct colour.
+	def display(self):
+		for line in self.lines:
+			comment = 0
+			for char in line.string:
+				if char == "#":
+					comment = 1
+				if char in self.facts and not comment:
+					print(self.graph[char].letter(), end="")
+				else:
+					print(char, end ="")
+			print()

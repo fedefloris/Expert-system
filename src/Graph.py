@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/04 01:12:40 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 09:37:58 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -253,7 +253,7 @@ def graph(config):
 	c = And("A+B")
 	f = And("D+E")
 	i = And("G+H")
-	l = Xor("J+K")
+	l = And("J+K")
 
 	c_a = Base("A")
 	c_b = Base("B")
@@ -287,12 +287,6 @@ def graph(config):
 	config.graph["I"].trueif[0].add_true(i)
 	config.graph["L"].trueif[0].add_true(l)
 
-	# Simulates "E" as ambiguous
-	config.graph["E"].ambig = 1
-
-	# Simulates "K" as true.
-	config.graph["K"].make_true()
-
 	# Print before
 	tmp_display(config)
 
@@ -306,3 +300,5 @@ def graph(config):
 
 	# Print after
 	tmp_display(config)
+
+	config.display()
