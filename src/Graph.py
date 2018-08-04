@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/04 23:01:41 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 23:13:56 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -149,37 +149,23 @@ class Expr(Condition):
 		if (not config.left_bracket in self.name and
 			not config.right_bracket in self.name):
 			return
+		array = []
 		count = 0
 		track = 0
-		in_bracket = 0
-		left = 0
-		right = 0
 		for char in self.name:
-			print(char)
 			if char == config.left_bracket:
-				print("LEFT")
 				if not track:
-					left = count
-					in_bracket = 1
+					array.append(count)
 				track += 1
 			if char == config.right_bracket:
-				print("RIGHT")
 				track -= 1
 				if not track:
-					right = count
-			print("Count %d" % count)
-			print("Left %d" % left)
-			print("Right %d" % right)
-			print(len(self.trueif))
-			if right and in_bracket:
-				if len(self.trueif):
-					print("DOING FIRST
-				print("DOING A BRACKET BETWEEN %d and %d" % (left, right))
-
-
-
+					array.append(count)
+			print("array", array)
 			count += 1
-			print("\n\n\n")
+			if track < 0:
+				print("Error - unmatched brackets")
+				exit()
 
 
 
@@ -334,7 +320,7 @@ def graph(config):
 	#config.graph["L"].trueif[0].add_true(l)
 
 	# Print before
-	tmp_display(config)
+	#tmp_display(config)
 
 	# Algo. Currently only checks once, but should check until satisfactory.
 	for key, fact in config.graph.items():
@@ -345,6 +331,6 @@ def graph(config):
 		print("")
 
 	# Print after
-	tmp_display(config)
+	#tmp_display(config)
 
 	config.display()
