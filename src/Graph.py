@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/04 18:49:57 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 20:57:09 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -146,9 +146,21 @@ class Expr(Condition):
 		print(self.name, "is Invalid")
 
 	def brackets(self, config):
-		for x in self.name:
-			if x == "(" or x == ")":
-				print("Bracket")
+		if (not config.left_bracket in self.name and
+			not config.right_bracket in self.name):
+			return
+		count = 0
+		track = 0
+		for char in self.name:
+			if char == config.left_bracket:
+				if not track:
+					left = count
+				track += 1
+			if char == config.right_bracket:
+				track -= 1
+				if not track:
+					right = count
+			count += 1
 
 
 
