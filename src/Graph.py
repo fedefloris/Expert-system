@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/04 09:37:58 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 18:49:57 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,7 +145,12 @@ class Expr(Condition):
 		self.valid = 0
 		print(self.name, "is Invalid")
 
-			
+	def brackets(self, config):
+		for x in self.name:
+			if x == "(" or x == ")":
+				print("Bracket")
+
+
 
 # Inherits self.check from Expr
 class And(Expr):
@@ -246,46 +251,56 @@ def graph(config):
 				else:
 					config.graph[char.split(config.op_neg)[1]].add_false(Expr(data))
 
+	def expand_expr(config):
+		for key, fact in config.graph.items():
+			for condition in fact.trueif:
+				condition.brackets(config)
+			for condition in fact.falseif:
+				condition.brackets(config)
+
+
+
 	create_graph(config)
 	add_expr(config)
+	expand_expr(config)
 
 	# Simulate Ands inside Expr.
-	c = And("A+B")
-	f = And("D+E")
-	i = And("G+H")
-	l = And("J+K")
+	#c = And("A+B")
+	#f = And("D+E")
+	#i = And("G+H")
+	#l = And("J+K")
 
-	c_a = Base("A")
-	c_b = Base("B")
-	f_d = Base("D")
-	f_e = Base("E")
-	i_g = Base("G")
-	i_h = Base("H")
-	l_j = Base("J")
-	l_k = Base("K")
+	#c_a = Base("A")
+	#c_b = Base("B")
+	#f_d = Base("D")
+	#f_e = Base("E")
+	#i_g = Base("G")
+	#i_h = Base("H")
+	#l_j = Base("J")
+	#l_k = Base("K")
 
-	c_a.add_true("A")
-	c_b.add_true("B")
-	f_d.add_true("D")
-	f_e.add_true("E")
-	i_g.add_true("G")
-	i_h.add_true("H")
-	l_j.add_true("J")
-	l_k.add_true("K")
+	#c_a.add_true("A")
+	#c_b.add_true("B")
+	#f_d.add_true("D")
+	#f_e.add_true("E")
+	#i_g.add_true("G")
+	#i_h.add_true("H")
+	#l_j.add_true("J")
+	#l_k.add_true("K")
 
-	c.add_true(c_a)
-	c.add_true(c_b)
-	f.add_true(f_d)
-	f.add_true(f_e)
-	i.add_true(i_g)
-	i.add_true(i_h)
-	l.add_true(l_j)
-	l.add_true(l_k)
+	#c.add_true(c_a)
+	#c.add_true(c_b)
+	#f.add_true(f_d)
+	#f.add_true(f_e)
+	#i.add_true(i_g)
+	#i.add_true(i_h)
+	#l.add_true(l_j)
+	#l.add_true(l_k)
 
-	config.graph["C"].trueif[0].add_true(c)
-	config.graph["F"].trueif[0].add_true(f)
-	config.graph["I"].trueif[0].add_true(i)
-	config.graph["L"].trueif[0].add_true(l)
+	#config.graph["C"].trueif[0].add_true(c)
+	#config.graph["F"].trueif[0].add_true(f)
+	#config.graph["I"].trueif[0].add_true(i)
+	#config.graph["L"].trueif[0].add_true(l)
 
 	# Print before
 	tmp_display(config)
