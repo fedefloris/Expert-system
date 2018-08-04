@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/04 20:57:09 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 23:01:41 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -151,16 +151,35 @@ class Expr(Condition):
 			return
 		count = 0
 		track = 0
+		in_bracket = 0
+		left = 0
+		right = 0
 		for char in self.name:
+			print(char)
 			if char == config.left_bracket:
+				print("LEFT")
 				if not track:
 					left = count
+					in_bracket = 1
 				track += 1
 			if char == config.right_bracket:
+				print("RIGHT")
 				track -= 1
 				if not track:
 					right = count
+			print("Count %d" % count)
+			print("Left %d" % left)
+			print("Right %d" % right)
+			print(len(self.trueif))
+			if right and in_bracket:
+				if len(self.trueif):
+					print("DOING FIRST
+				print("DOING A BRACKET BETWEEN %d and %d" % (left, right))
+
+
+
 			count += 1
+			print("\n\n\n")
 
 
 
