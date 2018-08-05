@@ -9,3 +9,12 @@
 #    Updated: 2018/07/17 21:30:28 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+import sys
+sys.path.append("./src/")
+sys.path.append("./src/py_ft/")
+
+from Parser import Parser
+
+def test_bad_syntax():
+    assert 1 == 1

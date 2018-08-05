@@ -24,8 +24,11 @@ def main():
 	# Ensures there is only one command line argument.
 	if len(sys.argv) != 2:
 		exit("\033[1;32m[Usage] \033[1;37m./expert_system.py file")
-	config = Config()
-	parser = Parser(config, sys.argv[1])
+	try:
+		config = Config()
+		parser = Parser(config, sys.argv[1])
+	except Exception as ex:
+		exit(ex)
 	for x in parser.lines:
 		print ("Num[%d]\nType[%d]\n[%s]\n[%s]\n--------" % (x.num, x.type, x.string, x.data))
 	print(config.op_and, config.op_or, config.op_xor, config.op_neg)
