@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/05 12:23:50 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/05 15:59:50 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -184,7 +184,13 @@ class Expr(Condition):
 			in_bracket = switch_in_bracket(in_bracket)
 
 
-# Inherits self.check from Expr
+
+class Bracket(Expr):
+	def __init__(self, name):
+		Expr.__init__(self, name)
+
+
+
 class And(Expr):
 	def __init__(self, name):
 		Expr.__init__(self, name)
@@ -296,7 +302,6 @@ def graph(config):
 	add_expr(config)
 	expand_expr(config)
 
-	"""
 	# Simulate Ands inside Expr.
 	c = And("A+B")
 	f = And("D+E")
@@ -350,4 +355,3 @@ def graph(config):
 	tmp_display(config)
 
 	config.display()
-	"""
