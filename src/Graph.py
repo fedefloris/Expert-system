@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/04 23:13:56 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/04 23:20:03 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -163,9 +163,8 @@ class Expr(Condition):
 					array.append(count)
 			print("array", array)
 			count += 1
-			if track < 0:
-				print("Error - unmatched brackets")
-				exit()
+		if track:
+			exit("Error - unmatched brackets") #TODO Move to Parse?
 
 
 
