@@ -1,0 +1,5 @@
+set op_and = "and"
+set op_or = "or"
+set op_xor = "xor"
+set implies = "implies"
+set bicondition = "if and only if"
