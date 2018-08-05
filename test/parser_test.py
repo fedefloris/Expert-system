@@ -14,7 +14,21 @@ import sys
 sys.path.append("./src/")
 sys.path.append("./src/py_ft/")
 
+from Config import Config
 from Parser import Parser
+import pytest
+import os
+
+def test_invalid_files():
+    tests = ("", ".", "..", "./", " ")
+    run_tests(tests)
 
 def test_bad_syntax():
-    assert 1 == 1
+    tests = ["./test/examples/bad_files/" + file
+        for file in os.listdir("./test/examples/bad_files/")]
+    run_tests(tests)
+
+def run_tests(tests):
+    for test in tests:
+        with pytest.raises(ValueError):
+            parser = Parser(test)

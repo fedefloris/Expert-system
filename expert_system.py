@@ -26,7 +26,7 @@ def main():
 		exit("\033[1;32m[Usage] \033[1;37m./expert_system.py file")
 	try:
 		config = Config()
-		parser = Parser(config, sys.argv[1])
+		parser = Parser(sys.argv[1], config)
 	except Exception as ex:
 		exit(ex)
 	for x in parser.lines:
