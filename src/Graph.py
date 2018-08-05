@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/04 23:20:03 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/05 10:19:37 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -149,23 +149,24 @@ class Expr(Condition):
 		if (not config.left_bracket in self.name and
 			not config.right_bracket in self.name):
 			return
-		array = []
+		positions = []
 		count = 0
 		track = 0
 		for char in self.name:
 			if char == config.left_bracket:
 				if not track:
-					array.append(count)
+					positions.append(count)
 				track += 1
 			if char == config.right_bracket:
 				track -= 1
 				if not track:
-					array.append(count)
-			print("array", array)
+					positions.append(count)
+			print("positions", positions)
 			count += 1
-		if track:
-			exit("Error - unmatched brackets") #TODO Move to Parse?
-
+			if track < 0: #TODO Move to Parse?
+				exit("(MAKE BEAUTIFUL) Error - unbalanced brackets")
+		if track: #TODO Move to Parse?
+			exit("(MAKE BEAUTIFUL) Error - odd brackets")
 
 
 # Inherits self.check from Expr
@@ -280,46 +281,47 @@ def graph(config):
 	add_expr(config)
 	expand_expr(config)
 
+	"""
 	# Simulate Ands inside Expr.
-	#c = And("A+B")
-	#f = And("D+E")
-	#i = And("G+H")
-	#l = And("J+K")
+	c = And("A+B")
+	f = And("D+E")
+	i = And("G+H")
+	l = And("J+K")
 
-	#c_a = Base("A")
-	#c_b = Base("B")
-	#f_d = Base("D")
-	#f_e = Base("E")
-	#i_g = Base("G")
-	#i_h = Base("H")
-	#l_j = Base("J")
-	#l_k = Base("K")
+	c_a = Base("A")
+	c_b = Base("B")
+	f_d = Base("D")
+	f_e = Base("E")
+	i_g = Base("G")
+	i_h = Base("H")
+	l_j = Base("J")
+	l_k = Base("K")
 
-	#c_a.add_true("A")
-	#c_b.add_true("B")
-	#f_d.add_true("D")
-	#f_e.add_true("E")
-	#i_g.add_true("G")
-	#i_h.add_true("H")
-	#l_j.add_true("J")
-	#l_k.add_true("K")
+	c_a.add_true("A")
+	c_b.add_true("B")
+	f_d.add_true("D")
+	f_e.add_true("E")
+	i_g.add_true("G")
+	i_h.add_true("H")
+	l_j.add_true("J")
+	l_k.add_true("K")
 
-	#c.add_true(c_a)
-	#c.add_true(c_b)
-	#f.add_true(f_d)
-	#f.add_true(f_e)
-	#i.add_true(i_g)
-	#i.add_true(i_h)
-	#l.add_true(l_j)
-	#l.add_true(l_k)
+	c.add_true(c_a)
+	c.add_true(c_b)
+	f.add_true(f_d)
+	f.add_true(f_e)
+	i.add_true(i_g)
+	i.add_true(i_h)
+	l.add_true(l_j)
+	l.add_true(l_k)
 
-	#config.graph["C"].trueif[0].add_true(c)
-	#config.graph["F"].trueif[0].add_true(f)
-	#config.graph["I"].trueif[0].add_true(i)
-	#config.graph["L"].trueif[0].add_true(l)
+	config.graph["C"].trueif[0].add_true(c)
+	config.graph["F"].trueif[0].add_true(f)
+	config.graph["I"].trueif[0].add_true(i)
+	config.graph["L"].trueif[0].add_true(l)
 
 	# Print before
-	#tmp_display(config)
+	tmp_display(config)
 
 	# Algo. Currently only checks once, but should check until satisfactory.
 	for key, fact in config.graph.items():
@@ -330,6 +332,7 @@ def graph(config):
 		print("")
 
 	# Print after
-	#tmp_display(config)
+	tmp_display(config)
 
 	config.display()
+	"""
