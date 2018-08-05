@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/05 10:19:37 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/05 12:23:50 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -167,6 +167,21 @@ class Expr(Condition):
 				exit("(MAKE BEAUTIFUL) Error - unbalanced brackets")
 		if track: #TODO Move to Parse?
 			exit("(MAKE BEAUTIFUL) Error - odd brackets")
+
+		if positions[0] == 0:
+			in_bracket = 1
+		else:
+			in_bracket = 0
+
+		def switch_in_bracket(in_bracket):
+			if not in_bracket:
+				return 1
+			else:
+				return 0
+
+		for pos in positions:
+			print(in_bracket, pos)
+			in_bracket = switch_in_bracket(in_bracket)
 
 
 # Inherits self.check from Expr
