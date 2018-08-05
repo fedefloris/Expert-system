@@ -110,7 +110,7 @@ class Config:
 		if int(value) <= 0:
 			return (False)
 		return (True)
-	
+
 	# Displays original input, but prints facts in correct colour.
 	def display(self):
 		for line in self.lines:

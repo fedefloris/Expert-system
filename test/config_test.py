@@ -12,6 +12,7 @@
 
 import sys
 sys.path.append("./src/")
+sys.path.append("./src/py_ft/")
 
 from Config import Config
 

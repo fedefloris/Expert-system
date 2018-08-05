@@ -26,14 +26,14 @@ class Line:
 		self.type = self.get_type(self.data, config)
 		self.num = line_num
 		# If rule, substitute implies.
-		if self.type == 2:
+		if self.type == Line.RULE_TYPE:
 			self.data = self.data.replace(config.bicondition, config.bicondition_sub)
 			self.data = self.data.replace(config.implies, config.implies_sub)
 		# If initial fact, remove leading character
-		if self.type == 3:
+		if self.type == Line.FACT_TYPE:
 			self.data = self.data.replace(config.initial_fact, "")
 		# If query, remove leading character
-		if self.type == 4:
+		if self.type == Line.QUERY_TYPE:
 				self.data = self.data.replace(config.query, "")
 
 	def get_type(self, line, config):
