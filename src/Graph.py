@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/24 18:35:31 by dhojt             #+#    #+#              #
-#    Updated: 2018/08/05 15:59:50 by dhojt            ###   ########.fr        #
+#    Updated: 2018/08/06 19:03:53 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,44 +145,6 @@ class Expr(Condition):
 		self.valid = 0
 		print(self.name, "is Invalid")
 
-	def brackets(self, config):
-		if (not config.left_bracket in self.name and
-			not config.right_bracket in self.name):
-			return
-		positions = []
-		count = 0
-		track = 0
-		for char in self.name:
-			if char == config.left_bracket:
-				if not track:
-					positions.append(count)
-				track += 1
-			if char == config.right_bracket:
-				track -= 1
-				if not track:
-					positions.append(count)
-			print("positions", positions)
-			count += 1
-			if track < 0: #TODO Move to Parse?
-				exit("(MAKE BEAUTIFUL) Error - unbalanced brackets")
-		if track: #TODO Move to Parse?
-			exit("(MAKE BEAUTIFUL) Error - odd brackets")
-
-		if positions[0] == 0:
-			in_bracket = 1
-		else:
-			in_bracket = 0
-
-		def switch_in_bracket(in_bracket):
-			if not in_bracket:
-				return 1
-			else:
-				return 0
-
-		for pos in positions:
-			print(in_bracket, pos)
-			in_bracket = switch_in_bracket(in_bracket)
-
 
 
 class Bracket(Expr):
@@ -289,18 +251,19 @@ def graph(config):
 				else:
 					config.graph[char.split(config.op_neg)[1]].add_false(Expr(data))
 
+	"""
 	def expand_expr(config):
 		for key, fact in config.graph.items():
 			for condition in fact.trueif:
 				condition.brackets(config)
 			for condition in fact.falseif:
 				condition.brackets(config)
-
+	"""
 
 
 	create_graph(config)
 	add_expr(config)
-	expand_expr(config)
+	#expand_expr(config)
 
 	# Simulate Ands inside Expr.
 	c = And("A+B")
