@@ -13,8 +13,7 @@
 # **************************************************************************** #
 
 import sys
-sys.path.append('./src/')
-sys.path.append('./src/py_ft/')
+sys.path.extend(["./src/", "./src/py_ft/"])
 
 from Config import Config
 from Parser import Parser
@@ -27,12 +26,9 @@ def main():
 	try:
 		config = Config()
 		parser = Parser(sys.argv[1], config)
+		graph(config)
 	except Exception as ex:
 		exit(ex)
-	for x in parser.lines:
-		print ("Num[%d]\nType[%d]\n[%s]\n[%s]\n--------" % (x.num, x.type, x.string, x.data))
-	print(config.op_and, config.op_or, config.op_xor, config.op_neg)
-	graph(config)
 
 if __name__== "__main__":
 	main()

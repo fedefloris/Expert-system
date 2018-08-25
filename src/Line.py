@@ -23,7 +23,7 @@ class Line:
 		self.string = string.replace("\n", "")
 		self.data = self.string.replace("\t", "")
 		self.data = self.data.replace(" ", "").split("#")[0]
-		self.type = self.get_type(self.data, config)
+		self.type = self.__get_type(self.data, config)
 		self.num = line_num
 		# If rule, substitute implies.
 		if self.type == Line.RULE_TYPE:
@@ -36,19 +36,19 @@ class Line:
 		if self.type == Line.QUERY_TYPE:
 				self.data = self.data.replace(config.query, "")
 
-	def get_type(self, line, config):
-		# Must return in the following order: [1, 4, 3, 2, 0]
-		if self.is_blank(line):
+	def __get_type(self, line, config):
+		# Must return in the following order: [BLANK, QUERY, FACT, RULE, ERROR]
+		if self.__is_blank(line):
 			return (Line.BLANK_TYPE)
-		if self.is_query(line, config):
+		if self.__is_query(line, config):
 			return (Line.QUERY_TYPE)
-		if self.is_fact(line, config):
+		if self.__is_fact(line, config):
 			return (Line.FACT_TYPE)
-		if self.is_rule(line, config):
+		if self.__is_rule(line, config):
 			return (Line.RULE_TYPE)
 		return (Line.ERROR_TYPE)
 
-	def is_rule(self, line, config):
+	def __is_rule(self, line, config):
 		# Checks if characters are valid.
 		for x in line:
 			if not x in config.facts and not ft.char_matches(x, config.conditions):
@@ -72,7 +72,7 @@ class Line:
 			return (0)
 		return (1)
 
-	def is_fact(self, line, config):
+	def __is_fact(self, line, config):
 		# Checks if characters are valid
 		for x in line:
 			if not (x in config.facts or x == config.initial_fact):
@@ -85,7 +85,7 @@ class Line:
 			return (0)
 		return (1)
 
-	def is_query(self, line, config):
+	def __is_query(self, line, config):
 		# Checks if characters are valid
 		for x in line:
 			if not (x in config.facts or x == config.query):
@@ -98,5 +98,5 @@ class Line:
 			return (0)
 		return (1)
 
-	def is_blank(self, line):
+	def __is_blank(self, line):
 		return (len(line) == 0)

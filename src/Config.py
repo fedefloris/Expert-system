@@ -15,9 +15,9 @@ import string
 
 class Config:
 	def __init__(self, file_name = None):
-		self.set_default_values()
+		self.__set_default_values()
 		if file_name:
-			self.parse_config_file(file_name)
+			self.__parse_config_file(file_name)
 		# Sets value of strings passed as arguments in other functions.
 		self.ops = self.op_neg + self.op_and + self.op_or + self.op_xor
 		# Used in character matching in is_rule
@@ -28,7 +28,7 @@ class Config:
 		self.pattern += self.implies_sub + self.bicondition_sub
 		self.max_lines = int(self.max_lines)
 
-	def set_default_values(self):
+	def __set_default_values(self):
 		self.facts = string.ascii_uppercase
 		self.left_bracket = "("
 		self.right_bracket = ")"
@@ -46,7 +46,7 @@ class Config:
 		self.lines = None
 		self.graph = {x:None for x in self.facts}
 
-	def parse_config_file(self, file_name):
+	def __parse_config_file(self, file_name):
 		lines = ft.read_lines(file_name, 100)
 		# Checks if read of config file was successful
 		if lines:
@@ -74,7 +74,7 @@ class Config:
 					if line != tmp and self.is_valid_value(array, x, tmp):
 							setattr(self, x, tmp)
 
-	def match_attr(self, string, substring):
+	def __match_attr(self, string, substring):
 		# Appends =" to substring to ensure correct formatting for set = " "
 		substring += "=\""
 		# Ensures that the occurence of the matching atribute is left most
@@ -90,12 +90,9 @@ class Config:
 
 		return (string)
 
-	def is_valid_value(self, array, attr, value):
-		if value == "":
+	def __is_valid_value(self, array, attr, value):
+		if value == "" or value in self.facts:
 			return (False)
-		for x in self.facts:
-			if (x == value):
-				return (False)
 		if attr == "max_lines" and not self.is_valid_max_lines(value):
 			return (False)
 		# Ensures that the value is unique
@@ -104,10 +101,8 @@ class Config:
 				return (False)
 		return (True)
 
-	def is_valid_max_lines(self, value):
-		if not ft.str_is_numeric(value):
-			return (False)
-		if int(value) <= 0:
+	def __is_valid_max_lines(self, value):
+		if not ft.str_is_numeric(value) or int(value) <= 0:
 			return (False)
 		return (True)
 

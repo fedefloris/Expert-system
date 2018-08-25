@@ -10,6 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
+from Line import Line
+
 # Parent class of all expressions
 class Condition:
 	def __init__(self, name):
@@ -52,7 +54,7 @@ class Fact(Condition):
 		if self.true and self.false:
 			print("%s is a contradiction" % self.name)
 			exit(1)
-			
+
 	def check(self, config):
 		for condition in self.trueif:
 			condition.check(config)
@@ -83,8 +85,7 @@ class Fact(Condition):
 			return ("\x1b[32m%s\x1b[0m" % self.name)
 		elif self.ambig and not self.false:
 			return ("\x1b[33m%s\x1b[0m" % self.name)
-		else:
-			return ("\x1b[31m%s\x1b[0m" % self.name)
+		return ("\x1b[31m%s\x1b[0m" % self.name)
 
 
 
@@ -115,7 +116,7 @@ class Expr(Condition):
 			self.make_ambig()
 		else:
 			self.make_false()
-	
+
 	def make_true(self):
 		self.true = 1
 		self.ambig = 0
@@ -181,7 +182,7 @@ class Or(Expr):
 			self.make_ambig()
 		elif not true:
 			self.make_false()
-			
+
 
 
 class Xor(Expr):
@@ -214,9 +215,9 @@ class Base(Expr):
 		Expr.__init__(self, name)
 
 	def check(self, config):
-		if config.graph[self.trueif[0]].true:
+		if config.graph[self.name].true:
 			self.make_true()
-		elif config.graph[self.trueif[0]].ambig and not config.graph[self.trueif[0]].false:
+		elif config.graph[self.name].ambig and not config.graph[self.name].false:
 			self.make_ambig()
 		else:
 			self.make_false()
@@ -243,7 +244,7 @@ def graph(config):
 
 	def add_expr(config):
 		for line in config.lines:
-			if line.type == 2:
+			if line.type == Line.RULE_TYPE:
 				char = line.data.split(config.implies_sub)[1]
 				data = line.data.split(config.implies_sub)[0]
 				if not char.count(config.op_neg):
@@ -260,7 +261,6 @@ def graph(config):
 				condition.brackets(config)
 	"""
 
-
 	create_graph(config)
 	add_expr(config)
 	#expand_expr(config)
@@ -271,32 +271,14 @@ def graph(config):
 	i = And("G+H")
 	l = And("J+K")
 
-	c_a = Base("A")
-	c_b = Base("B")
-	f_d = Base("D")
-	f_e = Base("E")
-	i_g = Base("G")
-	i_h = Base("H")
-	l_j = Base("J")
-	l_k = Base("K")
-
-	c_a.add_true("A")
-	c_b.add_true("B")
-	f_d.add_true("D")
-	f_e.add_true("E")
-	i_g.add_true("G")
-	i_h.add_true("H")
-	l_j.add_true("J")
-	l_k.add_true("K")
-
-	c.add_true(c_a)
-	c.add_true(c_b)
-	f.add_true(f_d)
-	f.add_true(f_e)
-	i.add_true(i_g)
-	i.add_true(i_h)
-	l.add_true(l_j)
-	l.add_true(l_k)
+	c.add_true(Base("A"))
+	c.add_true(Base("B"))
+	f.add_true(Base("D"))
+	f.add_true(Base("E"))
+	i.add_true(Base("G"))
+	i.add_true(Base("H"))
+	l.add_true(Base("J"))
+	l.add_true(Base("K"))
 
 	config.graph["C"].trueif[0].add_true(c)
 	config.graph["F"].trueif[0].add_true(f)
