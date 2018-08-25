@@ -44,7 +44,6 @@ class Config:
 		self.bicondition_sub = "<"
 		self.max_lines = "100"
 		self.lines = None
-		self.graph = {x:None for x in self.facts}
 
 	def __parse_config_file(self, file_name):
 		lines = ft.read_lines(file_name, 100)

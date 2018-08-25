@@ -11,292 +11,89 @@
 # **************************************************************************** #
 
 from Line import Line
+from And import And
+from Base import Base
+from Expr import Expr
+from Fact import Fact
 
-# Parent class of all expressions
-class Condition:
-	def __init__(self, name):
-		self.name = name
+class Graph:
+	def __init__(self, config):
+		self.config = config
+		self.__create_graph()
+		self.__add_expr()
+		#self.__expand_expr(config)
 
-		self.true = 0
-		self.ambig = 0
+	def __create_graph(self):
+		self.data = {x:None for x in self.config.facts}
+		for line in self.config.lines:
+			for char in line.data:
+				if char in self.config.facts and not self.data[char]:
+					self.data[char] = Fact(char)
+				if char in self.config.facts and line.type == 3:
+					self.data[char].make_true()
+		keys = list(self.data.keys())
+		for key in keys:
+			if not self.data[key]:
+				del self.data[key]
+		self.config.graph = self.data
 
-		self.trueif = []
+	def __add_expr(self):
+		for line in self.config.lines:
+			if line.type == Line.RULE_TYPE:
+				char = line.data.split(self.config.implies_sub)[1]
+				data = line.data.split(self.config.implies_sub)[0]
+				if not char.count(self.config.op_neg):
+					self.data[char].add_true(Expr(data))
+				else:
+					self.data[char.split(self.config.op_neg)[1]].add_false(Expr(data))
 
-	def add_true(self, condition):
-		self.trueif.append(condition)
+	"""
+	def __expand_expr(self, config):
+		for key, fact in self.data.items():
+			for condition in fact.trueif:
+				condition.brackets(self.config)
+			for condition in fact.falseif:
+				condition.brackets(self.config)
+	"""
 
+	def solve(self):
+		# Simulate Ands inside Expr.
+		c = And("A+B")
+		f = And("D+E")
+		i = And("G+H")
+		l = And("J+K")
 
+		c.add_true(Base("A"))
+		c.add_true(Base("B"))
+		f.add_true(Base("D"))
+		f.add_true(Base("E"))
+		i.add_true(Base("G"))
+		i.add_true(Base("H"))
+		l.add_true(Base("J"))
+		l.add_true(Base("K"))
 
-# Facts can be true, false, ambiguous or contradictory (true and false).
-# Ambiguous is overridden by true or false.
-class Fact(Condition):
-	def __init__(self, name):
-		Condition.__init__(self, name)
-		self.false = 0
+		self.data["C"].trueif[0].add_true(c)
+		self.data["F"].trueif[0].add_true(f)
+		self.data["I"].trueif[0].add_true(i)
+		self.data["L"].trueif[0].add_true(l)
 
-		self.falseif = []
+		# Print before
+		self.tmp_display()
 
-	def add_false(self, condition):
-		self.falseif.append(condition)
+		# Algo. Currently only checks once, but should check until satisfactory.
+		for key, fact in self.data.items():
+			print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.name)
+			fact.contradiction()
+			fact.check(self.config)
+			fact.display()
+			print("")
 
-	def make_true(self):
-		self.true = 1
-		self.contradiction()
+		# Print after
+		self.tmp_display()
 
-	def make_false(self):
-		self.false = 1
-		self.contradiction()
+		self.config.display()
 
-	def make_ambig(self):
-		self.ambig = 1
-
-	def contradiction(self):
-		if self.true and self.false:
-			print("%s is a contradiction" % self.name)
-			exit(1)
-
-	def check(self, config):
-		for condition in self.trueif:
-			condition.check(config)
-			if condition.valid:
-				print(condition.name, "makes", self.name, "true")
-				self.make_true()
-			if condition.ambig:
-				print(condition.name, "makes", self.name, "ambig")
-				self.make_ambig()
-		for condition in self.falseif:
-			condition.check(config)
-			if condition.valid:
-				print(condition.name, "makes", self.name, "false")
-				self.make_false()
-
-	# Displays string to declare sstate of fact.
-	def display(self):
-		if self.true:
-			print("%s is true" % self.letter())
-		elif self.ambig and not self.false:
-			print("%s is ambiguous" % self.letter())
-		else:
-			print("%s is false" % self.letter())
-
-	# Returns fact's letter appropriately coloured.
-	def letter(self):
-		if self.true:
-			return ("\x1b[32m%s\x1b[0m" % self.name)
-		elif self.ambig and not self.false:
-			return ("\x1b[33m%s\x1b[0m" % self.name)
-		return ("\x1b[31m%s\x1b[0m" % self.name)
-
-
-
-class Expr(Condition):
-	def __init__(self, name):
-		Condition.__init__(self, name)
-		self.negative = 0;
-		self.valid = 0
-
-	# self.check for And inherrits from this.
-	def check(self, config):
-		true = 1
-		ambig = 0
-		for condition in self.trueif:
-			condition.check(config)
-			if condition.valid:
-				print(condition.name, "is valid inside", self.name)
-			elif not condition.valid and not condition.ambig:
-				print(condition.name, "is invalid inside", self.name)
-				true = 0
-				break
-			if condition.ambig:
-				true = 0
-				ambig = 1
-		if true:
-			self.make_true()
-		elif ambig:
-			self.make_ambig()
-		else:
-			self.make_false()
-
-	def make_true(self):
-		self.true = 1
-		self.ambig = 0
-		print("Evaluated", self.name, "as TRUE", type(self))
-		if not self.negative:
-			print(self.name, "is Valid")
-			self.valid = 1
-		else:
-			print(self.name, "is Invalid")
-			self.valid = 0
-
-	def make_false(self):
-		print("Evaluated", self.name, "as FALSE", type(self))
-		self.true = 0
-		self.ambig = 0
-		if self.negative:
-			print(self.name, "is Valid")
-			self.valid = 1
-		else:
-			print(self.name, "is Invalid")
-			self.valid = 0
-
-	def make_ambig(self):
-		print("Evaluated", self.name, "as AMBIGUOUS", type(self))
-		self.true = 0
-		self.ambig = 1
-		self.valid = 0
-		print(self.name, "is Invalid")
-
-
-
-class Bracket(Expr):
-	def __init__(self, name):
-		Expr.__init__(self, name)
-
-
-
-class And(Expr):
-	def __init__(self, name):
-		Expr.__init__(self, name)
-
-
-
-class Or(Expr):
-	def __init__(self, name):
-		Expr.__init__(self, name)
-
-	def check(self, config):
-		true = 0
-		ambig = 0
-		for condition in self.trueif:
-			condition.check(config)
-			if condition.valid:
-				self.make_true()
-				true = 1
-				print(condition.name, "is valid inside", self.name)
-				break
-			else:
-				print(condition.name, "is invalid inside", self.name)
-			if condition.ambig:
-				ambig = 1
-		if ambig:
-			self.make_ambig()
-		elif not true:
-			self.make_false()
-
-
-
-class Xor(Expr):
-	def __init__(self, name):
-		Expr.__init__(self, name)
-
-	def check(self, config):
-		valid_count = 0
-		for condition in self.trueif:
-			condition.check(config)
-			if condition.valid:
-				valid_count += 1
-				if valid_count > 1:
-					break
-			elif condition.ambig:
-				self.make_ambig()
-				break
-		if valid_count == 1 and not self.ambig:
-			self.make_true()
-		if not valid_count == 1 and not self.ambig:
-			self.make_false()
-
-
-
-# Base is the lowest level of expression. It's trueif list contains one
-# element which is a character string (Fact Letter).
-# It does not search recursively.
-class Base(Expr):
-	def __init__(self, name):
-		Expr.__init__(self, name)
-
-	def check(self, config):
-		if config.graph[self.name].true:
-			self.make_true()
-		elif config.graph[self.name].ambig and not config.graph[self.name].false:
-			self.make_ambig()
-		else:
-			self.make_false()
-
-
-
-def graph(config):
-	def tmp_display(config): 							#TEMPORARY - DELETE
-		for key, fact in config.graph.items():			#TEMPORARY - DELETE
+	def tmp_display(self):	 							#TEMPORARY - DELETE
+		for key, fact in self.data.items():			#TEMPORARY - DELETE
 			fact.display()								#TEMPORARY - DELETE
 		print("\n")										#TEMPORARY - DELETE
-
-	def create_graph(config):
-		for line in config.lines:
-			for char in line.data:
-				if char in config.facts and not config.graph[char]:
-					config.graph[char] = Fact(char)
-				if char in config.facts and line.type == 3:
-					config.graph[char].make_true()
-		keys = list(config.graph.keys())
-		for key in keys:
-			if not config.graph[key]:
-				del config.graph[key]
-
-	def add_expr(config):
-		for line in config.lines:
-			if line.type == Line.RULE_TYPE:
-				char = line.data.split(config.implies_sub)[1]
-				data = line.data.split(config.implies_sub)[0]
-				if not char.count(config.op_neg):
-					config.graph[char].add_true(Expr(data))
-				else:
-					config.graph[char.split(config.op_neg)[1]].add_false(Expr(data))
-
-	"""
-	def expand_expr(config):
-		for key, fact in config.graph.items():
-			for condition in fact.trueif:
-				condition.brackets(config)
-			for condition in fact.falseif:
-				condition.brackets(config)
-	"""
-
-	create_graph(config)
-	add_expr(config)
-	#expand_expr(config)
-
-	# Simulate Ands inside Expr.
-	c = And("A+B")
-	f = And("D+E")
-	i = And("G+H")
-	l = And("J+K")
-
-	c.add_true(Base("A"))
-	c.add_true(Base("B"))
-	f.add_true(Base("D"))
-	f.add_true(Base("E"))
-	i.add_true(Base("G"))
-	i.add_true(Base("H"))
-	l.add_true(Base("J"))
-	l.add_true(Base("K"))
-
-	config.graph["C"].trueif[0].add_true(c)
-	config.graph["F"].trueif[0].add_true(f)
-	config.graph["I"].trueif[0].add_true(i)
-	config.graph["L"].trueif[0].add_true(l)
-
-	# Print before
-	tmp_display(config)
-
-	# Algo. Currently only checks once, but should check until satisfactory.
-	for key, fact in config.graph.items():
-		print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.name)
-		fact.contradiction()
-		fact.check(config)
-		fact.display()
-		print("")
-
-	# Print after
-	tmp_display(config)
-
-	config.display()

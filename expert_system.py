@@ -17,7 +17,7 @@ sys.path.extend(["./src/", "./src/py_ft/"])
 
 from Config import Config
 from Parser import Parser
-from Graph import graph
+from Graph import Graph
 
 def main():
 	# Ensures there is only one command line argument.
@@ -26,7 +26,8 @@ def main():
 	try:
 		config = Config()
 		parser = Parser(sys.argv[1], config)
-		graph(config)
+		graph = Graph(config)
+		graph.solve()
 	except Exception as ex:
 		exit(ex)
 
