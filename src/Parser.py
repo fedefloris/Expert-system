@@ -35,5 +35,5 @@ class Parser:
 					"Invalid syntax on line \033[1;34m%d\033[1;32m\n\t"
 					"\"\033[1;37m%s\033[1;32m\"\033[1;37m" % (line.num, line.string))
 				error.append("\n")
-		if len(error) > 1:
+		if len(error) > 0:
 			raise ValueError("".join(error[:-1]))

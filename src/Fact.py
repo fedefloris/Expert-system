@@ -55,7 +55,7 @@ class Fact(Condition):
 				print(condition.name, "makes", self.name, "false")
 				self.make_false()
 
-	# Displays string to declare sstate of fact.
+	# Displays string to declare state of fact.
 	def display(self):
 		if self.true:
 			print("%s is true" % self.letter())

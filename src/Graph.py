@@ -31,8 +31,7 @@ class Graph:
 					self.data[char] = Fact(char)
 				if char in self.config.facts and line.type == 3:
 					self.data[char].make_true()
-		keys = list(self.data.keys())
-		for key in keys:
+		for key in list(self.data.keys()):
 			if not self.data[key]:
 				del self.data[key]
 		self.config.graph = self.data
