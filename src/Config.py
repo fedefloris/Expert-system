@@ -68,9 +68,9 @@ class Config:
 				# Loops through array of attribute names
 				for x in array:
 					# Checks if modification attribute is valid.
-					tmp = self.match_attr(line, x)
+					tmp = self.__match_attr(line, x)
 					# Checks if line contains only "value", sets attribute
-					if line != tmp and self.is_valid_value(array, x, tmp):
+					if line != tmp and self.__is_valid_value(array, x, tmp):
 							setattr(self, x, tmp)
 
 	def __match_attr(self, string, substring):
@@ -92,7 +92,7 @@ class Config:
 	def __is_valid_value(self, array, attr, value):
 		if value == "" or value in self.facts:
 			return (False)
-		if attr == "max_lines" and not self.is_valid_max_lines(value):
+		if attr == "max_lines" and not self.__is_valid_max_lines(value):
 			return (False)
 		# Ensures that the value is unique
 		for x in array:

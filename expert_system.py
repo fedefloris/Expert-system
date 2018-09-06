@@ -20,7 +20,6 @@ from Parser import Parser
 from Graph import Graph
 
 def main():
-	# Ensures there is only one command line argument.
 	if len(sys.argv) != 2:
 		exit("\033[1;32m[Usage] \033[1;37m./expert_system.py file")
 	try:
