@@ -15,7 +15,7 @@ from Condition import Condition
 class Expr(Condition):
 	def __init__(self, name):
 		Condition.__init__(self, name)
-		self.negative = 0;
+		self.negative = 0
 		self.valid = 0
 
 	# self.check for And inherrits from this.

@@ -16,6 +16,7 @@ import sys
 sys.path.extend(["./src/", "./src/py_ft/"])
 
 from Parser import Parser
+from Lexer import Lexer
 from Graph import Graph
 
 def main():
@@ -23,6 +24,7 @@ def main():
 		exit("\033[1;32m[Usage] \033[1;37m./expert_system.py file")
 	try:
 		parser = Parser(sys.argv[1])
+		lexer = Lexer(parser.config)
 		graph = Graph(parser.config)
 		graph.solve()
 	except Exception as ex:
