@@ -19,12 +19,12 @@ from Fact import Fact
 class Graph:
 	def __init__(self, config):
 		self.config = config
-		self.__create_graph()
+		self.__create_nodes()
 		self.__clean_unused_nodes()
 		self.__add_expr()
 		#self.__expand_expr(config)
 
-	def __create_graph(self):
+	def __create_nodes(self):
 		self.data = {x:None for x in self.config.facts}
 		self.config.graph = self.data
 		for line in self.config.lines:

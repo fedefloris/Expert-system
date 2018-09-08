@@ -13,5 +13,13 @@
 from Line import Line
 
 class Lexer:
-	def __init__(self, file_name):
+	def __init__(self, config):
+		self.config = config
+		self.__create_tokens()
+
+	def __create_tokens(self):
+		for line in self.config.lines:
+			self.__create_token(line)
+
+	def __create_token(self):
 		pass
