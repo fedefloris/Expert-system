@@ -20,21 +20,27 @@ class Graph:
 	def __init__(self, config):
 		self.config = config
 		self.__create_graph()
+		self.__clean_unused_nodes()
 		self.__add_expr()
 		#self.__expand_expr(config)
 
 	def __create_graph(self):
 		self.data = {x:None for x in self.config.facts}
+		self.config.graph = self.data
 		for line in self.config.lines:
-			for char in line.data:
-				if char in self.config.facts and not self.data[char]:
-					self.data[char] = Fact(char)
-				if char in self.config.facts and line.type == 3:
-					self.data[char].make_true()
+			self.__create_node(line)
+
+	def __create_node(self, line):
+		for char in line.data:
+			if char in self.config.facts and not self.data[char]:
+				self.data[char] = Fact(char)
+			if char in self.config.facts and line.type == 3:
+				self.data[char].make_true()
+
+	def __clean_unused_nodes(self):
 		for key in list(self.data.keys()):
 			if not self.data[key]:
 				del self.data[key]
-		self.config.graph = self.data
 
 	def __add_expr(self):
 		for line in self.config.lines:
