@@ -21,5 +21,5 @@ class Lexer:
 		for line in self.config.lines:
 			self.__create_token(line)
 
-	def __create_token(self):
+	def __create_token(self, line):
 		pass
