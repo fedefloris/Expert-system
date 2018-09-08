@@ -15,17 +15,18 @@ from Line import Line
 import ft
 
 class Parser:
-	def __init__(self, file_name, config = Config()):
-		self.__parse_file(file_name, config);
+	def __init__(self, file_name):
+		self.config = Config()
+		self.__parse_file(file_name);
 		self.__check_errors()
 
-	def __parse_file(self, file_name, config):
-		line_read = ft.read_lines(file_name, config.max_lines)
+	def __parse_file(self, file_name):
+		line_read = ft.read_lines(file_name, self.config.max_lines)
 		if not line_read:
 			raise ValueError("\033[1;31mRead error\033[1;37m: %s" % file_name)
-		self.lines = [Line(config, line, line_num + 1)
+		self.lines = [Line(self.config, line, line_num + 1)
 			for line_num, line in enumerate(line_read)]
-		config.lines = self.lines
+		self.config.lines = self.lines
 
 	def __check_errors(self):
 		error = []

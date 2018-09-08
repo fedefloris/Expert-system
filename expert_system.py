@@ -15,7 +15,6 @@
 import sys
 sys.path.extend(["./src/", "./src/py_ft/"])
 
-from Config import Config
 from Parser import Parser
 from Graph import Graph
 
@@ -23,9 +22,8 @@ def main():
 	if len(sys.argv) != 2:
 		exit("\033[1;32m[Usage] \033[1;37m./expert_system.py file")
 	try:
-		config = Config()
-		parser = Parser(sys.argv[1], config)
-		graph = Graph(config)
+		parser = Parser(sys.argv[1])
+		graph = Graph(parser.config)
 		graph.solve()
 	except Exception as ex:
 		exit(ex)

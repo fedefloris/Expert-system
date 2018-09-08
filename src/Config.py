@@ -74,7 +74,7 @@ class Config:
 							setattr(self, x, tmp)
 
 	def __match_attr(self, string, substring):
-		# Appends =" to substring to ensure correct formatting for set = " "
+		# Ensures that correct formatting for set = " "
 		substring += "=\""
 		# Ensures that the occurence of the matching atribute is left most
 		if string.count(substring) and string.split(substring)[0] == "":
@@ -86,7 +86,6 @@ class Config:
 			string = string.split("\"")[0]
 		else:
 			string = ""
-
 		return (string)
 
 	def __is_valid_value(self, array, attr, value):
