@@ -17,5 +17,5 @@ We're aiming to complete the project in **python**, a first for both of us.
 ### Using the project
 Follow progress with:
 ```console
-$> ./expert_system.py test/examples/test1.txt
+$> ./expert_system.py examples/test1.txt
 ```
