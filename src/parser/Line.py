@@ -10,8 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-import char
-
 class Line:
 	ERROR_TYPE = 0
 	BLANK_TYPE = 1
@@ -51,7 +49,7 @@ class Line:
 	def __is_rule(self, line, config):
 		# Checks if characters are valid.
 		for x in line:
-			if not x in config.facts and not char.char_matches(x, config.conditions):
+			if not x in config.facts and not x in config.conditions:
 				return (0)
 		# Substitutes implies for substitutes
 		line = line.replace(config.bicondition, config.bicondition_sub)
@@ -61,7 +59,7 @@ class Line:
 		for x in line:
 			if x in config.facts:
 				count += 1
-			elif char.char_matches(x, config.pattern):
+			elif x in config.pattern:
 				count -= 1
 			if count > 1 or count < 0:
 				return (0)
