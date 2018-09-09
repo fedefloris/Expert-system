@@ -12,9 +12,12 @@
 
 from Line import Line
 from And import And
+from Or import Or
+from Xor import Xor
 from Base import Base
 from Expr import Expr
 from Fact import Fact
+from Bracket import Bracket
 
 class Graph:
 	def __init__(self, config):
@@ -62,38 +65,22 @@ class Graph:
 	"""
 
 	def solve(self):
-		# Simulate A ^ !(B | C)
-		# a = Xor("A ^ !(B | C)")
-		# b = Bracket("!(B | C)")
-		# c = Or("B | C")
-		#
-		# a.add_true(Base("A"))
-		# a.add_true(b)
-		#
-		# b.negative = 1
-		# c.add_true(Base("B"))
-		# c.add_true(Base("C"))
-		#
-		# b.add_true(c);
+		xor = Xor("!A ^ !B ^ !C")
 
-		# c = And("A+B")
-		# f = And("D+E")
-		# i = And("G+H")
-		# l = And("J+K")
-		#
-		# c.add_true(Base("A"))
-		# c.add_true(Base("B"))
-		# f.add_true(Base("D"))
-		# f.add_true(Base("E"))
-		# i.add_true(Base("G"))
-		# i.add_true(Base("H"))
-		# l.add_true(Base("J"))
-		# l.add_true(Base("K"))
-		#
-		# self.data["C"].trueif[0].add_true(c)
-		# self.data["F"].trueif[0].add_true(f)
-		# self.data["I"].trueif[0].add_true(i)
-		# self.data["L"].trueif[0].add_true(l)
+		a = Base("A")
+		a.make_negative()
+
+		b = Base("B")
+		b.make_negative()
+
+		c = Base("C")
+		c.make_negative()
+
+		xor.add_true(a)
+		xor.add_true(b)
+		xor.add_true(c)
+
+		self.data["C"].trueif[0].add_true(xor)
 
 		# Print before
 		self.tmp_display()
