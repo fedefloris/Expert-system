@@ -14,11 +14,13 @@
 class Condition:
 	def __init__(self, name):
 		self.name = name
-
 		self.true = 0
 		self.ambig = 0
-
+		self.negative = 0
 		self.trueif = []
 
 	def add_true(self, condition):
 		self.trueif.append(condition)
+
+	def make_negative(self):
+		self.negative = 1
