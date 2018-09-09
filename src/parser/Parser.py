@@ -11,8 +11,8 @@
 # **************************************************************************** #
 
 from Config import Config
+from Reader import Reader
 from Line import Line
-import ft
 
 class Parser:
 	def __init__(self, file_name):
@@ -21,7 +21,7 @@ class Parser:
 		self.__check_errors()
 
 	def __parse_file(self, file_name):
-		line_read = ft.read_lines(file_name, self.config.max_lines)
+		line_read = Reader(file_name, self.config.max_lines).get_lines()
 		if not line_read:
 			raise ValueError("\033[1;31mRead error\033[1;37m: %s" % file_name)
 		self.lines = [Line(self.config, line, line_num + 1)

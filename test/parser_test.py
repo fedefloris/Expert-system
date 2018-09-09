@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 import sys
-sys.path.extend(["./src/", "./src/py_ft/"])
+sys.path.extend(["./src/", "./src/parser/", "./src/graph/", "./src/py_ft/"])
 
 from Config import Config
 from Parser import Parser

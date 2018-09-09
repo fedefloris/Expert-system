@@ -62,25 +62,38 @@ class Graph:
 	"""
 
 	def solve(self):
-		# Simulate Ands inside Expr.
-		c = And("A+B")
-		f = And("D+E")
-		i = And("G+H")
-		l = And("J+K")
+		# Simulate A ^ !(B | C)
+		# a = Xor("A ^ !(B | C)")
+		# b = Bracket("!(B | C)")
+		# c = Or("B | C")
+		#
+		# a.add_true(Base("A"))
+		# a.add_true(b)
+		#
+		# b.negative = 1
+		# c.add_true(Base("B"))
+		# c.add_true(Base("C"))
+		#
+		# b.add_true(c);
 
-		c.add_true(Base("A"))
-		c.add_true(Base("B"))
-		f.add_true(Base("D"))
-		f.add_true(Base("E"))
-		i.add_true(Base("G"))
-		i.add_true(Base("H"))
-		l.add_true(Base("J"))
-		l.add_true(Base("K"))
-
-		self.data["C"].trueif[0].add_true(c)
-		self.data["F"].trueif[0].add_true(f)
-		self.data["I"].trueif[0].add_true(i)
-		self.data["L"].trueif[0].add_true(l)
+		# c = And("A+B")
+		# f = And("D+E")
+		# i = And("G+H")
+		# l = And("J+K")
+		#
+		# c.add_true(Base("A"))
+		# c.add_true(Base("B"))
+		# f.add_true(Base("D"))
+		# f.add_true(Base("E"))
+		# i.add_true(Base("G"))
+		# i.add_true(Base("H"))
+		# l.add_true(Base("J"))
+		# l.add_true(Base("K"))
+		#
+		# self.data["C"].trueif[0].add_true(c)
+		# self.data["F"].trueif[0].add_true(f)
+		# self.data["I"].trueif[0].add_true(i)
+		# self.data["L"].trueif[0].add_true(l)
 
 		# Print before
 		self.tmp_display()

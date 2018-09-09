@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-import ft
+from Reader import Reader
 import string
 
 class Config:
@@ -46,7 +46,7 @@ class Config:
 		self.lines = None
 
 	def __parse_config_file(self, file_name):
-		lines = ft.read_lines(file_name, 100)
+		lines = Reader(file_name, 100).get_lines()
 		# Checks if read of config file was successful
 		if lines:
 			# Array of attribute names for below Loop.
@@ -100,7 +100,7 @@ class Config:
 		return (True)
 
 	def __is_valid_max_lines(self, value):
-		if not ft.str_is_numeric(value) or int(value) <= 0:
+		if not string.str_is_numeric(value) or int(value) <= 0:
 			return (False)
 		return (True)
 
