@@ -100,7 +100,7 @@ class Config:
 		return (True)
 
 	def __is_valid_max_lines(self, value):
-		if not string.str_is_numeric(value) or int(value) <= 0:
+		if not value.isnumeric() or int(value) <= 0:
 			return (False)
 		return (True)
 
