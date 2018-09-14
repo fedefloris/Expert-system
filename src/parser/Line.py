@@ -54,19 +54,31 @@ class Line:
 		# Substitutes implies for substitutes
 		line = line.replace(config.bicondition, config.bicondition_sub)
 		line = line.replace(config.implies, config.implies_sub)
-		# Checks pattern of characters is good. [A + B ++ C] is bad.
-		count = 0
-		for x in line:
-			if x in config.facts:
-				count += 1
-			elif x in config.pattern:
-				count -= 1
-			if count > 1 or count < 0:
-				return (0)
-		if count != 1:
+		# Checks pattern of characters is good. [A++B], [((A+B)] are bad
+		if not self.__balanced_symbols(line, config):
 			return (0)
 		# Checks to ensure that there is a maximum of one implication.
 		if line.count(config.implies_sub) + line.count(config.bicondition_sub) != 1:
+			return (0)
+		return (1)
+
+	def __balanced_symbols(self, line, config):
+		brackets_count = 0
+		operands_count  = 0
+		for char in line:
+			if char == config.left_bracket:
+				brackets_count += 1
+			elif char == config.right_bracket:
+				brackets_count -= 1
+			if brackets_count < 0:
+				return (0)
+			if char in config.facts:
+				operands_count += 1
+			elif char in config.pattern:
+				operands_count -= 1
+			if operands_count > 1 or operands_count < 0:
+				return (0)
+		if operands_count != 1 or brackets_count:
 			return (0)
 		return (1)
 
