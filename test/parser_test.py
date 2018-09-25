@@ -14,7 +14,7 @@ import sys
 sys.path.extend(["./src/", "./src/parser/", "./src/graph/"])
 
 from Config import Config
-from Parser import Parser
+from Lexer import Lexer
 import pytest
 import os
 
@@ -30,4 +30,4 @@ def test_bad_syntax():
 def run_tests(tests):
     for test in tests:
         with pytest.raises(ValueError):
-            parser = Parser(test)
+            parser = Lexer(test)

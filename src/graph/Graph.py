@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-from Line import Line
+from LineLexer import LineLexer
 from And import And
 from Or import Or
 from Xor import Xor
@@ -47,7 +47,7 @@ class Graph:
 
 	def __add_expr(self):
 		for line in self.config.lines:
-			if line.type == Line.RULE_TYPE:
+			if line.type == LineLexer.RULE_TYPE:
 				char = line.data.split(self.config.implies_sub)[1]
 				data = line.data.split(self.config.implies_sub)[0]
 				if not char.count(self.config.op_neg):

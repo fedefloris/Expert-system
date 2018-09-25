@@ -1,7 +1,7 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Line.py                                            :+:      :+:    :+:    #
+#    LineLexer.py                                       :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-class Line:
+class LineLexer:
 	ERROR_TYPE = 0
 	BLANK_TYPE = 1
 	RULE_TYPE = 2
@@ -24,27 +24,27 @@ class Line:
 		self.type = self.__get_type(self.data, config)
 		self.num = line_num
 		# If rule, substitute implies.
-		if self.type == Line.RULE_TYPE:
+		if self.type == LineLexer.RULE_TYPE:
 			self.data = self.data.replace(config.bicondition, config.bicondition_sub)
 			self.data = self.data.replace(config.implies, config.implies_sub)
 		# If initial fact, remove leading character
-		if self.type == Line.FACT_TYPE:
+		if self.type == LineLexer.FACT_TYPE:
 			self.data = self.data.replace(config.initial_fact, "")
 		# If query, remove leading character
-		if self.type == Line.QUERY_TYPE:
+		if self.type == LineLexer.QUERY_TYPE:
 				self.data = self.data.replace(config.query, "")
 
 	def __get_type(self, line, config):
 		# Must return in the following order: [BLANK, QUERY, FACT, RULE, ERROR]
 		if self.__is_blank(line):
-			return (Line.BLANK_TYPE)
+			return (LineLexer.BLANK_TYPE)
 		if self.__is_query(line, config):
-			return (Line.QUERY_TYPE)
+			return (LineLexer.QUERY_TYPE)
 		if self.__is_fact(line, config):
-			return (Line.FACT_TYPE)
+			return (LineLexer.FACT_TYPE)
 		if self.__is_rule(line, config):
-			return (Line.RULE_TYPE)
-		return (Line.ERROR_TYPE)
+			return (LineLexer.RULE_TYPE)
+		return (LineLexer.ERROR_TYPE)
 
 	def __is_rule(self, line, config):
 		# Checks if characters are valid.

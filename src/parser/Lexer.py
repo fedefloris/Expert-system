@@ -10,9 +10,9 @@
 #                                                                              #
 # **************************************************************************** #
 
+from LineLexer import LineLexer
 from Config import Config
 from Reader import Reader
-from Line import Line
 
 class Lexer:
 	def __init__(self, file_name):
@@ -24,14 +24,14 @@ class Lexer:
 		line_read = Reader(file_name, self.config.max_lines).get_lines()
 		if not line_read:
 			raise ValueError("\033[1;31mRead error\033[1;37m: %s" % file_name)
-		self.lines = [Line(self.config, line, line_num + 1)
+		self.lines = [LineLexer(self.config, line, line_num + 1)
 			for line_num, line in enumerate(line_read)]
 		self.config.lines = self.lines
 
 	def __check_errors(self):
 		error = []
 		for line in self.lines:
-			if line.type == Line.ERROR_TYPE:
+			if line.type == LineLexer.ERROR_TYPE:
 				error.append("\033[1;31mError:\033[1;37m "
 					"Invalid syntax on line \033[1;34m%d\033[1;32m\n\t"
 					"\"\033[1;37m%s\033[1;32m\"\033[1;37m" % (line.num, line.string))
