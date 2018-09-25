@@ -23,8 +23,8 @@ def main():
 	if len(sys.argv) != 2:
 		exit("\033[1;32m[Usage] \033[1;37m./expert_system.py file")
 	try:
-		parser = Parser(sys.argv[1])
-		lexer = Lexer(parser.config)
+		parser = Lexer(sys.argv[1])
+		lexer = Parser(parser.config)
 		graph = Graph(parser.config)
 		graph.solve()
 	except Exception as ex:
