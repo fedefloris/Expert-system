@@ -19,7 +19,7 @@ class Config:
 		if file_name:
 			self.__parse_config_file(file_name)
 		# Sets value of strings passed as arguments in other functions.
-		self.ops = self.op_neg + self.op_and + self.op_or + self.op_xor
+		self.ops = self.op_xor + self.op_or + self.op_and + self.op_neg
 		# Used in character matching in is_rule
 		self.conditions = self.left_bracket + self.right_bracket
 		self.conditions += self.ops + self.implies + self.bicondition

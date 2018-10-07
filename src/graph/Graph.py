@@ -11,13 +11,8 @@
 # **************************************************************************** #
 
 from LineLexer import LineLexer
-from And import And
-from Or import Or
-from Xor import Xor
-from Base import Base
 from Expr import Expr
 from Fact import Fact
-from Bracket import Bracket
 
 class Graph:
 	def __init__(self, config):
@@ -48,8 +43,7 @@ class Graph:
 		for line in self.config.lines:
 			if line.type == LineLexer.RULE_TYPE:
 				char = line.data.split(self.config.implies_sub)[1]
-				self.data[char].add_true(Expr(""))
-				self.data[char].trueif[0].add_true(line.tokens)
+				self.data[char].add_true(line.tokens)
 
 	def solve(self):
 		# Print before
