@@ -24,8 +24,7 @@ class Graph:
 		self.config = config
 		self.__create_nodes()
 		self.__clean_unused_nodes()
-		self.__add_expr()
-		#self.__expand_expr(config)
+		self.__add_tokens()
 
 	def __create_nodes(self):
 		self.data = {x:None for x in self.config.facts}
@@ -45,43 +44,14 @@ class Graph:
 			if not self.data[key]:
 				del self.data[key]
 
-	def __add_expr(self):
+	def __add_tokens(self):
 		for line in self.config.lines:
 			if line.type == LineLexer.RULE_TYPE:
 				char = line.data.split(self.config.implies_sub)[1]
-				data = line.data.split(self.config.implies_sub)[0]
-				if not char.count(self.config.op_neg):
-					self.data[char].add_true(Expr(data))
-				else:
-					self.data[char.split(self.config.op_neg)[1]].add_false(Expr(data))
-
-	"""
-	def __expand_expr(self, config):
-		for key, fact in self.data.items():
-			for condition in fact.trueif:
-				condition.brackets(self.config)
-			for condition in fact.falseif:
-				condition.brackets(self.config)
-	"""
+				self.data[char].add_true(Expr(""))
+				self.data[char].trueif[0].add_true(line.tokens)
 
 	def solve(self):
-		xor = Xor("!A ^ !B ^ !C")
-
-		a = Base("A")
-		a.make_negative()
-
-		b = Base("B")
-		b.make_negative()
-
-		c = Base("C")
-		c.make_negative()
-
-		xor.add_true(a)
-		xor.add_true(b)
-		xor.add_true(c)
-
-		self.data["C"].trueif[0].add_true(xor)
-
 		# Print before
 		self.tmp_display()
 
