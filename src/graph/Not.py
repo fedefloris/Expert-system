@@ -14,5 +14,5 @@ from Expr import Expr
 
 class Not(Expr):
 	def __init__(self, name):
-		Not.__init__(self, name)
+		Expr.__init__(self, name)
 		self.make_negative()

@@ -22,46 +22,47 @@ from LineLexer import LineLexer
 class Parser:
 	def __init__(self, config):
 		self.config = config
+		self.__create_operations()
 		self.__create_tokens()
 
-	def __create_tokens(self):
-		for line in self.config.lines:
-			if line.type == LineLexer.RULE_TYPE:
-				self.__create_token(line)
-				print(line.token)
-				print(line.token.trueif)
-
-
-	def __create_token(self, line):
+	def __create_operations(self):
 		# Ordered by increasing priority
-		ops = [
+		self.operations = [
 			(self.config.op_xor, Xor),
 			(self.config.op_or, Or),
 			(self.config.op_and, And),
 			(self.config.op_not, Not)
 		]
-		expr = line.data.split(self.config.implies_sub)[0]
-		line.token = self.__create_token_from_expr(expr, ops)
 
-	def __create_token_from_expr(self, expr, ops):
+	def __create_tokens(self):
+		for line in self.config.lines:
+			if line.type == LineLexer.RULE_TYPE:
+				self.__create_token(line)
+
+
+	def __create_token(self, line):
+		expr = line.data.split(self.config.implies_sub)[0]
+		line.token = self.__get_token_from_expr(expr)
+
+	def __get_token_from_expr(self, expr):
 		# Remove brackets both at the begin and at the end
 		if len(expr) > 1 and expr[0] == self.config.left_bracket:
 			expr = expr[1:-1]
 		if len(expr) <= 1:
 			return Base(expr)
-		for op, op_token in ops:
-			print(op_token)
-			inside = False
+		for op, op_token in self.operations:
+			insideBrackets = False
 			for c in expr:
 				if c == self.config.left_bracket:
-					inside = True
+					insideBrackets = True
 				elif c == self.config.right_bracket:
-					inside = False
-				elif inside == False and c == op:
+					insideBrackets = False
+				elif insideBrackets == False and c == op:
 					split = expr.split(op, 1)
-					print(split)
 					new = op_token("")
 					if (op_token != Not):
-						new.add_true(self.__create_token_from_expr(split[0], ops))
-						new.add_true(self.__create_token_from_expr(split[1], ops))
+						new.add_true(self.__get_token_from_expr(split[0]))
+						new.add_true(self.__get_token_from_expr(split[1]))
+					else:
+						new.add_true(self.__get_token_from_expr(split[1]))
 					return new
