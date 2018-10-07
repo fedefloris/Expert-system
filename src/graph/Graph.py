@@ -43,7 +43,7 @@ class Graph:
 		for line in self.config.lines:
 			if line.type == LineLexer.RULE_TYPE:
 				char = line.data.split(self.config.implies_sub)[1]
-				self.data[char].add_true(line.tokens)
+				self.data[char].add_true(line.token)
 
 	def solve(self):
 		# Print before

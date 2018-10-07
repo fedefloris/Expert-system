@@ -13,10 +13,10 @@
 from And import And
 from Or import Or
 from Xor import Xor
+from Not import Not
 from Base import Base
 from Expr import Expr
 from Fact import Fact
-from Bracket import Bracket
 from LineLexer import LineLexer
 
 class Parser:
@@ -26,35 +26,42 @@ class Parser:
 
 	def __create_tokens(self):
 		for line in self.config.lines:
-			if (line.type == LineLexer.RULE_TYPE):
-				line.tokens = self.__create_token(line.data.split(self.config.implies_sub)[0])
-				print(line.tokens)
-				print(line.tokens.trueif)
-				# print(test.trueif[0].name)
-				# print(test.trueif[1].name)
+			if line.type == LineLexer.RULE_TYPE:
+				self.__create_token(line)
+				print(line.token)
+				print(line.token.trueif)
 
-	def __create_token(self, expr):
+
+	def __create_token(self, line):
+		# Ordered by increasing priority
+		ops = [
+			(self.config.op_xor, Xor),
+			(self.config.op_or, Or),
+			(self.config.op_and, And),
+			(self.config.op_not, Not)
+		]
+		expr = line.data.split(self.config.implies_sub)[0]
+		line.token = self.__create_token_from_expr(expr, ops)
+
+	def __create_token_from_expr(self, expr, ops):
 		# Remove brackets both at the begin and at the end
-		if (len(expr) > 1 and expr[0] == "("):
+		if len(expr) > 1 and expr[0] == self.config.left_bracket:
 			expr = expr[1:-1]
-		if (len(expr) <= 1):
+		if len(expr) <= 1:
 			return Base(expr)
-		# Ops ordered by increasing priority
-		for op in self.config.ops:
+		for op, op_token in ops:
+			print(op_token)
 			inside = False
 			for c in expr:
-				if c == "(":
+				if c == self.config.left_bracket:
 					inside = True
-				elif c == ")":
+				elif c == self.config.right_bracket:
 					inside = False
 				elif inside == False and c == op:
-					if op == "!":
-						new = self.__create_token(expr.split(op,1)[1])
-						new.make_negative()
-						break
-					else:
-						new = And("")
-						new.add_true(self.__create_token(expr.split(op,1)[0]))
-						new.add_true(self.__create_token(expr.split(op,1)[1]))
-						break
-		return new
+					split = expr.split(op, 1)
+					print(split)
+					new = op_token("")
+					if (op_token != Not):
+						new.add_true(self.__create_token_from_expr(split[0], ops))
+						new.add_true(self.__create_token_from_expr(split[1], ops))
+					return new
