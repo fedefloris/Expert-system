@@ -109,8 +109,8 @@ class LineLexer:
 			line = line.replace(config.implies, config.implies_sub)
 		# If initial fact, remove leading character
 		elif self.type == LineLexer.FACT_TYPE:
-			line = self.data.replace(config.initial_fact, "")
+			line = line.replace(config.initial_fact, "")
 		# If query, remove leading character
 		elif self.type == LineLexer.QUERY_TYPE:
 			line = line.replace(config.query, "")
-		self.data = line
+		return (line)
