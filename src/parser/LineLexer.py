@@ -18,21 +18,12 @@ class LineLexer:
 	QUERY_TYPE = 4
 
 	def __init__(self, config, string, line_num):
-		self.string = string.replace("\n", "")
-		self.data = self.string.replace("\t", "")
-		self.data = self.data.replace(" ", "").split("#")[0]
-		self.type = self.__get_type(self.data, config)
 		self.num = line_num
-		# If rule, substitute implies.
-		if self.type == LineLexer.RULE_TYPE:
-			self.data = self.data.replace(config.bicondition, config.bicondition_sub)
-			self.data = self.data.replace(config.implies, config.implies_sub)
-		# If initial fact, remove leading character
-		if self.type == LineLexer.FACT_TYPE:
-			self.data = self.data.replace(config.initial_fact, "")
-		# If query, remove leading character
-		if self.type == LineLexer.QUERY_TYPE:
-				self.data = self.data.replace(config.query, "")
+		self.string = string.replace("\n", "")
+		string = self.string.replace("\t", "")
+		string = string.replace(" ", "").split("#")[0]
+		self.type = self.__get_type(string, config)
+		self.data = self.__get_data(string, config)
 
 	def __get_type(self, line, config):
 		# Must return in the following order: [BLANK, QUERY, FACT, RULE, ERROR]
@@ -110,3 +101,16 @@ class LineLexer:
 
 	def __is_blank(self, line):
 		return (len(line) == 0)
+
+	def __get_data(self, line, config):
+		# If rule, substitute implies.
+		if self.type == LineLexer.RULE_TYPE:
+			line = line.replace(config.bicondition, config.bicondition_sub)
+			line = line.replace(config.implies, config.implies_sub)
+		# If initial fact, remove leading character
+		elif self.type == LineLexer.FACT_TYPE:
+			line = self.data.replace(config.initial_fact, "")
+		# If query, remove leading character
+		elif self.type == LineLexer.QUERY_TYPE:
+			line = line.replace(config.query, "")
+		self.data = line
