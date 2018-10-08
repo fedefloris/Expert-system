@@ -12,6 +12,12 @@
 #                                                                              #
 # **************************************************************************** #
 
+# To do list:
+# 	- not, and, xor, or in conclusions
+# 	- double implies (if and only if)
+# 	- nand, nor, exnor
+#	- config that supports english_conditions
+
 import sys
 sys.path.extend(["./src/", "./src/parser/", "./src/graph/"])
 
