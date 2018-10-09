@@ -46,7 +46,7 @@ class Config:
 		self.lines = None
 
 	def __parse_config_file(self, file_name):
-		lines = Reader(file_name, 100).get_lines()
+		lines = Reader(file_name, 100).lines
 		# Checks if read of config file was successful
 		if lines:
 			# Array of attribute names for below Loop.
@@ -103,16 +103,3 @@ class Config:
 		if not value.isnumeric() or int(value) <= 0:
 			return (False)
 		return (True)
-
-	# Displays original input, but prints facts in correct colour.
-	def display(self):
-		for line in self.lines:
-			comment = 0
-			for char in line.string:
-				if char == "#":
-					comment = 1
-				if char in self.facts and not comment:
-					print(self.graph[char].letter(), end="")
-				else:
-					print(char, end ="")
-			print()

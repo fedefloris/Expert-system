@@ -21,7 +21,7 @@ class Lexer:
 		self.__check_errors()
 
 	def __parse_file(self, file_name):
-		line_read = Reader(file_name, self.config.max_lines).get_lines()
+		line_read = Reader(file_name, self.config.max_lines).lines
 		if not line_read:
 			raise ValueError("\033[1;31mRead error\033[1;37m: %s" % file_name)
 		self.lines = [LineLexer(self.config, line, line_num + 1)

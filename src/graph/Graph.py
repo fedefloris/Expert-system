@@ -47,7 +47,7 @@ class Graph:
 
 	def solve(self):
 		# Print before
-		self.tmp_display()
+		self.__tmp_display()
 
 		# Algo. Currently only checks once, but should check until satisfactory.
 		for key, fact in self.data.items():
@@ -58,11 +58,24 @@ class Graph:
 			print("")
 
 		# Print after
-		self.tmp_display()
+		self.__tmp_display()
 
-		self.config.display()
+		self.__display()
 
-	def tmp_display(self):	 							#TEMPORARY - DELETE
+	def __tmp_display(self):	 						#TEMPORARY - DELETE
 		for key, fact in self.data.items():				#TEMPORARY - DELETE
 			fact.display()								#TEMPORARY - DELETE
 		print("\n")										#TEMPORARY - DELETE
+
+	# Displays original input, but prints facts in correct colour.
+	def __display(self):
+		for line in self.config.lines:
+			comment = 0
+			for char in line.string:
+				if char == "#":
+					comment = 1
+				if char in self.config.facts and not comment:
+					print(self.config.graph[char].letter(), end="")
+				else:
+					print(char, end ="")
+			print()
