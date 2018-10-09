@@ -6,9 +6,9 @@ set right_bracket = " "
 set right_bracket = "     "
 set right_bracket = "
 "
+
 set right_bracket = '{'
 set right_bracket = "A"
-
 set left_bracket = "}"
 set right_bracket = "("
 set left_bracket = ")"

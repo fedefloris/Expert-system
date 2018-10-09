@@ -29,10 +29,11 @@ class Graph:
 
 	def __create_node(self, line):
 		for char in line.data:
-			if char in self.config.facts and not self.data[char]:
-				self.data[char] = Fact(char)
-			if char in self.config.facts and line.type == 3:
-				self.data[char].make_true()
+			if char in self.config.facts:
+				if not self.data[char]:
+					self.data[char] = Fact(char)
+				elif line.type == LineLexer.FACT_TYPE:
+					self.data[char].make_true()
 
 	def __clean_unused_nodes(self):
 		for key in list(self.data.keys()):
