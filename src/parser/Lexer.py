@@ -15,8 +15,8 @@ from Config import Config
 from Reader import Reader
 
 class Lexer:
-	def __init__(self, file_name):
-		self.config = Config()
+	def __init__(self, config, file_name):
+		self.config = config
 		self.__parse_file(file_name);
 		self.__check_errors()
 

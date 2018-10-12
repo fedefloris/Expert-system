@@ -28,6 +28,7 @@ def test_bad_syntax():
     run_tests(tests)
 
 def run_tests(tests):
+    config = Config()
     for test in tests:
         with pytest.raises(ValueError):
-            parser = Lexer(test)
+            parser = Lexer(config, test)

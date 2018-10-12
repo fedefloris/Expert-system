@@ -16,22 +16,32 @@
 # 	- not, and, xor, or in conclusions
 # 	- double implies (if and only if)
 # 	- nand, nor, exnor
-#	- config that supports english_conditions
 
 import sys
+import argparse
 sys.path.extend(["./src/", "./src/parser/", "./src/graph/"])
 
 from Parser import Parser
+from Config import Config
 from Lexer import Lexer
 from Graph import Graph
 
+def parse_arguments():
+	parser = argparse.ArgumentParser(description='A propositional calculus expert system.')
+	parser.add_argument("-c", "--config", metavar="file", help="file with settings")
+	parser.add_argument("file", help="file with rules and facts")
+	if len(sys.argv) == 1:
+	    parser.print_help()
+	    parser.exit()
+	return parser.parse_args()
+
 def main():
-	if len(sys.argv) != 2:
-		exit("\033[1;32m[Usage] \033[1;37m./expert_system.py file")
+	args = parse_arguments()
 	try:
-		lexer = Lexer(sys.argv[1])
-		parser = Parser(lexer.config)
-		graph = Graph(lexer.config)
+		config = Config(args.config)
+		lexer = Lexer(config, args.file)
+		parser = Parser(config)
+		graph = Graph(config)
 		graph.solve()
 	except Exception as ex:
 		exit(ex)
