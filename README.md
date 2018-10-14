@@ -22,5 +22,5 @@ $> ./expert_system.py examples/test1.txt
 ***
 ### Running the tests
 ```console
-$> python3 -m pytest test
+$> python3 -m pytest
 ```
