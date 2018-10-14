@@ -11,12 +11,13 @@
 # **************************************************************************** #
 
 import sys
+import pytest
+import os
 sys.path.extend(["./src/", "./src/parser/", "./src/graph/"])
 
 from Config import Config
 from Lexer import Lexer
-import pytest
-import os
+from ParsingError import ParsingError
 
 def test_invalid_files():
     tests = ("", ".", "..", "./", " ")
@@ -30,5 +31,5 @@ def test_bad_syntax():
 def run_tests(tests):
     config = Config()
     for test in tests:
-        with pytest.raises(ValueError):
+        with pytest.raises(ParsingError):
             parser = Lexer(config, test)

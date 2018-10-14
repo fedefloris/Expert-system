@@ -10,9 +10,10 @@
 #                                                                              #
 # **************************************************************************** #
 
-from LineLexer import LineLexer
 from Config import Config
 from Reader import Reader
+from LineLexer import LineLexer
+from ParsingError import ParsingError
 
 class Lexer:
 	def __init__(self, config, file_name):
@@ -23,7 +24,7 @@ class Lexer:
 	def __parse_file(self, file_name):
 		line_read = Reader(file_name, self.config.max_lines).lines
 		if not line_read:
-			raise ValueError("\033[1;31mRead error\033[1;37m: %s" % file_name)
+			raise ParsingError("\033[1;31mRead error\033[1;37m: %s" % file_name)
 		self.lines = [LineLexer(self.config, line, line_num + 1)
 			for line_num, line in enumerate(line_read)]
 		self.config.lines = self.lines
@@ -37,4 +38,4 @@ class Lexer:
 					"\"\033[1;37m%s\033[1;32m\"\033[1;37m" % (line.num, line.string))
 				error.append("\n")
 		if len(error) > 0:
-			raise ValueError("".join(error[:-1]))
+			raise ParsingError("".join(error[:-1]))
