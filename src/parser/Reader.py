@@ -24,5 +24,5 @@ class Reader:
 						max_lines -= 1
 						if not max_lines:
 							break
-			except IOError:
+			except Exception:
 				self.lines = None

@@ -24,18 +24,18 @@ class Lexer:
 	def __parse_file(self, file_name):
 		line_read = Reader(file_name, self.config.max_lines).lines
 		if not line_read:
-			raise ParsingError("\033[1;31mRead error\033[1;37m: %s" % file_name)
+			raise ParsingError(f"\033[1;31mRead error\033[1;37m: {file_name}")
 		self.lines = [LineLexer(self.config, line, line_num + 1)
 			for line_num, line in enumerate(line_read)]
 		self.config.lines = self.lines
 
 	def __check_errors(self):
-		error = []
+		errors = []
 		for line in self.lines:
 			if line.type == LineLexer.ERROR_TYPE:
-				error.append("\033[1;31mError:\033[1;37m "
-					"Invalid syntax on line \033[1;34m%d\033[1;32m\n\t"
-					"\"\033[1;37m%s\033[1;32m\"\033[1;37m" % (line.num, line.string))
-				error.append("\n")
-		if len(error) > 0:
-			raise ParsingError("".join(error[:-1]))
+				errors.append("\033[1;31mError:\033[1;37m "
+					f"Invalid syntax on line \033[1;34m{line.num}\033[1;32m\n\t"
+					f"\"\033[1;37m{line.string}\033[1;32m\"\033[1;37m")
+				errors.append("\n")
+		if len(errors) > 0:
+			raise ParsingError("".join(errors[:-1]))
