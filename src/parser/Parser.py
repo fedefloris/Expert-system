@@ -39,9 +39,9 @@ class Parser:
 		for line in self.config.lines:
 			if line.type == LineLexer.RULE_TYPE:
 				if self.config.bicondition_sub in line.data:
-					new = LineLexer(self.config, "", len(self.config.lines) + 1)
+					# new = LineLexer(self.config, "", len(self.config.lines) + 1)
 					lines_to_remove.append(line)
-					self.config.lines.append(new)
+					# self.config.lines.append(new)
 				else:
 					self._create_token(line)
 		for line in lines_to_remove:
@@ -59,13 +59,13 @@ class Parser:
 		if len(expr) <= 1:
 			return Base(expr)
 		for op, op_token in self.operations:
-			inside_brackets = False
+			brackets_count = 0
 			for i, c in enumerate(expr):
 				if c == self.config.left_bracket:
-					inside_brackets = True
+					brackets_count += 1
 				elif c == self.config.right_bracket:
-					inside_brackets = False
-				elif not inside_brackets and c == op:
+					brackets_count -= 1
+				elif not brackets_count and c == op:
 					new = op_token(expr)
 					if (op_token != Not):
 						new.add_true(self._get_token_from_expr(expr[0:i]))
