@@ -18,27 +18,18 @@ class Graph:
 	def __init__(self, config):
 		self.config = config
 		self._create_nodes()
-		self._clean_unused_nodes()
 		self._add_tokens()
 
 	def _create_nodes(self):
-		self.data = {x:None for x in self.config.facts}
-		self.config.graph = self.data
+		self.data = {x:Fact(x) for x in self.config.facts}
 		for line in self.config.lines:
-			self._create_node(line)
+			if line.type == LineLexer.FACT_TYPE:
+				self._make_nodes_true(line)
+		self.config.graph = self.data
 
-	def _create_node(self, line):
-		for char in line.data:
-			if char in self.config.facts:
-				if not self.data[char]:
-					self.data[char] = Fact(char)
-				elif line.type == LineLexer.FACT_TYPE:
-					self.data[char].make_true()
-
-	def _clean_unused_nodes(self):
-		for key in list(self.data.keys()):
-			if not self.data[key]:
-				del self.data[key]
+	def _make_nodes_true(self, line):
+		for fact in line.data:
+			self.data[fact].make_true()
 
 	def _add_tokens(self):
 		for line in self.config.lines:
