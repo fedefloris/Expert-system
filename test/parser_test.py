@@ -20,12 +20,14 @@ from Lexer import Lexer
 from ParsingError import ParsingError
 
 def test_invalid_files():
-    tests = ("", ".", "..", "./", " ")
+    #"/dev/zero"
+    tests = ("", ".", "..", "./", " ", "/dev/random", "/dev/null")
     run_tests(tests)
 
 def test_bad_syntax():
-    tests = ["./test/examples/bad_files/" + file
-        for file in os.listdir("./test/examples/bad_files/")]
+    path = "./test/examples/bad_files/"
+    tests = [path + file
+        for file in os.listdir(path) if os.path.isfile(path + file)]
     run_tests(tests)
 
 def run_tests(tests):
