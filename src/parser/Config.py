@@ -18,14 +18,7 @@ class Config:
 		self._set_default_values()
 		if file_name:
 			self._parse_config_file(file_name)
-		# Sets value of strings passed as arguments in other functions.
-		self.ops = self.op_not + self.op_and + self.op_or + self.op_xor
-		# Used in character matching in is_rule
-		self.conditions = self.left_bracket + self.right_bracket
-		self.conditions += self.ops + self.implies_sub + self.bicondition_sub
-		# Used in pattern matching in is_rule
-		self.pattern = self.op_and + self.op_or + self.op_xor
-		self.pattern += self.implies_sub + self.bicondition_sub
+		self._set_patterns()
 		self.max_lines = int(self.max_lines)
 
 	def _set_default_values(self):
@@ -63,14 +56,14 @@ class Config:
 					line = line.split("set")[1]
 				else:
 					line = ""
-				# Remove white space
+				# Remove white spaces
 				line = line.replace(" ", "").replace("\t", "")
 				# Loops through array of attribute names
 				for x in array:
 					# Checks if modification attribute is valid.
 					tmp = self._match_attr(line, x)
 					# Checks if line contains only "value", sets attribute
-					if line != tmp and self._is_valid_value(array, x, tmp):
+					if line != tmp and self._is_value_valid(array, x, tmp):
 							setattr(self, x, tmp)
 
 	def _match_attr(self, string, substring):
@@ -88,10 +81,10 @@ class Config:
 			string = ""
 		return (string)
 
-	def _is_valid_value(self, array, attr, value):
+	def _is_value_valid(self, array, attr, value):
 		if value == "" or value in self.facts:
 			return (False)
-		if attr == "max_lines" and not self._is_valid_max_lines(value):
+		if attr == "max_lines" and not self._is_max_lines_valid(value):
 			return (False)
 		# Ensures that the value is unique
 		for x in array:
@@ -99,7 +92,17 @@ class Config:
 				return (False)
 		return (True)
 
-	def _is_valid_max_lines(self, value):
+	def _is_max_lines_valid(self, value):
 		if not value.isnumeric() or int(value) <= 0:
 			return (False)
 		return (True)
+
+	def _set_patterns(self):
+		# Sets value of strings passed as arguments in other functions.
+		self.ops = self.op_not + self.op_and + self.op_or + self.op_xor
+		# Used in character matching in is_rule
+		self.conditions = self.left_bracket + self.right_bracket
+		self.conditions += self.ops + self.implies_sub + self.bicondition_sub
+		# Used in pattern matching in is_rule
+		self.pattern = self.op_and + self.op_or + self.op_xor
+		self.pattern += self.implies_sub + self.bicondition_sub

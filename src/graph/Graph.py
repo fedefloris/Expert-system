@@ -63,7 +63,7 @@ class Graph:
 
 		self._display()
 
-	def _tmp_display(self):	 						#TEMPORARY - DELETE
+	def _tmp_display(self):	 							#TEMPORARY - DELETE
 		for key, fact in self.data.items():				#TEMPORARY - DELETE
 			fact.display()								#TEMPORARY - DELETE
 		print("\n")										#TEMPORARY - DELETE

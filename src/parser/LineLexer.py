@@ -22,14 +22,13 @@ class LineLexer:
 		self.string = string.replace("\n", "")
 		string = self.string.replace("\t", "")
 		string = string.replace(" ", "").split("#")[0]
-		# Substitutes implies for substitutes
 		string = string.replace(config.bicondition, config.bicondition_sub)
 		string = string.replace(config.implies, config.implies_sub)
 		self.type = self._get_type(string, config)
 		self.data = self._get_data(string, config)
 
+	# Must return in the following order: [BLANK, QUERY, FACT, RULE, ERROR]
 	def _get_type(self, line, config):
-		# Must return in the following order: [BLANK, QUERY, FACT, RULE, ERROR]
 		if self._is_blank(line):
 			return (LineLexer.BLANK_TYPE)
 		if self._is_query(line, config):
@@ -44,14 +43,14 @@ class LineLexer:
 		# Checks if characters are valid.
 		for x in line:
 			if not x in config.facts and not x in config.conditions:
-				return (0)
-		# Checks pattern of characters is good. [A++B], [((A+B)] are bad
+				return (False)
+		# Checks if pattern of characters is good. [A++B] and [((A+B)] are bad
 		if not self._balanced_symbols(line, config):
-			return (0)
-		# Checks to ensure that there is a maximum of one implication.
+			return (False)
+		# Ensures that there is a maximum of one implication.
 		if line.count(config.implies_sub) + line.count(config.bicondition_sub) != 1:
-			return (0)
-		return (1)
+			return (False)
+		return (True)
 
 	def _balanced_symbols(self, line, config):
 		brackets_count = 0
@@ -62,52 +61,49 @@ class LineLexer:
 			elif char == config.right_bracket:
 				brackets_count -= 1
 			if brackets_count < 0:
-				return (0)
+				return (False)
 			if char in config.facts:
 				operands_count += 1
 			elif char in config.pattern:
 				operands_count -= 1
 			if operands_count > 1 or operands_count < 0:
-				return (0)
+				return (False)
 		if operands_count != 1 or brackets_count:
-			return (0)
-		return (1)
+			return (False)
+		return (True)
 
 	def _is_fact(self, line, config):
 		# Checks if characters are valid
 		for x in line:
 			if not (x in config.facts or x == config.initial_fact):
-				return (0)
+				return (False)
 		# Ensures that first character is valid.
 		if line[0] != config.initial_fact:
-			return (0)
+			return (False)
 		# Ensures that first character is not repeated.
 		if line.count(config.initial_fact) != 1:
-			return (0)
-		return (1)
+			return (False)
+		return (True)
 
 	def _is_query(self, line, config):
 		# Checks if characters are valid
 		for x in line:
 			if not (x in config.facts or x == config.query):
-				return (0)
+				return (False)
 		# Ensures that first character is valid.
 		if line[0] != config.query:
-			return (0)
+			return (False)
 		# Ensures that first character is not repeated.
 		if line.count(config.query) != 1:
-			return (0)
-		return (1)
+			return (False)
+		return (True)
 
 	def _is_blank(self, line):
 		return (len(line) == 0)
 
 	def _get_data(self, line, config):
-		# If rule, substitute implies.
-		if self.type == LineLexer.RULE_TYPE:
-			pass
 		# If initial fact, remove leading character
-		elif self.type == LineLexer.FACT_TYPE:
+		if self.type == LineLexer.FACT_TYPE:
 			line = line.replace(config.initial_fact, "")
 		# If query, remove leading character
 		elif self.type == LineLexer.QUERY_TYPE:
