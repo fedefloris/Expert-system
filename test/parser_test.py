@@ -32,4 +32,5 @@ def run_tests(tests):
     config = Config()
     for test in tests:
         with pytest.raises(ParsingError):
+            print("Testing file:", test)
             parser = Lexer(config, test)

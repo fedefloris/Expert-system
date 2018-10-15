@@ -22,6 +22,9 @@ class LineLexer:
 		self.string = string.replace("\n", "")
 		string = self.string.replace("\t", "")
 		string = string.replace(" ", "").split("#")[0]
+		# Substitutes implies for substitutes
+		string = string.replace(config.bicondition, config.bicondition_sub)
+		string = string.replace(config.implies, config.implies_sub)
 		self.type = self.__get_type(string, config)
 		self.data = self.__get_data(string, config)
 
@@ -42,9 +45,6 @@ class LineLexer:
 		for x in line:
 			if not x in config.facts and not x in config.conditions:
 				return (0)
-		# Substitutes implies for substitutes
-		line = line.replace(config.bicondition, config.bicondition_sub)
-		line = line.replace(config.implies, config.implies_sub)
 		# Checks pattern of characters is good. [A++B], [((A+B)] are bad
 		if not self.__balanced_symbols(line, config):
 			return (0)
@@ -105,8 +105,7 @@ class LineLexer:
 	def __get_data(self, line, config):
 		# If rule, substitute implies.
 		if self.type == LineLexer.RULE_TYPE:
-			line = line.replace(config.bicondition, config.bicondition_sub)
-			line = line.replace(config.implies, config.implies_sub)
+			pass
 		# If initial fact, remove leading character
 		elif self.type == LineLexer.FACT_TYPE:
 			line = line.replace(config.initial_fact, "")

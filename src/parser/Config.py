@@ -22,7 +22,7 @@ class Config:
 		self.ops = self.op_not + self.op_and + self.op_or + self.op_xor
 		# Used in character matching in is_rule
 		self.conditions = self.left_bracket + self.right_bracket
-		self.conditions += self.ops + self.implies + self.bicondition
+		self.conditions += self.ops + self.implies_sub + self.bicondition_sub
 		# Used in pattern matching in is_rule
 		self.pattern = self.op_and + self.op_or + self.op_xor
 		self.pattern += self.implies_sub + self.bicondition_sub
