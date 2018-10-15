@@ -18,10 +18,10 @@ from ParsingError import ParsingError
 class Lexer:
 	def __init__(self, config, file_name):
 		self.config = config
-		self.__parse_file(file_name);
-		self.__check_errors()
+		self._parse_file(file_name);
+		self._check_errors()
 
-	def __parse_file(self, file_name):
+	def _parse_file(self, file_name):
 		line_read = Reader(file_name, self.config.max_lines).lines
 		if not line_read:
 			raise ParsingError(f"\033[1;31mRead error\033[1;37m: {file_name}")
@@ -29,7 +29,7 @@ class Lexer:
 			for line_num, line in enumerate(line_read)]
 		self.config.lines = self.lines
 
-	def __check_errors(self):
+	def _check_errors(self):
 		errors = []
 		for line in self.lines:
 			if line.type == LineLexer.ERROR_TYPE:

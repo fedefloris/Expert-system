@@ -12,9 +12,9 @@
 
 class Reader:
 	def __init__(self, file_name, max_lines):
-		self.__read_lines(file_name, max_lines)
+		self._read_lines(file_name, max_lines)
 
-	def __read_lines(self, file_name, max_lines):
+	def _read_lines(self, file_name, max_lines):
 		self.lines = []
 		if max_lines > 0:
 			try:

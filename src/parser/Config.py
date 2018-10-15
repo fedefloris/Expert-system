@@ -15,9 +15,9 @@ import string
 
 class Config:
 	def __init__(self, file_name = None):
-		self.__set_default_values()
+		self._set_default_values()
 		if file_name:
-			self.__parse_config_file(file_name)
+			self._parse_config_file(file_name)
 		# Sets value of strings passed as arguments in other functions.
 		self.ops = self.op_not + self.op_and + self.op_or + self.op_xor
 		# Used in character matching in is_rule
@@ -28,7 +28,7 @@ class Config:
 		self.pattern += self.implies_sub + self.bicondition_sub
 		self.max_lines = int(self.max_lines)
 
-	def __set_default_values(self):
+	def _set_default_values(self):
 		self.facts = string.ascii_uppercase
 		self.left_bracket = "("
 		self.right_bracket = ")"
@@ -45,7 +45,7 @@ class Config:
 		self.max_lines = "100"
 		self.lines = None
 
-	def __parse_config_file(self, file_name):
+	def _parse_config_file(self, file_name):
 		lines = Reader(file_name, 100).lines
 		# Checks if read of config file was successful
 		if lines:
@@ -68,12 +68,12 @@ class Config:
 				# Loops through array of attribute names
 				for x in array:
 					# Checks if modification attribute is valid.
-					tmp = self.__match_attr(line, x)
+					tmp = self._match_attr(line, x)
 					# Checks if line contains only "value", sets attribute
-					if line != tmp and self.__is_valid_value(array, x, tmp):
+					if line != tmp and self._is_valid_value(array, x, tmp):
 							setattr(self, x, tmp)
 
-	def __match_attr(self, string, substring):
+	def _match_attr(self, string, substring):
 		# Ensures that correct formatting for set = " "
 		substring += "=\""
 		# Ensures that the occurence of the matching atribute is left most
@@ -88,10 +88,10 @@ class Config:
 			string = ""
 		return (string)
 
-	def __is_valid_value(self, array, attr, value):
+	def _is_valid_value(self, array, attr, value):
 		if value == "" or value in self.facts:
 			return (False)
-		if attr == "max_lines" and not self.__is_valid_max_lines(value):
+		if attr == "max_lines" and not self._is_valid_max_lines(value):
 			return (False)
 		# Ensures that the value is unique
 		for x in array:
@@ -99,7 +99,7 @@ class Config:
 				return (False)
 		return (True)
 
-	def __is_valid_max_lines(self, value):
+	def _is_valid_max_lines(self, value):
 		if not value.isnumeric() or int(value) <= 0:
 			return (False)
 		return (True)

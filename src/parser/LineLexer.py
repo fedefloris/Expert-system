@@ -25,35 +25,35 @@ class LineLexer:
 		# Substitutes implies for substitutes
 		string = string.replace(config.bicondition, config.bicondition_sub)
 		string = string.replace(config.implies, config.implies_sub)
-		self.type = self.__get_type(string, config)
-		self.data = self.__get_data(string, config)
+		self.type = self._get_type(string, config)
+		self.data = self._get_data(string, config)
 
-	def __get_type(self, line, config):
+	def _get_type(self, line, config):
 		# Must return in the following order: [BLANK, QUERY, FACT, RULE, ERROR]
-		if self.__is_blank(line):
+		if self._is_blank(line):
 			return (LineLexer.BLANK_TYPE)
-		if self.__is_query(line, config):
+		if self._is_query(line, config):
 			return (LineLexer.QUERY_TYPE)
-		if self.__is_fact(line, config):
+		if self._is_fact(line, config):
 			return (LineLexer.FACT_TYPE)
-		if self.__is_rule(line, config):
+		if self._is_rule(line, config):
 			return (LineLexer.RULE_TYPE)
 		return (LineLexer.ERROR_TYPE)
 
-	def __is_rule(self, line, config):
+	def _is_rule(self, line, config):
 		# Checks if characters are valid.
 		for x in line:
 			if not x in config.facts and not x in config.conditions:
 				return (0)
 		# Checks pattern of characters is good. [A++B], [((A+B)] are bad
-		if not self.__balanced_symbols(line, config):
+		if not self._balanced_symbols(line, config):
 			return (0)
 		# Checks to ensure that there is a maximum of one implication.
 		if line.count(config.implies_sub) + line.count(config.bicondition_sub) != 1:
 			return (0)
 		return (1)
 
-	def __balanced_symbols(self, line, config):
+	def _balanced_symbols(self, line, config):
 		brackets_count = 0
 		operands_count  = 0
 		for char in line:
@@ -73,7 +73,7 @@ class LineLexer:
 			return (0)
 		return (1)
 
-	def __is_fact(self, line, config):
+	def _is_fact(self, line, config):
 		# Checks if characters are valid
 		for x in line:
 			if not (x in config.facts or x == config.initial_fact):
@@ -86,7 +86,7 @@ class LineLexer:
 			return (0)
 		return (1)
 
-	def __is_query(self, line, config):
+	def _is_query(self, line, config):
 		# Checks if characters are valid
 		for x in line:
 			if not (x in config.facts or x == config.query):
@@ -99,10 +99,10 @@ class LineLexer:
 			return (0)
 		return (1)
 
-	def __is_blank(self, line):
+	def _is_blank(self, line):
 		return (len(line) == 0)
 
-	def __get_data(self, line, config):
+	def _get_data(self, line, config):
 		# If rule, substitute implies.
 		if self.type == LineLexer.RULE_TYPE:
 			pass

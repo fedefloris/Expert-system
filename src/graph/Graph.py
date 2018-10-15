@@ -17,17 +17,17 @@ from Fact import Fact
 class Graph:
 	def __init__(self, config):
 		self.config = config
-		self.__create_nodes()
-		self.__clean_unused_nodes()
-		self.__add_tokens()
+		self._create_nodes()
+		self._clean_unused_nodes()
+		self._add_tokens()
 
-	def __create_nodes(self):
+	def _create_nodes(self):
 		self.data = {x:None for x in self.config.facts}
 		self.config.graph = self.data
 		for line in self.config.lines:
-			self.__create_node(line)
+			self._create_node(line)
 
-	def __create_node(self, line):
+	def _create_node(self, line):
 		for char in line.data:
 			if char in self.config.facts:
 				if not self.data[char]:
@@ -35,12 +35,12 @@ class Graph:
 				elif line.type == LineLexer.FACT_TYPE:
 					self.data[char].make_true()
 
-	def __clean_unused_nodes(self):
+	def _clean_unused_nodes(self):
 		for key in list(self.data.keys()):
 			if not self.data[key]:
 				del self.data[key]
 
-	def __add_tokens(self):
+	def _add_tokens(self):
 		for line in self.config.lines:
 			if line.type == LineLexer.RULE_TYPE:
 				char = line.data.split(self.config.implies_sub)[1]
@@ -48,7 +48,7 @@ class Graph:
 
 	def solve(self):
 		# Print before
-		self.__tmp_display()
+		self._tmp_display()
 
 		# Algo. Currently only checks once, but should check until satisfactory.
 		for key, fact in self.data.items():
@@ -59,17 +59,17 @@ class Graph:
 			print("")
 
 		# Print after
-		self.__tmp_display()
+		self._tmp_display()
 
-		self.__display()
+		self._display()
 
-	def __tmp_display(self):	 						#TEMPORARY - DELETE
+	def _tmp_display(self):	 						#TEMPORARY - DELETE
 		for key, fact in self.data.items():				#TEMPORARY - DELETE
 			fact.display()								#TEMPORARY - DELETE
 		print("\n")										#TEMPORARY - DELETE
 
 	# Displays original input, but prints facts in correct colour.
-	def __display(self):
+	def _display(self):
 		for line in self.config.lines:
 			comment = 0
 			for char in line.string:
