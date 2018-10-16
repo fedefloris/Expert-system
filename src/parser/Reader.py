@@ -10,19 +10,18 @@
 #                                                                              #
 # **************************************************************************** #
 
+from itertools import islice
+import os
+
 class Reader:
 	def __init__(self, file_name, max_lines):
 		self._read_lines(file_name, max_lines)
 
 	def _read_lines(self, file_name, max_lines):
-		self.lines = []
-		if max_lines > 0:
-			try:
-				with open(file_name) as read:
-					for line in read:
-						self.lines.append(line)
-						max_lines -= 1
-						if not max_lines:
-							break
-			except Exception:
-				self.lines = None
+		self.lines = None
+		try:
+			if os.path.isfile(file_name):
+				with open(file_name) as file:
+					self.lines = list(islice(file, max_lines))
+		except Exception:
+			self.lines = None

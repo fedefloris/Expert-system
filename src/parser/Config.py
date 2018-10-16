@@ -19,7 +19,6 @@ class Config:
 		if file_name:
 			self._parse_config_file(file_name)
 		self._set_patterns()
-		self.max_lines = int(self.max_lines)
 
 	def _set_default_values(self):
 		self.facts = string.ascii_uppercase
@@ -35,7 +34,7 @@ class Config:
 		self.query = "?"
 		self.implies_sub = ">"
 		self.bicondition_sub = "<"
-		self.max_lines = "100"
+		self.max_lines = 100
 		self.lines = None
 
 	def _parse_config_file(self, file_name):
@@ -65,6 +64,7 @@ class Config:
 					# Checks if line contains only "value", sets attribute
 					if line != tmp and self._is_value_valid(array, x, tmp):
 							setattr(self, x, tmp)
+			self.max_lines = int(self.max_lines)
 
 	def _match_attr(self, string, substring):
 		# Ensures that correct formatting for set = " "

@@ -25,6 +25,7 @@ from Parser import Parser
 from Config import Config
 from Lexer import Lexer
 from Graph import Graph
+from ParsingError import ParsingError
 
 def parse_arguments():
 	parser = argparse.ArgumentParser(description='A propositional calculus expert system.')
@@ -43,7 +44,7 @@ def main():
 		parser = Parser(config)
 		graph = Graph(config)
 		graph.solve()
-	except Exception as ex:
+	except ParsingError as ex:
 		exit(ex)
 
 if __name__== "__main__":
