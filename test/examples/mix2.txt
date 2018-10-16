@@ -1,0 +1,5 @@
+!A ^ !A | A | !A + A=> C # C is true
+=A
+
+# assertions
+# =AC
