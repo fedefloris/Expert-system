@@ -13,9 +13,11 @@
 # **************************************************************************** #
 
 # To do list:
-# 	- not, and, xor, or in conclusions
-# 	- double implies (if and only if)
+# 	- and in conclusions
+# 	- double implies
 # 	- nand, nor, exnor
+#	- check ambigous and contradiction
+#	- reasoning visualization
 
 import sys
 import argparse
