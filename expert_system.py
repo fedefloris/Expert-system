@@ -23,8 +23,8 @@ import sys
 import argparse
 sys.path.extend(["./src/", "./src/parser/", "./src/graph/"])
 
-from Parser import Parser
 from Config import Config
+from Parser import Parser
 from Lexer import Lexer
 from Graph import Graph
 from ParsingError import ParsingError

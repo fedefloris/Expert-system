@@ -10,8 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-from Reader import Reader
 import string
+from Reader import Reader
 
 class Config:
 	def __init__(self, file_name = None):
@@ -56,7 +56,7 @@ class Config:
 					line = line.split("set")[1]
 				else:
 					line = ""
-				# Remove white spaces
+				# Remove white spaces and tabs
 				line = line.replace(" ", "").replace("\t", "")
 				# Loops through array of attribute names
 				for x in array:
