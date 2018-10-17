@@ -17,6 +17,7 @@
 # 	- nand, nor, exnor
 #	- check ambigous and contradiction
 #	- reasoning visualization
+#	- fix inference engine, it must loop until there are no more changes
 
 import sys
 import argparse
