@@ -51,6 +51,16 @@ class LineLexer:
 		# Ensures that there is a maximum of one implication.
 		if line.count(config.implies_sub) + line.count(config.bicondition_sub) != 1:
 			return (False)
+		# Check the rule's conclusion
+		if line.count(config.bicondition_sub) == 1:
+			for c in line:
+				if c not in config.facts and c != config.bicondition_sub and c != config.op_and:
+					return (False)
+		else:
+			conclusion = line.split(config.implies_sub)[1]
+			for c in conclusion:
+				if c not in config.facts and c != config.op_and:
+					return (False)
 		return (True)
 
 	def _balanced_symbols(self, line, config):
