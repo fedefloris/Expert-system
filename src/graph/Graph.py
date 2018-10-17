@@ -34,8 +34,13 @@ class Graph:
 	def _add_tokens(self):
 		for line in self.config.lines:
 			if line.type == LineLexer.RULE_TYPE:
-				char = line.data.split(self.config.implies_sub)[1]
-				self.data[char].add_true(line.token)
+				conclusion = line.data.split(self.config.implies_sub)[1]
+				self._add_token(line, conclusion)
+
+	def _add_token(self, line, conclusion):
+		facts = conclusion.split(self.config.op_and)
+		for fact in facts:
+			self.data[fact].add_true(line.token)
 
 	def solve(self):
 		# Print before
