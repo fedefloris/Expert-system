@@ -17,8 +17,7 @@ class LineLexer:
 	FACT_TYPE = 3
 	QUERY_TYPE = 4
 
-	def __init__(self, config, string, line_num):
-		self.num = line_num
+	def __init__(self, config, string):
 		self.string = string.replace("\n", "")
 		string = self.string.replace("\t", "")
 		string = string.replace(" ", "").split("#")[0]
