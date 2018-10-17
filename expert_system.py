@@ -14,7 +14,6 @@
 
 # To do list:
 # 	- and in conclusions
-# 	- double implies
 # 	- nand, nor, exnor
 #	- check ambigous and contradiction
 #	- reasoning visualization
