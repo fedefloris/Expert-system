@@ -1,0 +1,7 @@
+A + B => C + D # A, B, C and D are True
+L + E <=> F # F, L and E are true
+
+=ABF
+
+# assertions
+# =ABFCDLE
