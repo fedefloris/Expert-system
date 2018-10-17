@@ -44,10 +44,10 @@ def main():
 		config = Config(args.config)
 		lexer = Lexer(config, args.file)
 		parser = Parser(config)
-		graph = Graph(config)
-		graph.solve()
 	except ParsingError as ex:
 		exit(ex)
+	graph = Graph(config)
+	graph.solve()
 
 if __name__== "__main__":
 	main()
