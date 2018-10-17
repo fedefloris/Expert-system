@@ -29,6 +29,8 @@ class LineLexer:
 
 	# Must return in the following order: [BLANK, QUERY, FACT, RULE, ERROR]
 	def _get_type(self, line, config):
+		if len(line) > config.max_rule_len:
+			return (LineLexer.ERROR_TYPE)
 		if self._is_blank(line):
 			return (LineLexer.BLANK_TYPE)
 		if self._is_query(line, config):

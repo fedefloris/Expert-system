@@ -34,7 +34,8 @@ class Config:
 		self.query = "?"
 		self.implies_sub = ">"
 		self.bicondition_sub = "<"
-		self.max_lines = 100
+		self.max_lines = 200
+		self.max_rule_len = 200
 		self.lines = None
 
 	def _parse_config_file(self, file_name):
