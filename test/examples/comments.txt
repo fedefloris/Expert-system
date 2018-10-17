@@ -1,0 +1,12 @@
+A + B => C ##
+B + A => D#
+C + D => F #  #  # 
+#
+##
+# # A + B => C
+# A + B => C #
+A + B => I # I is true
+=ABDH
+
+# assertions
+# =ABDHCFI
