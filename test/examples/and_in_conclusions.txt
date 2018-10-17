@@ -1,7 +1,8 @@
-A + B => C + D # A, B, C and D are True
-L + E <=> F # F, L and E are true
+A + B => C + D + U # A, B, C and D are True
+L + E + Z + W <=> F # F, L and E are true
+A => F
 
 =ABF
 
 # assertions
-# =ABFCDLE
+# =ABFCDLEZWU
