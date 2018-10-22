@@ -36,7 +36,7 @@ def run_test(config, test):
     lexer = Lexer(config, test)
     parser = Parser(config)
     graph = Graph(config)
-    graph.solve()
+    graph.induce()
 
 def run_assertions(config, string):
     string = string.replace("#", "")
