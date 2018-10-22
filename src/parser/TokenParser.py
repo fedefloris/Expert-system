@@ -13,8 +13,8 @@
 from And import And
 from Or import Or
 from Xor import Xor
-from Not import Not
 from Base import Base
+from Expr import Expr
 
 class TokenParser:
 	def __init__(self, config):
@@ -27,7 +27,7 @@ class TokenParser:
 			(self.config.op_xor, Xor),
 			(self.config.op_or, Or),
 			(self.config.op_and, And),
-			(self.config.op_not, Not)
+			(self.config.op_not, Expr)
 		]
 
 	def parse(self, line):
@@ -50,10 +50,11 @@ class TokenParser:
 					brackets_count -= 1
 				elif not brackets_count and c == op:
 					new = op_token(expr)
-					if (op_token != Not):
+					if (op != self.config.op_not):
 						new.add_true(self._get_token_from_expr(expr[0:i]))
 						new.add_true(self._get_token_from_expr(expr[i+1:]))
 					else:
+						new.make_negative()
 						new.add_true(self._get_token_from_expr(expr[i+1:]))
 					return (new)
 		return (self._get_token_from_expr(expr))
