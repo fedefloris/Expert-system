@@ -45,7 +45,7 @@ def main():
 	except ParsingError as ex:
 		exit(ex)
 	graph = Graph(config)
-	graph.solve()
+	graph.induce()
 
 if __name__== "__main__":
 	main()
