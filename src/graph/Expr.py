@@ -6,7 +6,7 @@
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/12 20:49:23 by dhojt             #+#    #+#              #
-#    Updated: 2018/07/18 10:23:56 by dhojt            ###   ########.fr        #
+#    Updated: 2018/10/22 20:43:10 by dhojt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,7 @@ class Expr(Condition):
 		ambig = 0
 		for condition in self.trueif:
 			condition.check(config)
-			if condition.valid:
-				print(condition.name, "is valid inside", self.name)
-			elif not condition.valid and not condition.ambig:
-				print(condition.name, "is invalid inside", self.name)
+			if not condition.valid and not condition.ambig:
 				true = 0
 				break
 			if condition.ambig:
@@ -42,23 +39,24 @@ class Expr(Condition):
 	def make_true(self):
 		self.true = 1
 		self.ambig = 0
-		print("Evaluated", self.name, "as TRUE", type(self))
+		print(self.name, "is TRUE", end='')
 		if not self.negative:
-			print(self.name, "is Valid")
+			print("")
 			self.valid = 1
 		else:
-			print(self.name, "is Invalid")
+			print(" when it should be false")
 			self.valid = 0
 
 	def make_false(self):
-		print("Evaluated", self.name, "as FALSE", type(self))
+		print(self.name, "is FALSE", end='')
 		self.true = 0
 		self.ambig = 0
 		if self.negative:
-			print(self.name, "is Valid")
+			print("")
 			self.valid = 1
 		else:
-			print(self.name, "is Invalid")
+			self.valid = 0
+			print(" when it should be true")
 			self.valid = 0
 
 	def make_ambig(self):
