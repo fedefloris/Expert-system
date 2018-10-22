@@ -42,17 +42,23 @@ class Graph:
 		for fact in facts:
 			self.data[fact].add_true(line.token)
 
-	def solve(self):
+	def induce(self):
 		# Print before
 		self._tmp_display()
 
-		# Algo. Currently only checks once, but should check until satisfactory.
-		for key, fact in self.data.items():
-			print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.name)
-			fact.contradiction()
-			fact.check(self.config)
-			fact.display()
-			print("")
+		# Algo runs until there no changes
+		changed = True
+		while changed:
+			changed = False
+			for key, fact in self.data.items():
+				fact_status = fact.true + 2 * fact.false + 3 * fact.ambig
+				print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.name)
+				fact.contradiction()
+				fact.check(self.config)
+				fact.display()
+				print("")
+				if fact_status != fact.true + 2 * fact.false + 3 * fact.ambig:
+					changed = True
 
 		# Print after
 		self._tmp_display()
