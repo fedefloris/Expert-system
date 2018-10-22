@@ -21,10 +21,17 @@ from Parser import Parser
 from Graph import Graph
 
 def test_files():
-    path = "./test/examples/"
-    tests = [path + file
-        for file in os.listdir(path) if os.path.isfile(path + file)]
-    run_tests(Config(), tests)
+    run_tests(Config(), get_files("./test/examples/good_files"))
+
+def get_files(path):
+    files = []
+    for file in os.listdir(path):
+        file_path = path + "/" + file
+        if os.path.isdir(file_path):
+            files.extend(get_files(file_path))
+        elif os.path.isfile(file_path):
+            files.append(file_path)
+    return (files)
 
 def run_tests(config, tests):
     for test in tests:
