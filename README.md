@@ -1,4 +1,5 @@
-# expert_system
+# expert_system 
+[![Build Status](https://travis-ci.com/davhojt/expert_system.svg?branch=master)](https://travis-ci.com/davhojt/expert_system)
 ### [UNDER DEVELOPMENT]
 Completion by beginning of August 2018
 ***
