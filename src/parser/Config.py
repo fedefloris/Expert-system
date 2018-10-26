@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 import string
+from collections import OrderedDict
 from Reader import Reader
 
 class Config:
@@ -21,7 +22,7 @@ class Config:
 		self._set_patterns()
 
 	def _set_default_values(self):
-		self.facts = set(string.ascii_uppercase)
+		self.facts = OrderedDict.fromkeys(string.ascii_uppercase)
 		self.left_bracket = "("
 		self.right_bracket = ")"
 		self.op_not = "!"
@@ -99,11 +100,14 @@ class Config:
 		return (True)
 
 	def _set_patterns(self):
-		# Sets value of strings passed as arguments in other functions.
-		self.ops = self.op_not + self.op_and + self.op_or + self.op_xor
 		# Used in character matching in is_rule
-		self.conditions = self.left_bracket + self.right_bracket
-		self.conditions += self.ops + self.implies_sub + self.bicondition_sub
+		self.conditions = set(
+			self.left_bracket + self.right_bracket +
+			self.op_not + self.op_and + self.op_or +
+			self.op_xor + self.implies_sub + self.bicondition_sub
+		)
 		# Used in pattern matching in is_rule
-		self.pattern = self.op_and + self.op_or + self.op_xor
-		self.pattern += self.implies_sub + self.bicondition_sub
+		self.pattern = set(
+			self.op_and + self.op_or + self.op_xor+
+			self.implies_sub + self.bicondition_sub
+		)
