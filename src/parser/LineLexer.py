@@ -66,10 +66,14 @@ class LineLexer:
 	def _balanced_symbols(self, line, config):
 		brackets_count = 0
 		operands_count  = 0
-		for char in line:
+		for i, char in enumerate(line):
 			if char == config.left_bracket:
+				if self._bad_opening(i, line, config):
+					return (False)
 				brackets_count += 1
 			elif char == config.right_bracket:
+				if self._bad_closing(i, line, config):
+					return (False)
 				brackets_count -= 1
 			if brackets_count < 0:
 				return (False)
@@ -82,6 +86,18 @@ class LineLexer:
 		if operands_count != 1 or brackets_count:
 			return (False)
 		return (True)
+
+	def _bad_opening(self, i, line, config):
+		if i + 1 >= len(line):
+			return (False)
+		if line[i + 1] == config.op_not or line[i + 1] == config.left_bracket:
+			return (False)
+		return (line[i + 1] not in config.facts)
+
+	def _bad_closing(self, i, line, config):
+		if i <= 0 or line[i - 1] == config.right_bracket:
+			return (False)
+		return (line[i - 1] not in config.facts)
 
 	def _is_fact(self, line, config):
 		# Checks if characters are valid
