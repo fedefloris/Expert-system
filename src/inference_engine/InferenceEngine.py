@@ -51,13 +51,13 @@ class InferenceEngine:
 		while changed:
 			changed = False
 			for key, fact in self.data.items():
-				fact_status = fact.true + 2 * fact.false + 3 * fact.ambig
+				fact_status = fact.true + fact.false + fact.ambig
 				print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.name)
 				fact.contradiction()
 				fact.check(self.config)
 				fact.display()
 				print("")
-				if fact_status != fact.true + 2 * fact.false + 3 * fact.ambig:
+				if fact_status != fact.true + fact.false + fact.ambig:
 					changed = True
 
 		# Print after
