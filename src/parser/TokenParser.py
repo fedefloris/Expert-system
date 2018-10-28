@@ -10,7 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-from And import And
 from Or import Or
 from Xor import Xor
 from Base import Base
@@ -26,7 +25,7 @@ class TokenParser:
 		self.operations = [
 			(self.config.op_xor, Xor),
 			(self.config.op_or, Or),
-			(self.config.op_and, And),
+			(self.config.op_and, Expr),
 			(self.config.op_not, Expr)
 		]
 
