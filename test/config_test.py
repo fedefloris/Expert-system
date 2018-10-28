@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 import sys
-sys.path.extend(["./src/", "./src/parser/", "./src/graph/"])
+sys.path.extend(["./src/", "./src/parser/"])
 
 from Config import Config
 

@@ -13,12 +13,12 @@
 import sys
 import pytest
 import os
-sys.path.extend(["./src/", "./src/parser/", "./src/graph/"])
+sys.path.extend(["./src/", "./src/parser/", "./src/inference_engine/"])
 
 from Config import Config
 from Lexer import Lexer
 from Parser import Parser
-from Graph import Graph
+from InferenceEngine import InferenceEngine
 
 def test_files():
     run_tests(Config(), get_files("./test/examples/good_files"))
@@ -42,8 +42,8 @@ def run_tests(config, tests):
 def run_test(config, test):
     lexer = Lexer(config, test)
     parser = Parser(config)
-    graph = Graph(config)
-    graph.induce()
+    engine = InferenceEngine(config)
+    engine.induce()
 
 def run_assertions(config, string):
     string = string.replace("#", "")

@@ -13,7 +13,7 @@
 import sys
 import pytest
 import os
-sys.path.extend(["./src/", "./src/parser/", "./src/graph/"])
+sys.path.extend(["./src/", "./src/parser/"])
 
 from Config import Config
 from Lexer import Lexer

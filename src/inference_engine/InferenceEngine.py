@@ -1,7 +1,7 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Graph.py                                           :+:      :+:    :+:    #
+#    InferenceEngine.py                                 :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: dhojt <dhojt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
@@ -14,7 +14,7 @@ from LineLexer import LineLexer
 from Expr import Expr
 from Fact import Fact
 
-class Graph:
+class InferenceEngine:
 	def __init__(self, config):
 		self.config = config
 		self._create_nodes()

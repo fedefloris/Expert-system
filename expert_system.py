@@ -19,13 +19,13 @@
 
 import sys
 import argparse
-sys.path.extend(["./src/", "./src/parser/", "./src/graph/"])
+sys.path.extend(["./src/", "./src/parser/", "./src/inference_engine/"])
 
 from Config import Config
 from Parser import Parser
 from Lexer import Lexer
-from Graph import Graph
 from ParsingError import ParsingError
+from InferenceEngine import InferenceEngine
 
 def parse_arguments():
 	parser = argparse.ArgumentParser(description='A propositional calculus expert system.')
@@ -34,7 +34,7 @@ def parse_arguments():
 	if len(sys.argv) == 1:
 	    parser.print_help()
 	    parser.exit()
-	return parser.parse_args()
+	return (parser.parse_args())
 
 def main():
 	args = parse_arguments()
@@ -44,8 +44,8 @@ def main():
 		parser = Parser(config)
 	except ParsingError as ex:
 		exit(ex)
-	graph = Graph(config)
-	graph.induce()
+	engine = InferenceEngine(config)
+	engine.induce()
 
 if __name__== "__main__":
 	main()
