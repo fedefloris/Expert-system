@@ -32,7 +32,7 @@ class InferenceEngine:
 
 	def _make_nodes_true(self, line):
 		for fact in line.data:
-			self.data[fact].make_true()
+			self.data[fact].make_true(self.config)
 
 	def _add_tokens(self):
 		for line in self.config.lines:
@@ -49,21 +49,21 @@ class InferenceEngine:
 		# Algo runs until there no changes
 		changed = True
 		while changed:
-			changed = self.traverse_graph()
+			changed = self._traverse_graph()
 		# Traverse one more time if debug output is enabled
 		self.debug_output = True
-		self.traverse_graph()
+		self._traverse_graph()
 		self._display()
 
-	def traverse_graph(self):
+	def _traverse_graph(self):
 		changed = False
 		for key, fact in self.data.items():
 			fact_status = fact.true + fact.false + fact.ambig
 			self.debug(f"\x1b[38;2;255;125;0mINVESTIGATE: {fact.name}\x1b[0m")
-			fact.contradiction()
+			fact.contradiction(self.config)
 			fact.check(self.config)
-			fact.display()
-			print("")
+			fact.display(self.config)
+			self.debug("")
 			if fact_status != fact.true + fact.false + fact.ambig:
 				changed = True
 		return (changed)
@@ -81,6 +81,6 @@ class InferenceEngine:
 					print(char, end ="")
 			print()
 
-	def debug(self, string):
+	def debug(self, string, end="\n"):
 		if self.debug_output:
-			print(string)
+			print(string, end=end)

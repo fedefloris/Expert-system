@@ -22,7 +22,7 @@ class Or(Expr):
 		for condition in self.trueif:
 			condition.check(config)
 			if condition.valid:
-				self.make_true()
+				self.make_true(config)
 				true = 1
 				config.debug(f"{condition.name} is valid inside {self.name}")
 				break
@@ -31,6 +31,6 @@ class Or(Expr):
 			if condition.ambig:
 				ambig = 1
 		if ambig:
-			self.make_ambig()
+			self.make_ambig(config)
 		elif not true:
-			self.make_false()
+			self.make_false(config)

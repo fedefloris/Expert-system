@@ -21,8 +21,8 @@ class Base(Expr):
 
 	def check(self, config):
 		if config.graph[self.name].true:
-			self.make_true()
+			self.make_true(config)
 		elif config.graph[self.name].ambig and not config.graph[self.name].false:
-			self.make_ambig()
+			self.make_ambig(config)
 		else:
-			self.make_false()
+			self.make_false(config)

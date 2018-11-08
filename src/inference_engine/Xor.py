@@ -25,9 +25,9 @@ class Xor(Expr):
 				if valid_count > 1:
 					break
 			elif condition.ambig:
-				self.make_ambig()
+				self.make_ambig(config)
 				break
 		if valid_count == 1 and not self.ambig:
-			self.make_true()
+			self.make_true(config)
 		if not valid_count == 1 and not self.ambig:
-			self.make_false()
+			self.make_false(config)

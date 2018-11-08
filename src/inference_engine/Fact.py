@@ -24,36 +24,36 @@ class Fact(Condition):
 	def add_false(self, condition):
 		self.falseif.append(condition)
 
-	def make_true(self):
+	def make_true(self, config):
 		self.true = 1
-		self.contradiction()
+		self.contradiction(config)
 
-	def make_false(self):
+	def make_false(self, config):
 		self.false = 1
-		self.contradiction()
+		self.contradiction(config)
 
 	def make_ambig(self):
 		self.ambig = 1
 
-	def contradiction(self):
+	def contradiction(self, config):
 		if self.true and self.false:
-			print(f"{self.name} is a contradiction")
+			config.debug(f"{self.name} is a contradiction")
 			exit(1)
 
 	def check(self, config):
 		for condition in self.trueif:
 			condition.check(config)
 			if condition.valid:
-				print(f"{condition.name} makes {self.name} true")
-				self.make_true()
+				config.debug(f"{condition.name} makes {self.name} true")
+				self.make_true(config)
 			if condition.ambig:
-				print(f"{condition.name} makes {self.name} ambig")
-				self.make_ambig()
+				config.debug(f"{condition.name} makes {self.name} ambig")
+				self.make_ambig(config)
 		for condition in self.falseif:
 			condition.check(config)
 			if condition.valid:
-				print(f"{condition.name} makes {self.name} false")
-				self.make_false()
+				config.debug(f"{condition.name} makes {self.name} false")
+				self.make_false(config)
 
 	# Returns fact's letter appropriately coloured.
 	def get_letter(self):
@@ -64,10 +64,10 @@ class Fact(Condition):
 		return (f"\x1b[31m{self.name}\x1b[0m")
 
 	# Displays string to declare state of fact.
-	def display(self):
+	def display(self, config):
 		if self.true:
-			print(f"{self.get_letter()} is true")
+			config.debug(f"{self.get_letter()} is true")
 		elif self.ambig and not self.false:
-			print(f"{self.get_letter()} is ambiguous")
+			config.debug(f"{self.get_letter()} is ambiguous")
 		else:
-			print(f"{self.get_letter()} is false")
+			config.debug(f"{self.get_letter()} is false")
