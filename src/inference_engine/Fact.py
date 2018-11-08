@@ -55,19 +55,19 @@ class Fact(Condition):
 				print(condition.name, "makes", self.name, "false")
 				self.make_false()
 
-	# Displays string to declare state of fact.
-	def display(self):
-		if self.true:
-			print("%s is true" % self.letter())
-		elif self.ambig and not self.false:
-			print("%s is ambiguous" % self.letter())
-		else:
-			print("%s is false" % self.letter())
-
 	# Returns fact's letter appropriately coloured.
-	def letter(self):
+	def get_letter(self):
 		if self.true:
 			return ("\x1b[32m%s\x1b[0m" % self.name)
 		elif self.ambig and not self.false:
 			return ("\x1b[33m%s\x1b[0m" % self.name)
 		return ("\x1b[31m%s\x1b[0m" % self.name)
+
+	# Displays string to declare state of fact.
+	def display(self):
+		if self.true:
+			print("%s is true" % self.get_letter())
+		elif self.ambig and not self.false:
+			print("%s is ambiguous" % self.get_letter())
+		else:
+			print("%s is false" % self.get_letter())
