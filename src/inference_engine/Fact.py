@@ -37,37 +37,37 @@ class Fact(Condition):
 
 	def contradiction(self):
 		if self.true and self.false:
-			print("%s is a contradiction" % self.name)
+			print(f"{self.name} is a contradiction")
 			exit(1)
 
 	def check(self, config):
 		for condition in self.trueif:
 			condition.check(config)
 			if condition.valid:
-				print(condition.name, "makes", self.name, "true")
+				print(f"{condition.name} makes {self.name} true")
 				self.make_true()
 			if condition.ambig:
-				print(condition.name, "makes", self.name, "ambig")
+				print(f"{condition.name} makes {self.name} ambig")
 				self.make_ambig()
 		for condition in self.falseif:
 			condition.check(config)
 			if condition.valid:
-				print(condition.name, "makes", self.name, "false")
+				print(f"{condition.name} makes {self.name} false")
 				self.make_false()
 
 	# Returns fact's letter appropriately coloured.
 	def get_letter(self):
 		if self.true:
-			return ("\x1b[32m%s\x1b[0m" % self.name)
+			return (f"\x1b[32m{self.name}\x1b[0m")
 		elif self.ambig and not self.false:
-			return ("\x1b[33m%s\x1b[0m" % self.name)
-		return ("\x1b[31m%s\x1b[0m" % self.name)
+			return (f"\x1b[33m{self.name}\x1b[0m")
+		return (f"\x1b[31m{self.name}\x1b[0m")
 
 	# Displays string to declare state of fact.
 	def display(self):
 		if self.true:
-			print("%s is true" % self.get_letter())
+			print(f"{self.get_letter()} is true")
 		elif self.ambig and not self.false:
-			print("%s is ambiguous" % self.get_letter())
+			print(f"{self.get_letter()} is ambiguous")
 		else:
-			print("%s is false" % self.get_letter())
+			print(f"{self.get_letter()} is false")

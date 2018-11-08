@@ -39,7 +39,7 @@ class Expr(Condition):
 	def make_true(self):
 		self.true = 1
 		self.ambig = 0
-		print(self.name, "is TRUE", end='')
+		print(f"{self.name} is TRUE", end='')
 		if not self.negative:
 			print("")
 			self.valid = 1
@@ -48,7 +48,7 @@ class Expr(Condition):
 			self.valid = 0
 
 	def make_false(self):
-		print(self.name, "is FALSE", end='')
+		print(f"{self.name} is FALSE", end='')
 		self.true = 0
 		self.ambig = 0
 		if self.negative:
@@ -60,8 +60,8 @@ class Expr(Condition):
 			self.valid = 0
 
 	def make_ambig(self):
-		print("Evaluated", self.name, "as AMBIGUOUS", type(self))
+		print(f"Evaluated {self.name} as AMBIGUOUS {type(self)}")
 		self.true = 0
 		self.ambig = 1
 		self.valid = 0
-		print(self.name, "is Invalid")
+		print(f"{self.name} is Invalid")

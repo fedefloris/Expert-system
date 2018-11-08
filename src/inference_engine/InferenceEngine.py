@@ -16,6 +16,9 @@ from Fact import Fact
 
 class InferenceEngine:
 	def __init__(self, config):
+		# Enable debug output only after evaluating the graph
+		self.debug_output = False
+		config.debug = self.debug
 		self.config = config
 		self._create_nodes()
 		self._add_tokens()
@@ -47,13 +50,16 @@ class InferenceEngine:
 		changed = True
 		while changed:
 			changed = self.traverse_graph()
+		# Traverse one more time if debug output is enabled
+		self.debug_output = True
+		self.traverse_graph()
 		self._display()
 
 	def traverse_graph(self):
 		changed = False
 		for key, fact in self.data.items():
 			fact_status = fact.true + fact.false + fact.ambig
-			print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.name)
+			self.debug(f"\x1b[38;2;255;125;0mINVESTIGATE: {fact.name}\x1b[0m")
 			fact.contradiction()
 			fact.check(self.config)
 			fact.display()
@@ -74,3 +80,7 @@ class InferenceEngine:
 				else:
 					print(char, end ="")
 			print()
+
+	def debug(self, string):
+		if self.debug_output:
+			print(string)

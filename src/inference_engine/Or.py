@@ -24,10 +24,10 @@ class Or(Expr):
 			if condition.valid:
 				self.make_true()
 				true = 1
-				print(condition.name, "is valid inside", self.name)
+				config.debug(f"{condition.name} is valid inside {self.name}")
 				break
 			else:
-				print(condition.name, "is invalid inside", self.name)
+				config.debug(f"{condition.name} is invalid inside {self.name}")
 			if condition.ambig:
 				ambig = 1
 		if ambig:
