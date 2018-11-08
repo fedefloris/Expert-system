@@ -12,11 +12,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-# To do list:
-# 	- nand, nor, exnor
-#	- check ambigous and contradiction
-#	- reasoning visualization
-
 import sys
 import argparse
 sys.path.extend(["./src/", "./src/parser/", "./src/inference_engine/"])
