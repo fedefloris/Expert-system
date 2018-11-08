@@ -43,32 +43,24 @@ class InferenceEngine:
 			self.data[fact].add_true(line.token)
 
 	def induce(self):
-		# Print before
-		self._tmp_display()
-
 		# Algo runs until there no changes
 		changed = True
 		while changed:
-			changed = False
-			for key, fact in self.data.items():
-				fact_status = fact.true + fact.false + fact.ambig
-				print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.name)
-				fact.contradiction()
-				fact.check(self.config)
-				fact.display()
-				print("")
-				if fact_status != fact.true + fact.false + fact.ambig:
-					changed = True
-
-		# Print after
-		self._tmp_display()
-
+			changed = self.traverse_graph()
 		self._display()
 
-	def _tmp_display(self):	 							#TEMPORARY - DELETE
-		for key, fact in self.data.items():				#TEMPORARY - DELETE
-			fact.display()								#TEMPORARY - DELETE
-		print("\n")										#TEMPORARY - DELETE
+	def traverse_graph(self):
+		changed = False
+		for key, fact in self.data.items():
+			fact_status = fact.true + fact.false + fact.ambig
+			print("\x1b[38;2;255;125;0mINVESTIGATE: %s\x1b[0m" % fact.name)
+			fact.contradiction()
+			fact.check(self.config)
+			fact.display()
+			print("")
+			if fact_status != fact.true + fact.false + fact.ambig:
+				changed = True
+		return (changed)
 
 	# Displays original input, but prints facts in correct colour.
 	def _display(self):
@@ -78,7 +70,7 @@ class InferenceEngine:
 				if char == "#":
 					comment = 1
 				if char in self.config.facts and not comment:
-					print(self.config.graph[char].letter(), end="")
+					print(self.config.graph[char].get_letter(), end="")
 				else:
 					print(char, end ="")
 			print()
