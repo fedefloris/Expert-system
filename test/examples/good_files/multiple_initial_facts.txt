@@ -5,6 +5,7 @@ A + B => E # E is True
 C + D => F # F is True
 
 =GHIZ
+?EF
 
 # assertions
 # =ABECDFGHIZ
