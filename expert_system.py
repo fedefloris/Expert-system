@@ -25,6 +25,10 @@ from InferenceEngine import InferenceEngine
 def parse_arguments():
 	parser = argparse.ArgumentParser(description='A propositional calculus expert system.')
 	parser.add_argument("-c", "--config", metavar="file", help="file with settings")
+	parser.add_argument("-v", "--verbose", action="store_true",
+		help="displays investigation steps of the inference engine")
+	parser.add_argument("-o", "--output", action="store_true",
+		help="displays original input but prints facts in correct colour")
 	parser.add_argument("file", help="file with rules and facts")
 	if len(sys.argv) == 1:
 	    parser.print_help()
@@ -34,7 +38,7 @@ def parse_arguments():
 def main():
 	args = parse_arguments()
 	try:
-		config = Config(args.config)
+		config = Config(args.file, args)
 		lexer = Lexer(config, args.file)
 		parser = Parser(config)
 	except ParsingError as ex:

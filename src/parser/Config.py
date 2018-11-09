@@ -15,13 +15,13 @@ from collections import OrderedDict
 from Reader import Reader
 
 class Config:
-	def __init__(self, file_name = None):
-		self._set_default_values()
+	def __init__(self, file_name = None, args = None):
+		self._set_default_values(args)
 		if file_name:
 			self._parse_config_file(file_name)
 		self._set_patterns()
 
-	def _set_default_values(self):
+	def _set_default_values(self, args):
 		self.facts = OrderedDict.fromkeys(string.ascii_uppercase)
 		self.left_bracket = "("
 		self.right_bracket = ")"
@@ -38,6 +38,15 @@ class Config:
 		self.max_lines = 200
 		self.max_rule_len = 200
 		self.lines = None
+		self._set_values_from_args(args)
+
+	def _set_values_from_args(self, args):
+		if args:
+			self.verbose = args.verbose
+			self.origin_input = args.output
+		else:
+			self.verbose = False
+			self.origin_input = False
 
 	def _parse_config_file(self, file_name):
 		lines = Reader(file_name, 100).lines

@@ -51,11 +51,26 @@ class InferenceEngine:
 		while changed:
 			changed = self._traverse_graph()
 		# Traverse one more time if debug output is enabled
+		self.debug_output = self.config.verbose
+		if self.debug_output:
+			self._traverse_queries()
 		self.debug_output = True
-		self._traverse_graph()
-		self._display()
+		if self.config.origin_input:
+			self._display()
+		else:
+			self._display_facts()
 
 	def _traverse_graph(self):
+		changed = False
+		for key, fact in self.data.items():
+			fact_status = fact.true + fact.false + fact.ambig
+			fact.contradiction(self.config)
+			fact.check(self.config)
+			if fact_status != fact.true + fact.false + fact.ambig:
+				changed = True
+		return (changed)
+
+	def _traverse_queries(self):
 		changed = False
 		for key, fact in self.data.items():
 			fact_status = fact.true + fact.false + fact.ambig
@@ -68,7 +83,7 @@ class InferenceEngine:
 				changed = True
 		return (changed)
 
-	# Displays original input, but prints facts in correct colour.
+	# Displays original input, but prints facts in correct colour
 	def _display(self):
 		for line in self.config.lines:
 			comment = 0
@@ -80,6 +95,19 @@ class InferenceEngine:
 				else:
 					print(char, end ="")
 			print()
+
+	# Displays facts in correct colour
+	def _display_facts(self):
+		queries = set()
+		for line in self.config.lines:
+			if line.type == LineLexer.QUERY_TYPE:
+				self._display_queries(line, queries)
+
+	def _display_queries(self, line, queries):
+		for query in line.data:
+			if query not in queries:
+				self.data[query].display(self.config)
+				queries.add(query)
 
 	def debug(self, string, end="\n"):
 		if self.debug_output:
