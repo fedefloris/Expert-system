@@ -10,9 +10,9 @@
 #                                                                              #
 # **************************************************************************** #
 
-from LineLexer import LineLexer
 from Expr import Expr
 from Fact import Fact
+from LineLexer import LineLexer
 
 class InferenceEngine:
 	def __init__(self, config):
@@ -46,19 +46,20 @@ class InferenceEngine:
 			self.data[fact].add_true(line.token)
 
 	def induce(self):
-		# Algo runs until there no changes
+		# Algorithm runs until there are no changes
 		changed = True
 		while changed:
 			changed = self._traverse_graph()
 		# Traverse one more time if debug output is enabled
 		self.debug_output = self.config.verbose
+		queries = self._get_queries();
 		if self.debug_output:
-			self._traverse_queries()
+			self._traverse_queries(queries)
 		self.debug_output = True
 		if self.config.origin_input:
 			self._display()
 		else:
-			self._display_facts()
+			self._display_facts(queries)
 
 	def _traverse_graph(self):
 		changed = False
@@ -70,18 +71,28 @@ class InferenceEngine:
 				changed = True
 		return (changed)
 
-	def _traverse_queries(self):
-		changed = False
-		for key, fact in self.data.items():
-			fact_status = fact.true + fact.false + fact.ambig
+	def _get_queries(self):
+		queries_set = set()
+		queries = []
+		for line in self.config.lines:
+			if line.type == LineLexer.QUERY_TYPE:
+				self._add_queries(line, queries, queries_set)
+		return (queries)
+
+	def _add_queries(self, line, queries, queries_set):
+		for query in line.data:
+			if query not in queries_set:
+				queries_set.add(query)
+				queries.append(query)
+
+	def _traverse_queries(self, queries):
+		for query in queries:
+			fact = self.data[query];
 			self.debug(f"\x1b[38;2;255;125;0mINVESTIGATE: {fact.name}\x1b[0m")
 			fact.contradiction(self.config)
 			fact.check(self.config)
 			fact.display(self.config)
 			self.debug("")
-			if fact_status != fact.true + fact.false + fact.ambig:
-				changed = True
-		return (changed)
 
 	# Displays original input, but prints facts in correct colour
 	def _display(self):
@@ -97,17 +108,10 @@ class InferenceEngine:
 			print()
 
 	# Displays facts in correct colour
-	def _display_facts(self):
-		queries = set()
-		for line in self.config.lines:
-			if line.type == LineLexer.QUERY_TYPE:
-				self._display_queries(line, queries)
-
-	def _display_queries(self, line, queries):
-		for query in line.data:
-			if query not in queries:
-				self.data[query].display(self.config)
-				queries.add(query)
+	def _display_facts(self, queries):
+		for query in queries:
+			fact = self.data[query];
+			fact.display(self.config)
 
 	def debug(self, string, end="\n"):
 		if self.debug_output:

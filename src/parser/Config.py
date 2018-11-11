@@ -11,7 +11,6 @@
 # **************************************************************************** #
 
 import string
-from collections import OrderedDict
 from Reader import Reader
 
 class Config:
@@ -22,7 +21,7 @@ class Config:
 		self._set_patterns()
 
 	def _set_default_values(self, args):
-		self.facts = OrderedDict.fromkeys(string.ascii_uppercase)
+		self.facts = set(string.ascii_uppercase)
 		self.left_bracket = "("
 		self.right_bracket = ")"
 		self.op_not = "!"
