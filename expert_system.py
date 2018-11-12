@@ -38,7 +38,7 @@ def parse_arguments():
 def main():
 	args = parse_arguments()
 	try:
-		config = Config(args.file, args)
+		config = Config(args.config, args)
 		lexer = Lexer(config, args.file)
 		parser = Parser(config)
 	except ParsingError as ex:
