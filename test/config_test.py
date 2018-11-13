@@ -23,3 +23,8 @@ def test_bad_values():
     config = Config("./test/examples/config/bad_values")
     assert config.right_bracket == Config().right_bracket
     assert config.max_lines == Config().max_lines
+
+def test_good_value():
+    config = Config("./test/examples/config/change_op_and")
+    assert config.op_and == "&"
+    assert config.op_and != Config().op_and
