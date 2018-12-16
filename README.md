@@ -1,4 +1,4 @@
-# expert_system 
+# Expert_system - 42born2code
 [![Build Status](https://travis-ci.com/davhojt/expert_system.svg?branch=master)](https://travis-ci.com/davhojt/expert_system)
 ### [UNDER DEVELOPMENT]
 ***
