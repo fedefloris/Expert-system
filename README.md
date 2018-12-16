@@ -1,13 +1,6 @@
 # Expert_system - 42born2code
 [![Build Status](https://travis-ci.com/davhojt/expert_system.svg?branch=master)](https://travis-ci.com/davhojt/expert_system)
-### [UNDER DEVELOPMENT]
-***
-### Score [TBA]
-##### Mandatory
-[TBA]/100
-##### Bonus
-[TBA]/25
-***
+
 ### Challenge
 42 Project: A propositional calculus expert system.  
 A group project with [ffloris](https://github.com/fedefloris "SOUND BLOKE"), top guy.  
