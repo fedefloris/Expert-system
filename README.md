@@ -2,10 +2,7 @@
 [![Build Status](https://travis-ci.com/davhojt/expert_system.svg?branch=master)](https://travis-ci.com/davhojt/expert_system)
 
 ## Challenge
-42 Project: A propositional calculus expert system.  
-A group project with [ffloris](https://github.com/fedefloris "SOUND BLOKE"), top guy.  
-
-We're aiming to complete the project in **python**, a first for both of us.
+A propositional calculus expert system.  
 
 ## Using the project
 ```console
