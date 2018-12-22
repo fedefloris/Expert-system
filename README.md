@@ -1,5 +1,5 @@
 # Expert_system - 42born2code
-[![Build Status](https://travis-ci.com/davhojt/expert_system.svg?branch=master)](https://travis-ci.com/davhojt/expert_system)
+[![Build Status](https://travis-ci.com/fedefloris/Expert_system.svg?branch=master)](https://travis-ci.com/fedefloris/Expert_system)
 
 ## Challenge
 A propositional calculus expert system.  
