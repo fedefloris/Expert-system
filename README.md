@@ -4,6 +4,8 @@
 ## Challenge
 A propositional calculus expert system.  
 
+For more details look at the [subject](subject.pdf)
+
 ## Using the project
 Run with no arguments to see all the options
 ```console
