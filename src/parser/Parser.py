@@ -32,8 +32,8 @@ class Parser:
 		line.data = line.data.replace(self.config.bicondition_sub, self.config.implies_sub, 1)
 
 	def _add_reversed_implies(self, line_num, line):
-		reversed = LineLexer(self.config, self._get_reversed_implies(line))
-		self.config.lines.insert(line_num + 1, reversed)
+		reversed_implies = LineLexer(self.config, self._get_reversed_implies(line))
+		self.config.lines.insert(line_num + 1, reversed_implies)
 
 	def _get_reversed_implies(self, line):
 		line_split = line.string.split("#", 1)
