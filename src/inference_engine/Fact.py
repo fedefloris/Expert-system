@@ -48,7 +48,7 @@ class Fact(Condition):
 				self.make_true(config)
 			if condition.ambig:
 				config.debug(f"{condition.name} makes {self.name} ambig")
-				self.make_ambig(config)
+				self.make_ambig()
 		for condition in self.falseif:
 			condition.check(config)
 			if condition.valid:
