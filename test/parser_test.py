@@ -20,28 +20,28 @@ from Lexer import Lexer
 from ParsingError import ParsingError
 
 def test_invalid_files():
-    tests = [
-        "", ".", "..", "./", " ",
-        "/dev/random", "/dev/null", "/dev/zero"
-    ]
-    run_tests(tests)
+	tests = [
+		"", ".", "..", "./", " ",
+		"/dev/random", "/dev/null", "/dev/zero"
+	]
+	run_tests(tests)
 
 def test_bad_files():
-    run_tests(get_files("./test/examples/bad_files"))
+	run_tests(get_files("./test/examples/bad_files"))
 
 def get_files(path):
-    files = []
-    for file in os.listdir(path):
-        file_path = path + "/" + file
-        if os.path.isdir(file_path):
-            files.extend(get_files(file_path))
-        elif os.path.isfile(file_path):
-            files.append(file_path)
-    return (files)
+	files = []
+	for file in os.listdir(path):
+		file_path = path + "/" + file
+		if os.path.isdir(file_path):
+			files.extend(get_files(file_path))
+		elif os.path.isfile(file_path):
+			files.append(file_path)
+	return (files)
 
 def run_tests(tests):
-    config = Config()
-    for test in tests:
-        with pytest.raises(ParsingError):
-            print("Testing file:", test)
-            parser = Lexer(config, test)
+	config = Config()
+	for test in tests:
+		with pytest.raises(ParsingError):
+			print("Testing file:", test)
+			parser = Lexer(config, test)
