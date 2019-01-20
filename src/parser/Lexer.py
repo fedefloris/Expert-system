@@ -10,7 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-from Config import Config
 from Reader import Reader
 from LineLexer import LineLexer
 from ParsingError import ParsingError

@@ -10,7 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-from Expr import Expr
 from Fact import Fact
 from LineLexer import LineLexer
 
