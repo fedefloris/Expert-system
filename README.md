@@ -4,9 +4,7 @@
 ## Challenge
 A propositional calculus expert system.
 
-The goal of this project is implementing a backward-chaining inference engine, it must be able to read rules and facts from a given text file.
-
-The [examples](/test/examples/good_files) folder contains many samples of possibile text files.
+The goal of this project is implementing a backward-chaining inference engine, it must be able to read rules and facts from a given text file. The [examples](/test/examples/good_files) folder contains many samples of possibile text files.
 
 The text file format is explained in [Rules and facts](#Rules-and-facts).
 
@@ -35,7 +33,7 @@ optional arguments:
 ## Rules and facts
 Any fact can be represented by a single letter of the alphabet.
 
-A example of a text file could be
+A example of a text file could be:
 ```console
 A + B => C  # A and B are True, so C is True
 D + E => F  # Only D is True, so F is False
@@ -44,7 +42,6 @@ D + E => F  # Only D is True, so F is False
 ?CF
 ```
 As you can see anything preceded by *#* will be a comment.
-Any fact
 
 ## Running the tests
 ```console
