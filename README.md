@@ -33,7 +33,7 @@ optional arguments:
 ## Rules and facts
 A fact can be represented by a single letter of the alphabet.
 
-An example of a text file could be:
+Anything preceded by *#* is treated as a comment. An example of a text file could be:
 ```console
 # Rule => A and B are True, so C is True
 A + B => C
@@ -47,7 +47,6 @@ D + E => F
 # Ask to the expert system the states (true/false) of the following facts
 ?CF
 ```
-As you can see anything preceded by *#* is treated as a comment.
 
 ## Running the tests
 ```console
