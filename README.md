@@ -8,7 +8,7 @@ The goal of this project is implementing a backward-chaining inference engine, i
 
 The text file format is explained in [Rules and facts](#Rules-and-facts).
 
-For more general details look at the [subject](subject.pdf)
+For more details look at the [subject](subject.pdf)
 
 ## Using the project
 Run with no arguments to see all the options
@@ -41,10 +41,10 @@ A + B => C
 # Only D is True, so F is False
 D + E => F  
 
-#
+# List of facts that will be initially true, ever other fact will be false by default
 =ABDH
 
-#
+# Ask to the expert system the states (true/false) of the following facts
 ?CF
 ```
 As you can see anything preceded by *#* is treated as a comment.
