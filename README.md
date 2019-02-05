@@ -8,6 +8,8 @@ The goal of this project is implementing a backward-chaining inference engine, i
 
 The [examples](/test/examples/good_files) folder contains many samples of possibile text files.
 
+The text file format is explained in [Rules and facts](#Rules-and-facts).
+
 For more general details look at the [subject](subject.pdf)
 
 ## Using the project
@@ -29,6 +31,9 @@ optional arguments:
   -o, --output          displays original input but prints facts in correct
                         colour
 ```
+
+## Rules and facts
+
 
 ## Running the tests
 ```console
