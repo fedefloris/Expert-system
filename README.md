@@ -4,14 +4,14 @@
 ## Challenge
 A propositional calculus expert system.
 
-The goal of this project is implementing a backward-chaining inference engine, it must be able to read rules and facts from a given text file. The [examples](/test/examples/good_files) folder contains many samples of possibile text files.
+The goal of this project is implementing a backward-chaining inference engine, it must be able to read rules and facts from a given text file. The [examples](/test/examples/good_files) folder contains many samples of possible text files.
 
 The text file format is explained in [Rules and facts](#Rules-and-facts).
 
 For more details look at the [subject](subject.pdf)
 
 ## Using the project
-Run with no arguments to see all the options
+Run with no arguments to see all the options:
 ```console
 $> ./expert_system.py
 usage: expert_system.py [-h] [-c file] [-v] [-o] file
@@ -52,3 +52,6 @@ D + E => F
 ```console
 $> python3 -m pytest -v
 ```
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
