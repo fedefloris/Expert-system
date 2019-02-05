@@ -29,6 +29,12 @@ optional arguments:
   -o, --output          displays original input but prints facts in correct
                         colour
 ```
+Run with no options to show only the result of the queries:
+```console
+$> ./expert_system.py examples/and.txt 
+C is true
+F is false
+```
 
 ## Rules and facts
 A fact can be represented by a single letter of the alphabet.
