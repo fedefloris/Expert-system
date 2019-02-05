@@ -35,10 +35,10 @@ A fact can be represented by a single letter of the alphabet.
 
 An example of a text file could be:
 ```console
-# A and B are True, so C is True
+# Rule => A and B are True, so C is True
 A + B => C
 
-# Only D is True, so F is False
+# Rule => only D is True, so F is False
 D + E => F  
 
 # List of facts that will be initially true, ever other fact will be false by default
