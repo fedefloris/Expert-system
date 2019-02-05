@@ -2,9 +2,13 @@
 [![Build Status](https://travis-ci.com/fedefloris/Expert_system.svg?branch=master)](https://travis-ci.com/fedefloris/Expert_system) [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/) ![](https://img.shields.io/github/license/fedefloris/Expert_system.svg)
 
 ## Challenge
-A propositional calculus expert system.  
+A propositional calculus expert system.
 
-For more details look at the [subject](subject.pdf)
+The goal of this project is implementing a backward-chaining inference engine, it must be able to read rules and facts from a given text file.
+
+The [examples](/test/examples/good_files) folder contains many samples of possibile text files.
+
+For more general details look at the [subject](subject.pdf)
 
 ## Using the project
 Run with no arguments to see all the options
