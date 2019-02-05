@@ -33,7 +33,18 @@ optional arguments:
 ```
 
 ## Rules and facts
+Any fact can be represented by a single letter of the alphabet.
 
+A example of a text file could be
+```console
+A + B => C  # A and B are True, so C is True
+D + E => F  # Only D is True, so F is False
+
+=ABDH
+?CF
+```
+As you can see anything preceded by *#* will be a comment.
+Any fact
 
 ## Running the tests
 ```console
