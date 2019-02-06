@@ -41,13 +41,25 @@ F is false
 ## Knowledge base
 
 The knowledge base contains three types of statements:
-  - **Rules**
-  - **Initializations**
-  - **Queries**
+  - [Rules](####Rules)
+  - [Initializations](####Initializations)
+  - [Queries](####Queries)
+
+Anything preceded by **#** is treated as a comment.
+
+#### Rules
 
 A fact can be represented by a single letter of the alphabet.
 
-Anything preceded by **#** is treated as a comment.
+...
+
+#### Initializations
+
+...
+
+#### Queries
+
+...
 
 An example of a text file could be:
 ```console
