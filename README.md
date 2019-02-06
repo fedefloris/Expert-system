@@ -41,9 +41,9 @@ F is false
 ## Knowledge base
 
 The knowledge base contains three types of statements:
-  - [Rules](####Rules)
-  - [Initializations](####Initializations)
-  - [Queries](####Queries)
+  - [Rules](#Rules)
+  - [Initializations](#Initializations)
+  - [Queries](#Queries)
 
 Anything preceded by **#** is treated as a comment.
 
