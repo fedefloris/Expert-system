@@ -24,7 +24,7 @@ from InferenceEngine import InferenceEngine
 
 def parse_arguments():
 	parser = argparse.ArgumentParser(description='A propositional calculus expert system.')
-	parser.add_argument("-c", "--config", metavar="file", help="file with settings")
+	parser.add_argument("-c", "--config", metavar="file", help="file with symbols values")
 	parser.add_argument("-v", "--verbose", action="store_true",
 		help="displays investigation steps of the inference engine")
 	parser.add_argument("-o", "--output", action="store_true",
