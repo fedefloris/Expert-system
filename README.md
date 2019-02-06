@@ -8,7 +8,7 @@ The goal of this project is implementing a backward-chaining inference engine.
 
 The program is able to read rules and facts from a given knowledge base contained in a text file. The [examples](/test/examples/good_files) folder contains many samples of possible text files.
 
-The format of the file is explained in [Knowledge base](#Knowledge base).
+The format of the file is explained in [Knowledge base](#Knowledge-base).
 
 For more details look at the [subject](subject.pdf).
 
