@@ -86,7 +86,9 @@ D + E => F
 
 The config file permits the changing of the default values of symbols inside text files.
 
-The syntax is `set symbol_identifier = "new_character"`
+The syntax is `set symbol_identifier = "new_character"`.
+
+Anything preceded by **#** is treated as a comment.
 
 For example, here we're setting the **and** symbol to **&**:
 ```console
