@@ -31,8 +31,8 @@ def parse_arguments():
 		help="displays original input but prints facts in correct colour")
 	parser.add_argument("file", help="file with rules and facts")
 	if len(sys.argv) == 1:
-	    parser.print_help()
-	    parser.exit()
+		parser.print_help()
+		parser.exit()
 	return (parser.parse_args())
 
 def main():
