@@ -37,7 +37,7 @@ $> ./expert_system.py examples/and.txt
 C is true
 F is false
 ```
-Run with **-c** and specify a valid config file. The format of the config file is explained in [Config File](##Config File).
+Run with **-c** and specify a valid config file. The format of the config file is explained in [Config File](#Config-File).
 ```console
 $> ./expert_system.py -c test/examples/config/change_op_and test/examples/config/and_op_changed
 C is true
