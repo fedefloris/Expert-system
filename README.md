@@ -4,11 +4,13 @@
 ## Challenge
 A propositional calculus expert system.
 
-The goal of this project is implementing a backward-chaining inference engine, it must be able to read rules and facts from a given text file. The [examples](/test/examples/good_files) folder contains many samples of possible text files.
+The goal of this project is implementing a backward-chaining inference engine.
 
-The text file format is explained in [Rules and facts](#Rules-and-facts).
+The program is able to read rules and facts from a given knowledge base contained in a text file. The [examples](/test/examples/good_files) folder contains many samples of possible text files.
 
-For more details look at the [subject](subject.pdf)
+The format of the file is explained in [Knowledge base](#Knowledge base).
+
+For more details look at the [subject](subject.pdf).
 
 ## Using the project
 Run with no arguments to see all the options:
@@ -31,15 +33,23 @@ optional arguments:
 ```
 Run with no options to show only the result of the queries:
 ```console
-$> ./expert_system.py examples/and.txt 
+$> ./expert_system.py examples/and.txt
 C is true
 F is false
 ```
 
-## Rules and facts
+## Knowledge base
+
+The knowledge base contains three types of statements:
+  - **Rules**
+  - **Initializations**
+  - **Queries**
+
 A fact can be represented by a single letter of the alphabet.
 
-Anything preceded by *#* is treated as a comment. An example of a text file could be:
+Anything preceded by **#** is treated as a comment.
+
+An example of a text file could be:
 ```console
 # Rule => A and B are True, so C is True
 A + B => C
