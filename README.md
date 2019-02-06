@@ -84,7 +84,14 @@ D + E => F
 
 ## Config file
 
-...
+The config file permits the changing of the default values of symbols inside text files.
+
+The syntax is `set symbol_identifier = "new_character"`
+
+For example, here we're setting the **and** symbol to **&**:
+```console
+set op_and = "&"
+```
 
 ## Running the tests
 ```console
