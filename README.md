@@ -26,7 +26,7 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -c file, --config file
-                        file with settings
+                        file with symbols values
   -v, --verbose         displays investigation steps of the inference engine
   -o, --output          displays original input but prints facts in correct
                         colour
@@ -69,16 +69,16 @@ A fact can be represented by a single letter of the alphabet.
 
 An example of a text file could be:
 ```console
-# Rule => A and B are True, so C is True
+# A and B are True, so C is True
 A + B => C
 
-# Rule => only D is True, so F is False
+# only D is True, so F is False
 D + E => F  
 
-# List of facts that will be initially true, ever other fact will be false by default
+# List of facts that will be initially true, every other fact will be false by default
 =ABDH
 
-# Ask to the expert system the states (true/false) of the following facts
+# Ask to the expert system the states (true/false) of the following facts:
 ?CF
 ```
 
