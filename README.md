@@ -43,7 +43,6 @@ $> ./expert_system.py -c test/examples/config/change_op_and test/examples/config
 C is true
 F is false
 ```
-
 ## Knowledge base
 
 The knowledge base contains three types of statements:
@@ -53,38 +52,44 @@ The knowledge base contains three types of statements:
 
 Anything preceded by **#** is treated as a comment.
 
-#### Rules
-
-A fact can be represented by a single letter of the alphabet.
-
-...
-
-#### Initializations
-
-...
-
-#### Queries
-
-...
-
 An example of a text file could be:
 ```console
-# A and B are True, so C is True
-A + B => C
+# if A or B are true, C will be true
+A | B => C
 
-# only D is True, so F is False
+# if D and E are true, F will be true
 D + E => F  
 
 # List of facts that will be initially true, every other fact will be false by default
 =ABDH
 
-# Ask to the expert system the states (true/false) of the following facts:
+# Ask to the expert system the state (true/false) of the following facts:
 ?CF
 ```
 
+#### Rules
+
+A fact can be represented by a single uppercase letter.
+
+...
+
+#### Initializations
+
+An initialization statement sets to **true** a list of specified facts.
+
+Every fact not contained inside this kind of statement is **false** by default.
+
+The syntax is `=list_of_facts`. For example, `=ABC` will initialize `A`, `B` and `C` to **true**.
+
+#### Queries
+
+A query statement asks to the inference engine the status (**true** or **false**) of specified facts.
+
+The syntax is `?list_of_facts`. For example, `?DE` will ask the status of `D` and `E`.
+
 ## Config file
 
-The config file permits the changing of the default values of symbols inside text files.
+The config file allows the changing of symbols values inside text files.
 
 The syntax is `set symbol_identifier = "new_character"`.
 
