@@ -67,7 +67,7 @@ D + E => F
 ?CF
 ```
 
-##### Rules
+#### Rules
 
 A rule statement describes the status of facts based on logical conditions.
 
@@ -82,7 +82,7 @@ In a rule we can identify three main parts:
 | --- | --- | --- |
 | A + B | => | C|
 
-##### Initializations
+#### Initializations
 
 An initialization statement sets to **true** a list of specified facts.
 
@@ -90,7 +90,7 @@ Every fact not contained inside this kind of statement is **false** by default.
 
 The syntax is `=list_of_facts`. For example, `=ABC` will initialize `A`, `B` and `C` to **true**.
 
-##### Queries
+#### Queries
 
 A query statement asks to the inference engine the status (**true** or **false**) of specified facts.
 
