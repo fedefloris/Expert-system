@@ -76,12 +76,6 @@ A fact can be represented by a single uppercase letter, its status can be either
 The syntax is better described with an example:
 `A + B => C` says that the status of `C` is **true** if both `A` and `B` are **true**.
 
-In a rule we can identify three main parts:
-
-| Logical Conditions | Implies operator | Facts
-| --- | --- | --- |
-| A + B | => | C |
-
 To learn more about the rule's syntax check the files of the [examples](/test/examples/good_files) folder.
 
 #### Initializations
