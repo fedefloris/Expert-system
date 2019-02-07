@@ -67,13 +67,22 @@ D + E => F
 ?CF
 ```
 
-#### Rules
+##### Rules
 
-A fact can be represented by a single uppercase letter.
+A rule statement describes the status of facts based on logical conditions.
 
-...
+A fact can be represented by a single uppercase letter, its status can be either **true** or **false**.
 
-#### Initializations
+The syntax is better described with an example:
+`A + B => C` says that the status of `C` is **true** if both `A` and `B` are **true**.
+
+In a rule we can identify three main parts:
+
+| Logical Conditions | Implies operator | Facts
+| --- | --- | --- |
+| A + B | => | C|
+
+##### Initializations
 
 An initialization statement sets to **true** a list of specified facts.
 
@@ -81,7 +90,7 @@ Every fact not contained inside this kind of statement is **false** by default.
 
 The syntax is `=list_of_facts`. For example, `=ABC` will initialize `A`, `B` and `C` to **true**.
 
-#### Queries
+##### Queries
 
 A query statement asks to the inference engine the status (**true** or **false**) of specified facts.
 
