@@ -80,7 +80,9 @@ In a rule we can identify three main parts:
 
 | Logical Conditions | Implies operator | Facts
 | --- | --- | --- |
-| A + B | => | C|
+| A + B | => | C |
+
+To learn more about the rule's syntax check the files of the [examples](/test/examples/good_files) folder.
 
 #### Initializations
 
