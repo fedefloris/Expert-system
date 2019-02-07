@@ -53,7 +53,7 @@ The knowledge base contains three types of statements:
 Anything preceded by **#** is treated as a comment.
 
 An example of a text file could be:
-```console
+```
 # if A or B are true, C will be true
 A | B => C
 
