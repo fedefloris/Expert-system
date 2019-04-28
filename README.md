@@ -110,8 +110,6 @@ For example, here we're setting the **and** symbol to **&**:
 set op_and = "&"
 ```
 
-contains 
-
 ## Running the tests
 ```console
 pytest -v
