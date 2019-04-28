@@ -4,13 +4,18 @@
 ## Challenge
 A propositional calculus expert system.
 
-The goal of this project is implementing a backward-chaining inference engine.
+The goal of this project is to implement a backward-chaining inference engine.
 
 The program is able to read rules and facts from a given knowledge base contained in a text file. The [examples](/test/examples/good_files) folder contains many samples of possible text files.
 
 The format of the file is explained in [Knowledge base](#Knowledge-base).
 
 For more details look at the [subject](subject.pdf).
+
+## Install dependencies
+```console
+pip install -r requirements.txt
+```
 
 ## Using the project
 Run with no arguments to see all the options:
@@ -105,9 +110,11 @@ For example, here we're setting the **and** symbol to **&**:
 set op_and = "&"
 ```
 
+contains 
+
 ## Running the tests
 ```console
-$> python3 -m pytest -v
+pytest -v
 ```
 
 ## License
