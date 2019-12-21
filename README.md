@@ -6,7 +6,7 @@ A propositional calculus expert system.
 
 The goal of this project is to implement a backward-chaining inference engine.
 
-The program is able to read rules and facts from a given knowledge base contained in a text file. The [examples](/test/examples/good_files) folder contains many samples of possible text files.
+The program can read rules and facts from a given knowledge base contained in a text file. The [examples](/test/examples/good_files) folder contains many samples of possible text files.
 
 The format of the file is explained in [Knowledge base](#Knowledge-base).
 
