@@ -59,7 +59,7 @@ Anything preceded by **#** is treated as a comment.
 
 An example of a text file could be:
 ```
-# if A or B are true, C will be true
+# if A or B is true, C will be true
 A | B => C
 
 # if D and E are true, F will be true
@@ -68,7 +68,7 @@ D + E => F
 # List of facts that will be initially true, every other fact will be false by default
 =ABDH
 
-# Ask to the expert system the state (true/false) of the following facts:
+# Ask the expert system the state (true/false) of the following facts:
 ?CF
 ```
 
@@ -81,19 +81,19 @@ A fact can be represented by a single uppercase letter, its status can be either
 The syntax is better described with an example:
 `A + B => C` says that the status of `C` is **true** if both `A` and `B` are **true**.
 
-To learn more about the rule's syntax check the files of the [examples](/test/examples/good_files) folder.
+To learn more about the rule's syntax, check the files in the [examples](/test/examples/good_files) folder.
 
 #### Initializations
 
 An initialization statement sets to **true** a list of specified facts.
 
-Every fact not contained inside this kind of statement is **false** by default.
+Any fact not contained inside this kind of statement is **false** by default.
 
 The syntax is `=list_of_facts`. For example, `=ABC` will initialize `A`, `B` and `C` to **true**.
 
 #### Queries
 
-A query statement asks to the inference engine the status (**true** or **false**) of specified facts.
+A query statement asks the inference engine the status (**true** or **false**) of specified facts.
 
 The syntax is `?list_of_facts`. For example, `?DE` will ask the status of `D` and `E`.
 
